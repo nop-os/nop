@@ -1,0 +1,1 @@
+nop;boot/nop.bin;4000;0
