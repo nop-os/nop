@@ -1,6 +1,6 @@
 # nop
 
-nop is a simple educational kernel made to be as simple to understand as possible, giving extensive and formal(expect to see several comments like `cry in pain forever` or `what the heck is this`) comments in every single file, while being a fully complete kernel.
+nop is a simple educational kernel made to be as simple to understand as possible, giving extensive and fun comments in every single file, while being a fully complete kernel.
 
 It should be able to run in any Pentium CPU or better, and it uses a custom bootloader called tinyboot.
 
@@ -25,25 +25,34 @@ nop requires a gcc cross-compiler and other depencencies to build it:
 ```sh
 # From nop's directory:
 
+# In Debian/Ubuntu:
 sh scripts/install_deps_debian.sh
-# Or sh scripts/install_deps_fedora.sh
-# Or sh scripts/install_deps_arch.sh
+# In Fedora
+sh scripts/install_deps_fedora.sh
+# In Arch Linux:
+sh scripts/install_deps_arch.sh
+
 
 sh script/build_gcc.sh
 ```
 
-Once installed and built, you can start building nop with a simple `build.sh` script:
+Once installed and built, you can start building nop by running make:
 
 ```sh
 # From nop's directory:
 
-sh scripts/build.sh
+make
 ```
 
-You can then test it in QEMU(if installed) like this:
+You can then test it like this:
 
 ```sh
-qemu-system-i386 -m 16 -serial stdio -hda nop.img
+# From nop's directory:
+
+# If using QEMU:
+make run
+# If using bochs
+make run-bochs
 ```
 
 ## Contributions
