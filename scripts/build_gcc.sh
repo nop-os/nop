@@ -5,6 +5,8 @@
 export PREFIX="$(pwd)/cross"
 export TARGET=i586-elf
 export PATH="$PREFIX/bin:$PATH"
+
+export LD_BUILD_BLAGS="--with-sysroot --disable-nls --disable-werror"
 export GCC_BUILD_FLAGS="--disable-multilib --disable-nls --enable-languages=c --without-headers"
 
 mkdir -p cross/bin
@@ -15,7 +17,7 @@ cd cross
   mkdir -p build/binutils
 
   cd build/binutils
-    ../../binutils-2.36/configure --target=$TARGET --prefix="$PREFIX" --with-sysroot --disable-nls --disable-werror
+    ../../binutils-2.36/configure --target=$TARGET --prefix="$PREFIX" $LD_BUILD_BLAGS
     make -j5
     make install -j5
   cd ..

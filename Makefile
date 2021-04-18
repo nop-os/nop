@@ -8,7 +8,9 @@ BUILD_DIR =     $(PWD)/build
 IMAGE_DIR =     $(PWD)/image
 RESOURCES_DIR = $(PWD)/resources
 
-KERNEL_DIR = $(SRC_DIR)/kernel
+NOP_DIR        = $(PWD)/nop
+KERNEL_SRC_DIR = $(NOP_DIR)/src
+MODULE_SRC_DIR = $(NOP_DIR)/modules
 
 NOP =        $(BUILD_DIR)/nop.img
 NOP_KERNEL = $(IMAGE_DIR)/boot/nop.bin
@@ -16,11 +18,11 @@ NOP_KERNEL = $(IMAGE_DIR)/boot/nop.bin
 TINYBOOT = $(RESOURCES_DIR)/tinyboot.bin
 LINKER =   $(RESOURCES_DIR)/linker.ld
 
-KERNEL_C_FILES =  $(shell find $(KERNEL_DIR) -name "*.c")
-KERNEL_AS_FILES = $(shell find $(KERNEL_DIR) -name "*.asm")
+KERNEL_C_FILES =  $(NOP_DIR)/nop.c $(shell find $(KERNEL_SRC_DIR) -name "*.c")
+KERNEL_AS_FILES = $(NOP_DIR)/boot.asm $(shell find $(KERNEL_SRC_DIR) -name "*.asm")
 KERNEL_O_FILES =  $(KERNEL_AS_FILES:%.asm=%.o) $(KERNEL_C_FILES:%.c=%.o)
 
-QEMU =  qemu-system-i386 -serial stdio -m 16
+QEMU =  qemu-system-i386 -serial stdio -m 2M
 BOCHS = bochs
 
 LD_FLAGS = \
@@ -33,8 +35,9 @@ CC_FLAGS = \
 	-ffreestanding \
 	-Wall \
 	-Wextra \
-	-Ofast \
-	-I$(KERNEL_DIR)/include \
+	-Wno-parentheses \
+	-O0 \
+	-I$(NOP_DIR)/include \
 	-D__iamcu__ \
 	-std=gnu99
 
