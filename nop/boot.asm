@@ -146,8 +146,10 @@ nop_start_16:
   ; If E801 is not available, the only other thing we
   ; could do is to cry in ~~an~~ a sad, infinite loop
   ; forever (typo totally discovered by segfaultdev and
-  ; not aa2006 no no need to put him on the contrib
-  ; section and everyone's happy yayyyyyyy)
+  ; not aa2006 so no need to put him on the contrib
+  ; section and everyone's happy yayyyyyyy, also this
+  ; is going to be rewritten and this file won't be
+  ; necesary so no E801 shit yayyyyyyyy)
   jc $
 
   ; Not again, please...
