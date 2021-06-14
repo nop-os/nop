@@ -144,7 +144,10 @@ nop_start_16:
   int 0x15
 
   ; If E801 is not available, the only other thing we
-  ; could do is to cry in an sad, infinite loop forever
+  ; could do is to cry in ~~an~~ a sad, infinite loop
+  ; forever (typo totally discovered by segfaultdev and
+  ; not aa2006 no no need to put him on the contrib
+  ; section and everyone's happy yayyyyyyy)
   jc $
 
   ; Not again, please...
