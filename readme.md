@@ -10,7 +10,7 @@ This project is made just for fun, and any help would be appreciated, so feel fr
 
 nop doesn't try to be another \*nix operative system, by instead using our own original designs, like our mountlessfs design(designed along with [@CaydendW](https://github.com/CaydendW)), our own path structure and the use of the UD2 instruction to generate syscalls, as faster instructions like SYSENTER were added in the Pentium II and maintaining compatibility with older CPUs is one of our goals.
 
-As a result of our goal of running on old processors, we are also limited to 32-bit protected mode, although that also makes the design simpler, making it more understandable.
+As a result of our goal of running on old processors, we are also limited to 32-bit protected mode, although that does makes the design simpler, making it more understandable.
 
 ## Why nop?
 
