@@ -55,6 +55,10 @@ qemu-system-i386 -hda nop.img
 - [ ] ELF loading
 - [ ] Simple "userland" shell
 
+## License
+
+This project uses the MIT license, as this is just an educational project for people to learn from.
+
 ## Contributions
 
 At the time of writing this, nop is being made by a single developer, segfaultdev(me!), although contributions would be greatly appreciated, so if you want to help me, just go ahead and make a PR!
