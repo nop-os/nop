@@ -1,0 +1,19 @@
+nop {
+  file NOPKERNLBIN
+  addr 4096
+
+  vidw 800
+  vidh 600
+  vidb 32
+}
+
+test {
+  file TESTFILEBIN
+  addr 4096
+
+  vidw 640
+  vidh 480
+  vidb 32
+}
+
+end
