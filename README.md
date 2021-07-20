@@ -1,6 +1,6 @@
 # nop
 
-nop is a simple educational kernel made to be as simple to understand as possible, giving extensive and fun comments in every single file, while being a fully complete kernel.
+nop is a simple educational kernel made to be as small and simple to understand as possible, while being a fully complete kernel.
 
 It should be able to run in any Pentium CPU or better, and it uses a custom bootloader called tinyboot.
 
@@ -8,7 +8,7 @@ This project is made just for fun, and any help would be appreciated, so feel fr
 
 ## Design
 
-nop doesn't try to be another \*nix operative system, by instead using our own original designs, like our mountlessfs design(designed along with [@CaydendW](https://github.com/CaydendW)), our own path structure and the use of the UD2 instruction to generate syscalls, as faster instructions like SYSENTER were added in the Pentium II and maintaining compatibility with older CPUs is one of our goals.
+nop doesn't try to be another \*nix operative system, by instead using our own original designs, our own path structure and the use of the UD2 instruction to generate syscalls, as faster options were not present in original Pentium CPUs.
 
 As a result of our goal of running on old processors, we are also limited to 32-bit protected mode, although that also makes the design simpler, making it more understandable.
 
