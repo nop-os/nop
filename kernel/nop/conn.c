@@ -21,6 +21,7 @@ void conn_init(const char *name, conn_hand_t handler) {
         memcpy(conn_hand + i, &handler, sizeof(conn_hand_t));
         if (name) strcpy(conn_hand[i].name, name);
         conn_hand[i].used = 1;
+        conn_hand[i].init();
 
         conn_count++;
         return;
@@ -34,6 +35,7 @@ void conn_free(const char *name) {
     for (size_t i = 0; i < CONN_MAX_HAND; i++) {
       if (!strcmp(conn_hand[i].name, name)) {
         conn_hand[i].used = 0;
+        conn_hand[i].free();
 
         conn_count--;
         return;
