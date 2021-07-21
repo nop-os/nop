@@ -164,7 +164,7 @@ start_32:
   mov fs, ax
   mov gs, ax
   mov ss, ax
-  mov esp, 0x00007000
+  mov esp, 0x00080000
 
   push dword video_table
   push dword mem_table

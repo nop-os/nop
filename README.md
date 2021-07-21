@@ -40,8 +40,8 @@ qemu-system-i386 -hda nop.img
 
 (keep in mind nop has recently been restarted from scratch as the codebase was a bit too messy)
 
-- [ ] PMM
-- [ ] VMM
+- [x] PMM
+- [x] VMM
 - [ ] IDT
 - [ ] Kernel libc
 - [ ] Connection API

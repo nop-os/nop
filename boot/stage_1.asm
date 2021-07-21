@@ -1,11 +1,12 @@
 [org 0x7C00]
 [bits 16]
 
-%define TINYBOOT_DAP    0x7000 ; Extended INT 0x13 DAP
-%define TINYBOOT_DRIVE  0x7010 ; Current INT 0x13 drive
-%define TINYBOOT_LBA    0x7012 ; LBA address of partition
-%define TINYBOOT_BUFFER 0x2000 ; FS and VESA temp. buffer
-%define TINYBOOT_CONFIG 0x1000 ; Config file buffer
+%define TINYBOOT_DAP     0x7000 ; Extended INT 0x13 DAP
+%define TINYBOOT_DRIVE   0x7010 ; Current INT 0x13 drive
+%define TINYBOOT_LBA     0x7012 ; LBA address of partition
+%define TINYBOOT_BUFFER  0x3000 ; FS and VESA temp. buffer
+%define TINYBOOT_CLUSTER 0x2000 ; Cluster buffer
+%define TINYBOOT_CONFIG  0x1000 ; Config file buffer
 
 tinyboot_bpb:
   cli

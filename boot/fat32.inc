@@ -17,6 +17,7 @@ fat32_lba:
   dec ebx
   movzx eax, byte [FAT32_CLUSTER_SIZE]
   mul ebx
+  mov ebx, eax
   movzx eax, word [FAT32_RESERVED]
   add ebx, eax
   movzx eax, byte [FAT32_FAT_COUNT]
@@ -36,17 +37,59 @@ fat32_lba:
 ; - ES:DI: Next buffer
 ; - Carry flag: If 1, there are more clusters
 fat32_cluster:
+  push eax
+  push ecx
+  push edx
+  push ebx
   call fat32_lba
   movzx cx, byte [FAT32_CLUSTER_SIZE]
   call drive_read
   jc fat32_error
-  push ebx
-  ; TODO: Load corresponding part of the FAT
-  ; TODO: Get entry
-  ; TODO: Check if last entry
-  clc
   pop ebx
+  push es
+  push di
+
+  ; 512 bytes = 128 entries, divide EBX by 128 to get the sector
+  xor edx, edx
+  mov eax, ebx
+  mov ecx, 0x00000080
+  div ecx
+  shl edx, 0x02
+  movzx ebx, word [FAT32_RESERVED]
+  add ebx, eax
+
+  ; EBX: LBA address of gud part of FAT
+  ; EDX: Offset at that gud part
+
+  xor ax, ax
+  mov es, ax
+  push es
+  mov di, TINYBOOT_CLUSTER
+  mov cx, 0x0001
+  call drive_read
+  jc fat32_error
+  pop es
+
+  ; Get cluster with offset
+
+  mov bx, dx
+  mov ebx, [es:di + bx]
+  and ebx, 0x0FFFFFFF
+
+  pop di
+  pop es
+  cmp ebx, 0x0FFFFFF7
+  jl .set_carry
+  clc
+  jmp .skip_carry
+.set_carry:
+  stc
+.skip_carry:
+  pop edx
+  pop ecx
+  pop eax
   ret
+
 
 ; Requires:
 ; - DS:SI: File name

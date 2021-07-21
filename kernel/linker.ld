@@ -5,23 +5,23 @@ SECTIONS {
   . = 0x00010000;
 
   .entry : {
-    *(.entry)
+    *(.entry*)
   }
 
   .text : {
-    *(.text)
+    *(.text*)
   }
 
   .rodata : {
-    *(.rodata)
+    *(.rodata*)
   }
 
   .data : {
-    *(.data)
+    *(.data*)
   }
 
   .bss : {
     *(COMMON)
-    *(.bss)
+    *(.bss*)
   }
 }

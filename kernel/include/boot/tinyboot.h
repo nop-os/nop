@@ -14,15 +14,15 @@ struct tb_ent_t {
 } __attribute__((packed));
 
 struct tb_mem_t {
-  uint32_t buffer;
-  uint16_t count;
+  tb_ent_t *table;
+  uint16_t  count;
 } __attribute__((packed));
 
 struct tb_vid_t {
-  uint32_t buffer;
-  uint16_t width, height;
-  uint16_t pitch;
-  uint8_t  bpp;
+  void     *buffer;
+  uint16_t  width, height;
+  uint16_t  pitch;
+  uint8_t   bpp;
 } __attribute__((packed));
 
 #endif
