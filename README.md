@@ -33,7 +33,7 @@ Once built, you can test it with QEMU like this:
 ```sh
 # From nop's directory:
 
-qemu-system-i386 -hda nop.img
+qemu-system-i386 -hda nop.img -m 64M
 ```
 
 ## TODO
@@ -42,16 +42,16 @@ qemu-system-i386 -hda nop.img
 
 - [x] PMM
 - [x] VMM
-- [ ] IDT
-- [ ] Kernel libc
+- [x] Kernel heap allocator
 - [ ] Connection API
-- [ ] Multitasking
 - [ ] Serial port connector
 - [ ] Framebuffer connector
 - [ ] ATA PIO connector
+- [ ] IDT
 - [ ] PCI connector
 - [ ] NVME connector
 - [ ] Soundblaster 16 connector
+- [ ] Multitasking
 - [ ] ELF loading
 - [ ] Simple "userland" shell
 

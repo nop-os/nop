@@ -1,0 +1,73 @@
+#include <nop/type.h>
+#include <nop/page.h>
+#include <nop/mem.h>
+
+void *mem_heap = NULL;
+size_t mem_size = 0;
+size_t mem_used = 0;
+
+void mem_init(size_t size) {
+  if ((mem_heap = page_alloc((size + 0x0FFF) >> 12))) {
+    mem_size = size;
+
+    mem_node_t *node = mem_heap;
+    node->size = mem_size - sizeof(mem_node_t);
+    node->free = 1;
+  }
+}
+
+void mem_defrag(void) {
+  void *ptr = mem_heap;
+
+  while (ptr < mem_heap + mem_size) {
+    mem_node_t *node = ptr;
+    mem_node_t *next_node = ptr + node->size + sizeof(mem_node_t);
+
+    if (node->free && next_node->free) {
+      node->size += next_node->size + sizeof(mem_node_t);
+    } else {
+      ptr = next_node;
+    }
+  }
+}
+
+void *mem_alloc(size_t size) {
+  void *ptr = mem_heap;
+  
+  while (ptr < mem_heap + mem_size) {
+    mem_node_t *node = ptr;
+
+    if (node->free) {
+      if (node->size == size) {
+        node->free = 0;
+        mem_used += size;
+
+        return ptr + sizeof(mem_node_t);
+      } else if (node->size > size + sizeof(mem_node_t)) {
+        mem_node_t *new_node = ptr + sizeof(mem_node_t) + size;
+
+        new_node->size = node->size - (sizeof(mem_node_t) + size);
+        new_node->free = 1;
+
+        node->size = size;
+        node->free = 0;
+
+        mem_used += size;
+
+        return ptr + sizeof(mem_node_t);
+      }
+    }
+
+    ptr += node->size + sizeof(mem_node_t);
+  }
+
+  return NULL;
+}
+
+void mem_free(void *ptr) {
+  mem_node_t *node = ptr - sizeof(mem_node_t);
+  node->free = 1;
+
+  mem_used -= node->size;
+  mem_defrag();
+}
