@@ -136,10 +136,13 @@ i586_rep_insd:
 i586_repe_cmpsb:
   push edi
   push esi
-  mov edi, [esp + 8 + 4]
-  mov esi, [esp + 8 + 8]
+  push ecx
+  mov ecx, [esp + 12 +  4]
+  mov edi, [esp + 12 +  8]
+  mov esi, [esp + 12 + 12]
   repe cmpsb
   mov eax, edi
+  pop ecx
   pop esi
   pop edi
   ret
@@ -147,8 +150,10 @@ i586_repe_cmpsb:
 i586_repe_cmpsw:
   push edi
   push esi
-  mov edi, [esp + 8 + 4]
-  mov esi, [esp + 8 + 8]
+  push ecx
+  mov ecx, [esp + 12 +  4]
+  mov edi, [esp + 12 +  8]
+  mov esi, [esp + 12 + 12]
   repe cmpsw
   mov eax, edi
   pop esi
@@ -158,8 +163,10 @@ i586_repe_cmpsw:
 i586_repe_cmpsd:
   push edi
   push esi
-  mov edi, [esp + 8 + 4]
-  mov esi, [esp + 8 + 8]
+  push ecx
+  mov ecx, [esp + 12 +  4]
+  mov edi, [esp + 12 +  8]
+  mov esi, [esp + 12 + 12]
   repe cmpsd
   mov eax, edi
   pop esi
@@ -169,8 +176,10 @@ i586_repe_cmpsd:
 i586_repne_cmpsb:
   push edi
   push esi
-  mov edi, [esp + 8 + 4]
-  mov esi, [esp + 8 + 8]
+  push ecx
+  mov ecx, [esp + 12 +  4]
+  mov edi, [esp + 12 +  8]
+  mov esi, [esp + 12 + 12]
   repne cmpsb
   mov eax, edi
   pop esi
@@ -180,8 +189,10 @@ i586_repne_cmpsb:
 i586_repne_cmpsw:
   push edi
   push esi
-  mov edi, [esp + 8 + 4]
-  mov esi, [esp + 8 + 8]
+  push ecx
+  mov ecx, [esp + 12 +  4]
+  mov edi, [esp + 12 +  8]
+  mov esi, [esp + 12 + 12]
   repne cmpsw
   mov eax, edi
   pop esi
@@ -191,8 +202,10 @@ i586_repne_cmpsw:
 i586_repne_cmpsd:
   push edi
   push esi
-  mov edi, [esp + 8 + 4]
-  mov esi, [esp + 8 + 8]
+  push ecx
+  mov ecx, [esp + 12 +  4]
+  mov edi, [esp + 12 +  8]
+  mov esi, [esp + 12 + 12]
   repne cmpsd
   mov eax, edi
   pop esi
@@ -201,49 +214,73 @@ i586_repne_cmpsd:
 
 i586_repe_scasb:
   push edi
-  mov edi, [esp + 4 + 4]
+  push ecx
+  mov eax, [esp + 8 +  4]
+  mov ecx, [esp + 8 +  8]
+  mov edi, [esp + 8 + 12]
   repe scasb
   mov eax, edi
+  pop ecx
   pop edi
   ret
 
 i586_repe_scasw:
   push edi
-  mov edi, [esp + 4 + 4]
+  push ecx
+  mov eax, [esp + 8 +  4]
+  mov ecx, [esp + 8 +  8]
+  mov edi, [esp + 8 + 12]
   repe scasw
   mov eax, edi
+  pop ecx
   pop edi
   ret
 
 i586_repe_scasd:
   push edi
-  mov edi, [esp + 4 + 4]
+  push ecx
+  mov eax, [esp + 8 +  4]
+  mov ecx, [esp + 8 +  8]
+  mov edi, [esp + 8 + 12]
   repe scasd
   mov eax, edi
+  pop ecx
   pop edi
   ret
 
 i586_repne_scasb:
   push edi
-  mov edi, [esp + 4 + 4]
+  push ecx
+  mov eax, [esp + 8 +  4]
+  mov ecx, [esp + 8 +  8]
+  mov edi, [esp + 8 + 12]
   repne scasb
   mov eax, edi
+  pop ecx
   pop edi
   ret
 
 i586_repne_scasw:
   push edi
-  mov edi, [esp + 4 + 4]
+  push ecx
+  mov eax, [esp + 8 +  4]
+  mov ecx, [esp + 8 +  8]
+  mov edi, [esp + 8 + 12]
   repne scasw
   mov eax, edi
+  pop ecx
   pop edi
   ret
 
 i586_repne_scasd:
   push edi
-  mov edi, [esp + 4 + 4]
+  push ecx
+  mov eax, [esp + 8 +  4]
+  mov ecx, [esp + 8 +  8]
+  mov edi, [esp + 8 + 12]
   repne scasd
   mov eax, edi
+  pop ecx
   pop edi
   ret
 

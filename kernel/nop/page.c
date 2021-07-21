@@ -5,6 +5,7 @@
 #include <string.h>
 
 uint8_t *page_bitmap = NULL;
+size_t page_mem = 0;
 
 void page_init(tb_mem_t *mem_table) {
   const size_t bitmap_size = PAGE_BITMAP_SIZE * sizeof(uint8_t);
@@ -25,6 +26,7 @@ void page_init(tb_mem_t *mem_table) {
 
     if (mem_table->table[i].size > bitmap_size) {
       page_bitmap = (uint8_t *)(mem_table->table[i].addr);
+      mem_table->table[i].addr += bitmap_size;
       mem_table->table[i].size -= bitmap_size;
       break;
     }
@@ -36,6 +38,7 @@ void page_init(tb_mem_t *mem_table) {
 
   for (int i = 0; i < mem_table->count; i++) {
     page_free((void *)(mem_table->table[i].addr), mem_table->table[i].size / PAGE_SIZE);
+    page_mem += mem_table->table[i].size;
   }
 }
 
@@ -64,6 +67,8 @@ void *page_alloc(size_t count) {
     page_bitmap[i >> 3] |= 1 << (7 - (i & 7));
   }
 
+  page_mem -= (count * PAGE_SIZE);
+
   return (void *)(page * PAGE_SIZE);
 }
 
@@ -73,4 +78,6 @@ void page_free(void *block, size_t count) {
   for (uint32_t i = page; i < page + count; i++) {
     page_bitmap[i >> 3] &= ~(1 << (7 - (i & 7)));
   }
+
+  page_mem += (count * PAGE_SIZE);
 }

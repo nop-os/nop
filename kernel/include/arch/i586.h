@@ -23,21 +23,21 @@ extern void i586_rep_insb(uint32_t ecx, uint16_t dx, void *edi);
 extern void i586_rep_insw(uint32_t ecx, uint16_t dx, void *edi);
 extern void i586_rep_insd(uint32_t ecx, uint16_t dx, void *edi);
 
-extern const void *i586_repe_cmpsb(const void *edi, const void *esi);
-extern const void *i586_repe_cmpsw(const void *edi, const void *esi);
-extern const void *i586_repe_cmpsd(const void *edi, const void *esi);
+extern const void *i586_repe_cmpsb(uint32_t ecx, const void *edi, const void *esi);
+extern const void *i586_repe_cmpsw(uint32_t ecx, const void *edi, const void *esi);
+extern const void *i586_repe_cmpsd(uint32_t ecx, const void *edi, const void *esi);
 
-extern const void *i586_repne_cmpsb(const void *edi, const void *esi);
-extern const void *i586_repne_cmpsw(const void *edi, const void *esi);
-extern const void *i586_repne_cmpsd(const void *edi, const void *esi);
+extern const void *i586_repne_cmpsb(uint32_t ecx, const void *edi, const void *esi);
+extern const void *i586_repne_cmpsw(uint32_t ecx, const void *edi, const void *esi);
+extern const void *i586_repne_cmpsd(uint32_t ecx, const void *edi, const void *esi);
 
-extern const void *i586_repe_scasb(uint8_t al, const void *edi);
-extern const void *i586_repe_scasw(uint16_t ax, const void *edi);
-extern const void *i586_repe_scasd(uint32_t eax, const void *edi);
+extern const void *i586_repe_scasb(uint8_t al, uint32_t ecx, const void *edi);
+extern const void *i586_repe_scasw(uint16_t ax, uint32_t ecx, const void *edi);
+extern const void *i586_repe_scasd(uint32_t eax, uint32_t ecx, const void *edi);
 
-extern const void *i586_repne_scasb(uint8_t al, const void *edi);
-extern const void *i586_repne_scasw(uint16_t ax, const void *edi);
-extern const void *i586_repne_scasd(uint32_t eax, const void *edi);
+extern const void *i586_repne_scasb(uint8_t al, uint32_t ecx, const void *edi);
+extern const void *i586_repne_scasw(uint16_t ax, uint32_t ecx, const void *edi);
+extern const void *i586_repne_scasd(uint32_t eax, uint32_t ecx, const void *edi);
 
 // I/O
 

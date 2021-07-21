@@ -15,16 +15,28 @@ void *memset(void *ptr, int val, size_t size) {
   return ptr;
 }
 
+int memcmp(const char *str_1, const char *str_2, size_t size) {
+  while (size) {
+    if (*str_1 != *str_2) {
+      return (int)(*str_1) - (int)(*str_2);
+    }
+
+    str_1++, str_2++, size--;
+  }
+
+  return 0;
+}
+
 size_t strlen(const char *str) {
-  return i586_repne_scasb(0, str) - (void *)(str);
+  return i586_repne_scasb(0, 0xFFFFFFFF, str) - (void *)(str);
 }
 
 char *strcat(char *dest, const char *src) {
-  return strcpy((char *)(i586_repne_scasb(0, dest)), src);
+  return strcpy(dest + strlen(dest), src);
 }
 
 char *strncat(char *dest, const char *src, size_t size) {
-  return strncpy((char *)(i586_repne_scasb(0, dest)), src, size);
+  return strncpy(dest + strlen(dest), src, size);
 }
 
 char *strcpy(char *dest, const char *src) {
@@ -39,7 +51,10 @@ char *strncpy(char *dest, const char *src, size_t size) {
 }
 
 int strcmp(const char *str_1, const char *str_2) {
-  size_t index = i586_repe_cmpsb(str_1, str_2) - (void *)(str_1);
+  while (*str_1) {
+    if (*str_1 != *str_2) break;
+    str_1++, str_2++;
+  }
 
-  return ((int)(str_1[index]) - (int)(str_2[index]));
+  return (int)(*str_1) - (int)(*str_2);
 }

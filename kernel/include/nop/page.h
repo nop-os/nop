@@ -13,6 +13,7 @@
 #define PAGE_BITMAP_SIZE (PAGE_COUNT >> 3)
 
 extern uint8_t *page_bitmap;
+extern size_t page_mem;
 
 void page_init(tb_mem_t *mem_table);
 
