@@ -1,3 +1,3 @@
 #!/usr/bin/sh
 
-nasm stage_1.asm -fbin -O3 -o tinyboot.bin
+nasm stage_1.asm -fbin -O4 -o tinyboot.bin

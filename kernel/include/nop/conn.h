@@ -38,9 +38,11 @@ struct conn_node_t {
 struct conn_hand_t {
   int used;
   char name[5];
+
+  void *data;
   
-  void (*init)(void);
-  void (*free)(void);
+  ssize_t (*init)(conn_hand_t *hand, void *data);
+  void    (*free)(void);
 
   void (*connect)(conn_t *conn, const char *path);
   void (*release)(conn_t *conn);
@@ -62,8 +64,8 @@ struct conn_t {
 extern conn_hand_t *conn_hand;
 extern size_t conn_count;
 
-void conn_init(const char *name, conn_hand_t handler);
-void conn_free(const char *name);
+ssize_t conn_init(conn_hand_t hand, void *data);
+void    conn_free(const char *name);
 
 conn_t *conn_connect(const char *path);
 void    conn_release(conn_t *conn);
