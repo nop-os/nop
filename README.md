@@ -44,6 +44,7 @@ qemu-system-i386 -hda nop.img -m 64M
 - [x] VMM
 - [x] Kernel heap allocator
 - [ ] IDT
+- [ ] NMI
 - [x] Connection API
 - [x] Serial port connector
 - [ ] Framebuffer connector
