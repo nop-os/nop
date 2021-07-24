@@ -50,6 +50,8 @@ global i586_cli
 
 global i586_lidt
 
+global i586_call
+
 ; Implementations(see i586/instr.h for more info):
 
 i586_rep_stosb:

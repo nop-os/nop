@@ -55,7 +55,7 @@ struct conn_hand_t {
 struct conn_t {
   conn_node_t node;
 
-  size_t offset;
+  uint64_t offset;
   void *data;
 
   conn_hand_t *handler;

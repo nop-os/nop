@@ -6,8 +6,8 @@
 typedef struct i586_regs_t i586_regs_t;
 
 struct i586_regs_t {
-  uint32_t eax, ebx, ecx, edx, esi, edi, esp, ebp;
-};
+  uint32_t eip, eax, ecx, edx, ebx, esp, ebp, esi, edi;
+} __attribute__((packed));
 
 // String operations
 
@@ -58,9 +58,5 @@ extern void i586_sti(void);
 extern void i586_cli(void);
 
 extern void i586_lidt(const void *edi);
-
-// Ring 0-specific stuff
-
-extern i586_regs_t i586_int_16(uint8_t id, i586_regs_t regs);
 
 #endif

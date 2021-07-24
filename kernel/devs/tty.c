@@ -43,6 +43,7 @@ ssize_t tty_init(conn_hand_t *hand, void *data) {
 void tty_connect(conn_t *conn, const char *path) {
   conn->node.name[0] = '\0';
   conn->node.attr = conn_attr_write | conn_attr_read;
+  
   conn->data = conn->handler->data;
 }
 

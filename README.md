@@ -45,13 +45,12 @@ qemu-system-i386 -hda nop.img -m 64M
 - [x] Kernel heap allocator
 - [ ] IDT
 - [x] Connection API
+- [x] PCI enumerator
 - [x] Serial port connector
 - [ ] Framebuffer connector
 - [ ] ATA PIO connector
-- [ ] PCI connector
 - [ ] NVME connector
 - [ ] Soundblaster 16 connector
-- [ ] Multitasking
 - [ ] ELF loading
 - [ ] Simple "userland" shell
 
