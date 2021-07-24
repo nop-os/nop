@@ -1,7 +1,7 @@
 ; Finds and sets a VESA video mode
 ;   BX = Width
 ;   CX = Height
-;   DX = BPP
+;   DL = BPP
 ; Returns:
 ;   EDI = Pointer to table with framebuffer, bytes per line, bits per pixel and resolution
 video_set:
@@ -12,7 +12,7 @@ video_set:
 
   mov [video_table.tmp_width], bx
   mov [video_table.tmp_height], cx
-  mov [video_table.tmp_bpp], dx
+  mov [video_table.tmp_bpp], dl
 
   mov dword [es:di], 0x32454256
   mov ax, 0x4F00
@@ -63,7 +63,7 @@ video_set:
   mov eax, [es:di + 40]
   mov [video_table.tmp_buffer], eax
   mov ax, [es:di + 16]
-  mov [video_table.tmp_pitch], eax
+  mov [video_table.tmp_pitch], ax
 
   ret
 

@@ -22,4 +22,6 @@ void    ata_connect(conn_t *conn, const char *path);
 ssize_t ata_write(conn_t *conn, void *buffer, size_t count);
 ssize_t ata_read(conn_t *conn, void *buffer, size_t count);
 
+void ata_init_all(void);
+
 #endif

@@ -1,6 +1,8 @@
 #include <boot/tinyboot.h>
 #include <arch/i586.h>
 #include <devs/tty.h>
+#include <devs/ata.h>
+#include <devs/fbr.h>
 #include <nop/page.h>
 #include <nop/virt.h>
 #include <nop/mem.h>
@@ -25,8 +27,6 @@ void nop(tb_mem_t *mem_table, tb_vid_t *vid_table) {
   ata_init_all();
 
   pci_init();
-
-  // fbr_init_all(vid_table);
 
   dbg_infof("memory: %d%% used\n", ((page_used >> 12) * 100) / (page_size >> 12));
 
