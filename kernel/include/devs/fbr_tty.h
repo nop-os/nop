@@ -8,10 +8,11 @@ typedef struct fbr_tty_t fbr_tty_t;
 
 struct fbr_tty_t {
   conn_t *fbr;
-  
+  int pos_x, pos_y;
 };
 
 extern conn_hand_t fbr_tty_hand;
+extern uint8_t fbr_tty_font[];
 
 ssize_t fbr_tty_init(conn_hand_t *hand, void *data);
 void    fbr_tty_connect(conn_t *conn, const char *path);

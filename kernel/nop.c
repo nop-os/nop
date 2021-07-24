@@ -1,4 +1,5 @@
 #include <boot/tinyboot.h>
+#include <devs/fbr_tty.h>
 #include <arch/i586.h>
 #include <devs/tty.h>
 #include <devs/ata.h>
@@ -17,13 +18,14 @@ void nop(tb_mem_t *mem_table, tb_vid_t *vid_table) {
   virt_init();
   mem_init(page_size / 512);
 
-  tty_init_all();
+  fbr_init_all(vid_table);
+  fbr_init_tty_all("fbr0");
 
   conn_t *tty0 = conn_connect("tty0");
   dbg_init(tty0);
   dbg_infof("welcome to nop!\n");
 
-  fbr_init_all(vid_table);
+  tty_init_all();
   ata_init_all();
 
   pci_init();
