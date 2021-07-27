@@ -52,16 +52,14 @@ ssize_t tty_write(conn_t *conn, void *buffer, size_t count) {
   char *text = buffer;
   uint16_t port = (uint16_t)((size_t)(conn->data));
 
-  while (count) {
-    if (*text == '\n') {
+  for (size_t i = 0; i < count; i++) {
+    if (text[i] == '\n') {
       while (!(i586_inb(port + 5) & 0x20));
       i586_outb('\r', port + 0);
     }
 
     while (!(i586_inb(port + 5) & 0x20));
-    i586_outb(*text, port + 0);
-
-    text++, count--;
+    i586_outb(text[i], port + 0);
   }
 
   return (ssize_t)(count);
@@ -71,11 +69,9 @@ ssize_t tty_read(conn_t *conn, void *buffer, size_t count) {
   char *text = buffer;
   uint16_t port = (uint16_t)((size_t)(conn->data));
 
-  while (count) {
+  for (size_t i = 0; i < count; i++) {
     while (!(i586_inb(port + 5) & 0x01));
-    *text = i586_inb(port + 0);
-
-    text++, count--;
+    text[i] = i586_inb(port + 0);
   }
 
   return (ssize_t)(count);
@@ -89,5 +85,5 @@ void tty_init_all(void) {
     count += conn_init(tty_hand, data);
   }
 
-  dbg_infof("tty: %d ports initialized\n");
+  dbg_infof("tty: %d ports initialized\n", count);
 }

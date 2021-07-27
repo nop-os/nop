@@ -27,15 +27,17 @@ tinyboot_stage_1:
   rep stosb
   sti
 .check_drv:
-  cmp dl, 0x80
-  jl drv_error_1
+  test dl, 0x80
+  jz drv_error_1
 .check_lba:
+  push dx
   mov ah, 0x41
   mov bx, 0x55AA
   int 0x13
   jc ext_error_1
   cmp bx, 0xAA55
   jne ext_error_1
+  pop dx
 .setup_dap:
   mov si, TINYBOOT_DAP
   mov byte [si + 0x00], 0x10
@@ -59,7 +61,7 @@ tinyboot_stage_1:
   mov dword [si + 0x08], eax
   mov ah, 0x42
   int 0x13
-  jc ext_error_1
+  jc rea_error_1
   jmp 0x0000:0x7E00
 
 drv_error_1:
@@ -67,6 +69,9 @@ drv_error_1:
   jmp error_1
 ext_error_1:
   mov si, ext_error_1_str
+  jmp error_1
+rea_error_1:
+  mov si, rea_error_1_str
 error_1:
   mov ah, 0x0E
   xor bh, bh
@@ -80,9 +85,11 @@ error_1:
   jmp $
 
 drv_error_1_str:
-  db "tinyboot: Invalid drive", 0x00
+  db "tinyboot: Booting from floppy not supported", 0x00
 ext_error_1_str:
-  db "tinyboot: Read error", 0x00
+  db "tinyboot: Computer does not support LBA", 0x00
+rea_error_1_str:
+  db "tinyboot: Cannot read drive", 0x00
 
 times 0x01B8 - ($ - $$) db 0xCC
 

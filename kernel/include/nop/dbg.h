@@ -25,10 +25,10 @@
 #define DBG_LIGHT_CYAN   "\033[96m"
 #define DBG_WHITE        "\033[97m"
 
-#define dbg_infof(...) dbg_printf(DBG_BOLD "[" DBG_LIGHT_BLUE  "INFO" DBG_WHITE "] " DBG_NORMAL __VA_ARGS__)
-#define dbg_donef(...) dbg_printf(DBG_BOLD "[" DBG_LIGHT_GREEN "DONE" DBG_WHITE "] " DBG_NORMAL __VA_ARGS__)
-#define dbg_warnf(...) dbg_printf(DBG_BOLD "[" DBG_YELLOW      "WARN" DBG_WHITE "] " DBG_NORMAL __VA_ARGS__)
-#define dbg_failf(...) dbg_printf(DBG_BOLD "[" DBG_LIGHT_RED   "FAIL" DBG_WHITE "] " DBG_NORMAL __VA_ARGS__)
+#define dbg_infof(...) dbg_printf(DBG_BOLD "[" DBG_LIGHT_BLUE  "INFO" DBG_WHITE "] " DBG_NORMAL DBG_LIGHT_GRAY __VA_ARGS__)
+#define dbg_donef(...) dbg_printf(DBG_BOLD "[" DBG_LIGHT_GREEN "DONE" DBG_WHITE "] " DBG_NORMAL DBG_LIGHT_GRAY __VA_ARGS__)
+#define dbg_warnf(...) dbg_printf(DBG_BOLD "[" DBG_YELLOW      "WARN" DBG_WHITE "] " DBG_NORMAL DBG_LIGHT_GRAY __VA_ARGS__)
+#define dbg_failf(...) dbg_printf(DBG_BOLD "[" DBG_LIGHT_RED   "FAIL" DBG_WHITE "] " DBG_NORMAL DBG_LIGHT_GRAY __VA_ARGS__)
 
 extern conn_t *dbg_conn;
 

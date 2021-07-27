@@ -7,6 +7,8 @@
 
 extern conn_hand_t fbr_hand;
 
+size_t fbr_color(uint8_t bpp, size_t red, size_t green, size_t blue);
+
 ssize_t fbr_init(conn_hand_t *hand, void *data);
 void    fbr_connect(conn_t *conn, const char *path);
 

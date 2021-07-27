@@ -6,7 +6,7 @@
 typedef struct i586_regs_t i586_regs_t;
 
 struct i586_regs_t {
-  uint32_t eip, eax, ecx, edx, ebx, esp, ebp, esi, edi;
+  uint32_t eax, ecx, edx, ebx, esp, ebp, esi, edi, eip;
 } __attribute__((packed));
 
 // String operations
@@ -48,6 +48,8 @@ extern uint32_t i586_ind(uint16_t dx);
 extern void i586_outb(uint8_t al, uint16_t dx);
 extern void i586_outw(uint16_t ax, uint16_t dx);
 extern void i586_outd(uint32_t eax, uint16_t dx);
+
+extern void i586_wait(void);
 
 // Other
 

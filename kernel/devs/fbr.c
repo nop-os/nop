@@ -12,6 +12,21 @@ conn_hand_t fbr_hand = (conn_hand_t){
   fbr_write, fbr_read, NULL
 };
 
+size_t fbr_color(uint8_t bpp, size_t red, size_t green, size_t blue) {
+  switch (bpp) {
+    case 0x08:
+      return ((red >> 5) << 5) | ((green >> 5) << 2) | (blue >> 6);
+
+    case 0x10:
+      return ((red >> 3) << 11) | ((green >> 2) << 5) | (blue >> 3);
+
+    case 0x18: case 0x20:
+      return (red << 16) | (green << 8) | blue;
+  }
+
+  return 0;
+}
+
 ssize_t fbr_init(conn_hand_t *hand, void *data) {
   tb_vid_t *table = data;
   hand->data = data;
@@ -48,7 +63,7 @@ ssize_t fbr_write(conn_t *conn, void *buffer, size_t count) {
     return -1;
   }
 
-  memcpy(table->buffer + conn->offset, buffer, count);
+  memcpy(table->buffer + (conn->offset - sizeof(tb_vid_t)), buffer, count);
   conn->offset += count;
 
   return (ssize_t)(count);
@@ -70,12 +85,12 @@ ssize_t fbr_read(conn_t *conn, void *buffer, size_t count) {
       table_count = sizeof(tb_vid_t) - conn->offset;
     }
 
-    memcpy(conn->data + conn->offset, buffer, table_count);
+    memcpy(buffer, conn->data + conn->offset, table_count);
     conn->offset += table_count, buffer += table_count;
     count -= table_count;
   }
 
-  memcpy(table->buffer + conn->offset, buffer, count);
+  memcpy(buffer, table->buffer + (conn->offset - sizeof(tb_vid_t)), count);
   conn->offset += count;
 
   return (ssize_t)(total);

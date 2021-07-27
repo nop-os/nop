@@ -2,8 +2,8 @@ nop {
   file NOPKERNLBIN
   addr 4096
 
-  vidw 800
-  vidh 600
+  vidw 1024
+  vidh 768
   vidb 32
 }
 

@@ -72,7 +72,9 @@ void *mem_realloc(void *ptr, size_t new_size) {
 
   if (ptr) {
     mem_node_t *node = ptr - sizeof(mem_node_t);
-    memcpy(new_ptr, ptr, node->size);
+    size_t size = new_size < node->size ? new_size : node->size;
+    
+    memcpy(new_ptr, ptr, size);
     mem_free(ptr);
   }
 
