@@ -109,6 +109,8 @@ void fbr_tty_blink(i586_regs_t *regs, idt_hand_t *hand) {
 
 ssize_t fbr_tty_init(conn_hand_t *hand, void *data) {
   hand->data = data;
+  
+  return 1;
 }
 
 void fbr_tty_free(conn_hand_t *hand) {

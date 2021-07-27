@@ -4,10 +4,11 @@
 #include <nop/conn.h>
 #include <nop/dbg.h>
 #include <nop/mem.h>
+#include <string.h>
 
 conn_hand_t ata_hand = (conn_hand_t){
-  0, "tty", NULL,
-  ata_init, NULL,
+  0, "blk", NULL,
+  ata_init, ata_free,
   ata_connect, NULL,
   ata_write, ata_read, NULL
 };
@@ -36,7 +37,7 @@ ssize_t ata_init(conn_hand_t *hand, void *data) {
     status = i586_inb(port + 0x07);
 
     if (!status) {
-      dbg_failf("ata: drive %d status is 0x00\n", drive);
+      dbg_failf("ata: drive %d has invalid status\n", drive);
       return 0;
     }
 
@@ -60,16 +61,37 @@ ssize_t ata_init(conn_hand_t *hand, void *data) {
     buffer[i] = i586_inw(port + 0x00);
   }
 
+  char serial[21];
+  memset(serial, 0, 21);
+  memcpy(serial, buffer + 10, 21);
+
+  for (size_t i = 0; i < conn_count; i++) {
+    if (!memcmp(conn_hand[i].name, "blk", 3)) {
+      ata_t *tmp_ata = conn_hand[i].data;
+
+      if (!memcmp(serial, tmp_ata->serial, 20)) {
+        dbg_failf("ata: drive %d already initialized\n", drive);
+        return 0;
+      }
+    }
+  }
+
   ata_t *ata = mem_alloc(sizeof(ata_t));
   ata->drive = drive;
   ata->size = ((uint64_t)(buffer[0x66]) << 32) | ((uint64_t)(buffer[0x65]) << 16) | buffer[0x64];
+  memcpy(ata->serial, serial, 21);
 
   hand->data = ata;
 
   dbg_donef("ata: drive %d initialized\n", drive);
-  dbg_infof("- size: %d MiB\n", (uint32_t)(ata->size >> 11));
+  dbg_infof("- size:   %d MiB\n", (uint32_t)(ata->size >> 11));
+  dbg_infof("- serial: %s\n", serial);
 
   return 1;
+}
+
+void ata_free(conn_hand_t *hand) {
+  mem_free(hand->data);
 }
 
 void ata_connect(conn_t *conn, const char *path) {

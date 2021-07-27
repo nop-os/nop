@@ -12,11 +12,15 @@ typedef struct ata_t ata_t;
 struct ata_t {
   uint8_t drive;
   uint64_t size;
+
+  char serial[21];
 };
 
 extern conn_hand_t ata_hand;
 
 ssize_t ata_init(conn_hand_t *hand, void *data);
+void    ata_free(conn_hand_t *hand);
+
 void    ata_connect(conn_t *conn, const char *path);
 
 ssize_t ata_write(conn_t *conn, void *buffer, size_t count);
