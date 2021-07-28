@@ -40,6 +40,8 @@ global i586_outb
 global i586_outw
 global i586_outd
 
+global i586_wait
+
 ; Other
 
 global i586_set_cr3
@@ -49,6 +51,8 @@ global i586_sti
 global i586_cli
 
 global i586_lidt
+
+global i586_call
 
 ; Implementations(see i586/instr.h for more info):
 
@@ -327,6 +331,13 @@ i586_outd:
   mov edx, [esp + 32 + 8]
   out dx, eax
   popad
+  ret
+
+i586_wait:
+  push edx
+  mov dx, 0x0080
+  out dx, al
+  pop edx
   ret
 
 i586_set_cr3:

@@ -42,7 +42,7 @@ struct conn_hand_t {
   void *data;
   
   ssize_t (*init)(conn_hand_t *hand, void *data);
-  void    (*free)(void);
+  void    (*free)(conn_hand_t *hand);
 
   void (*connect)(conn_t *conn, const char *path);
   void (*release)(conn_t *conn);
@@ -55,7 +55,7 @@ struct conn_hand_t {
 struct conn_t {
   conn_node_t node;
 
-  size_t offset;
+  uint64_t offset;
   void *data;
 
   conn_hand_t *handler;

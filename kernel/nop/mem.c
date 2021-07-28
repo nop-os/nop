@@ -1,6 +1,7 @@
 #include <nop/type.h>
 #include <nop/page.h>
 #include <nop/mem.h>
+#include <string.h>
 
 void *mem_heap = NULL;
 size_t mem_size = 0;
@@ -62,6 +63,22 @@ void *mem_alloc(size_t size) {
   }
 
   return NULL;
+}
+
+void *mem_realloc(void *ptr, size_t new_size) {
+  if (!new_size) return NULL;
+
+  void *new_ptr = mem_alloc(new_size);
+
+  if (ptr) {
+    mem_node_t *node = ptr - sizeof(mem_node_t);
+    size_t size = new_size < node->size ? new_size : node->size;
+    
+    memcpy(new_ptr, ptr, size);
+    mem_free(ptr);
+  }
+
+  return new_ptr;
 }
 
 void mem_free(void *ptr) {

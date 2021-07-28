@@ -62,7 +62,7 @@ void conn_free(const char *name) {
         conn_hand[i].used = 0;
         
         if (conn_hand[i].free) {
-          conn_hand[i].free();
+          conn_hand[i].free(conn_hand + i);
         }
 
         conn_count--;
