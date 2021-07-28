@@ -5,6 +5,18 @@
 #include <nop/type.h>
 #include <nop/conn.h>
 
+#define FBR_RATE 2
+
+typedef struct fbr_t fbr_t;
+
+struct fbr_t {
+  tb_vid_t *table;
+  void *buffer;
+
+  size_t idt_idx;
+  size_t idt_cnt;
+};
+
 extern conn_hand_t fbr_hand;
 
 size_t fbr_color(uint8_t bpp, size_t red, size_t green, size_t blue);

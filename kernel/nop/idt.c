@@ -53,7 +53,7 @@ size_t idt_add(idt_hand_t hand) {
   }
 
   idt_hand = mem_realloc(idt_hand, (idt_count + 1) * sizeof(idt_hand_t));
-  if (!idt_hand) return 0;
+  if (!idt_hand) return 0xFFFFFFFF;
 
   idt_hand[idt_count] = hand;
 

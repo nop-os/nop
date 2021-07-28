@@ -28,9 +28,11 @@ void nop(tb_mem_t *mem_table, tb_vid_t *vid_table) {
   dbg_infof("welcome to nop!\n");
 
   pci_init();
+  
   tty_init_all();
   ata_init_all();
 
   dbg_infof("mem: %d%% used\n", ((page_used >> 12) * 100) / (page_size >> 12));
+
   for (;;);
 }

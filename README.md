@@ -43,16 +43,15 @@ qemu-system-i386 -hda nop.img -m 64M
 - [x] PMM
 - [x] VMM
 - [x] Kernel heap allocator
-- [ ] IDT
+- [x] IDT
 - [x] Connection API
 - [x] PCI enumerator
 - [x] Serial port connector
-- [ ] Framebuffer connector
+- [x] Framebuffer connector
 - [ ] ATA PIO connector
-- [ ] NVME connector
-- [ ] Soundblaster 16 connector
 - [ ] ELF loading
 - [ ] Simple "userland" shell
+- [ ] SoundBlaster 16 connector
 
 ## License
 

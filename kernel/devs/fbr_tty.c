@@ -30,7 +30,9 @@ void fbr_tty_scroll(fbr_tty_t *fbr_tty) {
     conn_write(fbr_tty->conn, buffer, width);
   }
 
-  memset(buffer, 0, width);
+  for (size_t i = 0; i < fbr_tty->table.width; i++) {
+    memcpy(buffer + (i * (fbr_tty->table.bpp >> 3)), &(fbr_tty->back_color), fbr_tty->table.bpp >> 3);
+  }
 
   for (size_t i = 1; i <= height; i++) {
     conn_seek(fbr_tty->conn, fbr_tty->table.pitch * (fbr_tty->table.height - i) + sizeof(tb_vid_t), conn_seek_set);
@@ -94,7 +96,7 @@ void fbr_tty_blink(i586_regs_t *regs, idt_hand_t *hand) {
     size_t color = fbr_tty->fore_color;
     size_t pos_x = fbr_tty->pos_x, pos_y = fbr_tty->pos_y;
 
-    if (fbr_tty->idt_cnt >= fbr_tty_speed / 2) {
+    if (fbr_tty->idt_cnt < fbr_tty_speed / 2) {
       fbr_tty->fore_color = fbr_tty->back_color;
     }
 
@@ -109,7 +111,7 @@ void fbr_tty_blink(i586_regs_t *regs, idt_hand_t *hand) {
 
 ssize_t fbr_tty_init(conn_hand_t *hand, void *data) {
   hand->data = data;
-  
+
   return 1;
 }
 
@@ -132,6 +134,11 @@ void fbr_tty_connect(conn_t *conn, const char *path) {
 
   fbr_tty->fore_color = fbr_color(fbr_tty->table.bpp, 0xFF, 0xFF, 0xFF);
   fbr_tty->back_color = fbr_color(fbr_tty->table.bpp, 0x00, 0x00, 0x00);
+
+  for (size_t i = 0; i < (fbr_tty->table.height / (fbr_tty_height * fbr_tty_scale_y)) + 1; i++) {
+    fbr_tty_scroll(fbr_tty);
+  }
+
   fbr_tty->idt_idx = idt_add(hand);
   fbr_tty->idt_cnt = 0;
 

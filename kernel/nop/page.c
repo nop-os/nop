@@ -50,7 +50,7 @@ void *page_alloc(size_t count) {
   int found = 0;
 
   for (uint32_t i = 0; i < PAGE_COUNT; i++) {
-    int used = page_bitmap[i >> 3] & (1 << (7 - (page & 7)));
+    int used = page_bitmap[i >> 3] & (1 << (7 - (i & 7)));
 
     if (used) {
       page = i + 1, free = 0;

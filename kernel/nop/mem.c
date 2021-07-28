@@ -1,5 +1,6 @@
 #include <nop/type.h>
 #include <nop/page.h>
+#include <nop/dbg.h>
 #include <nop/mem.h>
 #include <string.h>
 
@@ -87,4 +88,17 @@ void mem_free(void *ptr) {
 
   mem_used -= node->size;
   mem_defrag();
+}
+
+void mem_list(void) {
+  void *ptr = mem_heap;
+  
+  dbg_infof("mem: listing heap map\n");
+
+  while (ptr < mem_heap + mem_size) {
+    mem_node_t *node = ptr;
+
+    dbg_infof("- addr=0x%08X, size=0x%08X, free=%d\n", ptr + sizeof(mem_node_t), node->size, node->free);
+    ptr += node->size + sizeof(mem_node_t);
+  }
 }
