@@ -62,7 +62,37 @@ tinyboot_stage_1:
   mov ah, 0x42
   int 0x13
   jc rea_error_1
+
+  call .wait_a20_1
+  mov al, 0xAD
+  out 0x64, al
+  call .wait_a20_1
+  mov al, 0xD0
+  out 0x64, al
+.wait_a20_2:
+  in al, 0x64
+  test al, 0x01
+  jz .wait_a20_2
+  in al, 0x60
+  push ax
+  call .wait_a20_1
+  mov al, 0xD1
+  out 0x64, al
+  call .wait_a20_1
+  pop ax
+  or al, 0x02
+  out 0x60, al
+  call .wait_a20_1
+  mov al, 0xAE
+  out 0x64, al
+
   jmp 0x0000:0x7E00
+
+.wait_a20_1:
+  in al, 0x64
+  test al, 0x02
+  jnz .wait_a20_1
+  ret
 
 drv_error_1:
   mov si, drv_error_1_str
@@ -85,11 +115,11 @@ error_1:
   jmp $
 
 drv_error_1_str:
-  db "tinyboot: Booting from floppy not supported", 0x00
+  db "tinyboot: Floppy boot unsupported", 0x00
 ext_error_1_str:
-  db "tinyboot: Computer does not support LBA", 0x00
+  db "tinyboot: LBA unsupported", 0x00
 rea_error_1_str:
-  db "tinyboot: Cannot read drive", 0x00
+  db "tinyboot: Read error", 0x00
 
 times 0x01B8 - ($ - $$) db 0xCC
 

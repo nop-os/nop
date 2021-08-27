@@ -3,7 +3,6 @@
 #include <nop/dbg.h>
 #include <nop/idt.h>
 #include <nop/mem.h>
-#include <nop/sys.h>
 
 idt_hand_t *idt_hand = NULL;
 size_t idt_count = 0;
@@ -80,6 +79,6 @@ void idt_call(i586_regs_t *regs, int id) {
 
   if (id < IDT_PIC_BASE) {
     dbg_failf("idt: unhandled interrupt %d\n", id);
-    sys_panic();
+    dbg_panic();
   }
 }

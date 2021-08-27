@@ -1,17 +1,41 @@
+#include <arch/i586.h>
 #include <nop/type.h>
-#include <nop/conn.h>
 #include <nop/dbg.h>
 #include <stdarg.h>
 #include <string.h>
 
-conn_t *dbg_conn = NULL;
+uint16_t dbg_port = 0;
 
-void dbg_init(conn_t *conn) {
-  dbg_conn = conn;
+void dbg_init(uint16_t port) {
+  i586_outb(0x00, port + 1);
+  i586_outb(0x80, port + 3);
+  i586_outb(0x03, port + 0);
+  i586_outb(0x00, port + 1);
+  i586_outb(0x03, port + 3);
+  i586_outb(0xC7, port + 2);
+  i586_outb(0x0B, port + 4);
+  i586_outb(0x1E, port + 4);
+  i586_outb(0xAE, port + 0);
+
+  if (i586_inb(port + 0) != 0xAE) {
+    dbg_panic();
+  }
+  
+  dbg_port = port;
+  i586_outb(0x0F, port + 4);
+}
+
+void dbg_panic(void) {
+  for (;;);
 }
 
 void dbg_putchr(char chr) {
-  conn_write(dbg_conn, &chr, 1);
+  if (chr == '\n') {
+    dbg_putchr('\r');
+  }
+  
+  while (!(i586_inb(dbg_port + 5) & 0x20));
+  i586_outb(chr, dbg_port + 0);
 }
 
 void dbg_putstr(const char *str) {
@@ -116,7 +140,7 @@ void dbg_printf(const char *format, ...) {
         case 'x':
           dbg_putnum_opt(va_arg(args, int), 16, 0, pad_aln, pad_len, pad_chr);
           break;
-        case 'X':
+        case 'X': case 'p':
           dbg_putnum_opt(va_arg(args, int), 16, 1, pad_aln, pad_len, pad_chr);
           break;
         case 'o':

@@ -2,7 +2,6 @@
 #define __NOP_DBG_H__
 
 #include <nop/type.h>
-#include <nop/conn.h>
 
 #define DBG_NORMAL    "\033[21m\033[24m"
 #define DBG_BOLD      "\033[1m"
@@ -30,9 +29,10 @@
 #define dbg_warnf(...) dbg_printf(DBG_BOLD DBG_WHITE "[" DBG_YELLOW      "WARN" DBG_WHITE "] " DBG_NORMAL DBG_LIGHT_GRAY __VA_ARGS__)
 #define dbg_failf(...) dbg_printf(DBG_BOLD DBG_WHITE "[" DBG_LIGHT_RED   "FAIL" DBG_WHITE "] " DBG_NORMAL DBG_LIGHT_GRAY __VA_ARGS__)
 
-extern conn_t *dbg_conn;
+extern uint16_t dbg_port;
 
-void dbg_init(conn_t *conn);
+void dbg_init(uint16_t port);
+void dbg_panic(void);
 
 void dbg_putchr(char chr);
 void dbg_putstr(const char *str);
