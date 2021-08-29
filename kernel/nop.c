@@ -1,7 +1,7 @@
 #include <boot/tinyboot.h>
 #include <nop/page.h>
 #include <nop/prog.h>
-// #include <nop/syst.h>
+#include <nop/syst.h>
 #include <nop/virt.h>
 #include <nop/ata.h>
 #include <nop/dbg.h>
@@ -44,23 +44,22 @@ void nop(tb_mem_t *mem_table, tb_vid_t *vid_table) {
   ata_init();
   fat_init();
   prog_init();
+  syst_init();
   
   dbg_infof("hello, world!\n");
   dbg_infof("config.txt cluster: 0x%08X\n", fat_find(0, 0, NULL, "config.txt"));
   
-  // int init_id = syst_open("0:/syst/init.txt");
+  int init_id = syst_open("0:/syst/init.txt");
   
-  // if (!init_id) {
-  //   dbg_failf("could not open 0:/syst/init.txt\n");
-  //   dbg_panic();
-  // }
+  if (!init_id) {
+    dbg_failf("could not open 0:/syst/init.txt\n");
+    dbg_panic();
+  }
   
-  char prog_buf[PATH_MAX];
+  char prog_buf[FAT_PATH_MAX];
   int prog_len = 0;
   
   char c;
-  
-  /*
   
   while (syst_read(init_id, &c, 1)) {
     prog_buf[prog_len] = '\0';
@@ -74,35 +73,15 @@ void nop(tb_mem_t *mem_table, tb_vid_t *vid_table) {
           dbg_panic();
         }
         
-        syst_send(prog_id, "INIT", vid_table);
+        syst_send(prog_id, "INIT", (uint32_t)(vid_table), 0, 0);
       }
       
       prog_len = 0;
-    } else if (prog_len < PATH_MAX - 1) {
+    } else if (prog_len < FAT_PATH_MAX - 1) {
       prog_buf[prog_len++] = c;
     }
   }
   
   syst_clos(init_id);
-  */
-  
-  for (;;);
-  
-  prog_t prog = (prog_t){
-    virt_table,
-    test_1,
-    0, 0, 1
-  };
-  
-  int id_1 = prog_push(prog);
-  
-  prog.buffer = test_2;
-  
-  int id_2 = prog_push(prog);
-  
-  prog.buffer = test_3;
-  
-  int id_3 = prog_push(prog);
-  
   for (;;);
 }

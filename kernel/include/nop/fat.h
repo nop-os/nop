@@ -1,6 +1,8 @@
 #ifndef __NOP_FAT_H__
 #define __NOP_FAT_H__
 
+#define FAT_PATH_MAX 256
+
 #include <nop/type.h>
 
 typedef struct fat_boot_t fat_boot_t;

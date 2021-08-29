@@ -7,6 +7,7 @@
 
 prog_t *prog_arr = NULL;
 size_t prog_idx = 0;
+int prog_id = 0;
 
 void prog_init(void) {
   prog_arr = mem_alloc(PROG_MAX * sizeof(prog_t));
@@ -34,8 +35,6 @@ int prog_push(prog_t prog) {
       prog_arr[i] = prog;
       prog_arr[i].free = 0;
       
-      virt_map(prog_arr[i].virt_table, VIRT_NOP_ADDR, VIRT_NOP_ADDR, VIRT_WRITE, VIRT_NOP_SIZE);
-      
       return i + 1;
     }
   }
@@ -43,28 +42,39 @@ int prog_push(prog_t prog) {
   return 0;
 }
 
-int prog_call(uint32_t type, void *data, int id) {
+uint32_t prog_call(int id, uint32_t type, uint32_t data_1, uint32_t data_2, uint32_t data_3) {
   if (!id) {
     return 0;
   }
   
-  int (*func)(uint32_t, void *) = (void *)(prog_arr[id - 1].buffer);
+  int (*func)(uint32_t, uint32_t, uint32_t, uint32_t) = (void *)(prog_arr[id - 1].start);
+  
+  int old_id = prog_id;
+  prog_id = id;
   
   virt_load(prog_arr[id - 1].virt_table);
-  int value = func(type, data);
+  uint32_t value = func(type, data_1, data_2, data_3);
   
   virt_load(virt_table);
+  
+  prog_id = old_id;
   return value;
 }
 
 void prog_tick(i586_regs_t *regs, idt_hand_t *hand) {
+  virt_load(virt_table);
+  
   if (!prog_arr) {
     return;
   }
     
   for (int i = 0; i < PROG_MAX; i++) {
     if (!prog_arr[i].free && prog_arr[i].tick) {
-      prog_call(0x4B434954, NULL, i + 1);
+      prog_call(0x4B434954, 0, 0, 0, i + 1);
     }
+  }
+  
+  if (prog_id) {
+    virt_load(prog_arr[prog_id - 1].virt_table);
   }
 }
