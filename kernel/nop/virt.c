@@ -42,7 +42,7 @@ void virt_map(uint32_t *table, void *phys_addr, void *virt_addr, uint32_t flags,
   uint32_t page = (uint32_t)(virt_addr) >> 12;
 
   for (uint32_t i = page; i < page + count; i++) {
-    table[PAGE_TABLE_COUNT + i] = (((uint32_t)(phys_addr) & 0xFFFFF000) + (i << 12)) | flags | VIRT_PRESENT;
+    table[PAGE_TABLE_COUNT + i] = (((uint32_t)(phys_addr) & 0xFFFFF000) + ((i - page) << 12)) | flags | VIRT_PRESENT;
   }
 }
 

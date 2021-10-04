@@ -352,7 +352,6 @@ i586_set_cr3:
 
 i586_clr_cr3:
   pushad
-  mov edi, [esp + 32 + 4]
   mov eax, cr0
   and eax, 0x7FFFFFFF
   mov cr0, eax

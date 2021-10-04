@@ -50,15 +50,15 @@ uint32_t prog_call(int id, uint32_t type, uint32_t data_1, uint32_t data_2, uint
   
   int (*func)(uint32_t, uint32_t, uint32_t, uint32_t) = prog_arr[id - 1].start;
   
-  dbg_infof("prog: mapping %d bytes of memory at 0x%08X\n", prog_arr[id - 1].size, prog_arr[id - 1].buffer);
+  dbg_infof("prog: mapping %d pages of memory at 0x%08X to 0x%08X\n", (prog_arr[id - 1].size + 0x0FFF) >> 12, prog_arr[id - 1].buffer, VIRT_NOP_PROG);
   
   int old_id = prog_id;
   prog_id = id;
   
   // TODO: make faster by allocating virtual memory maps!
   
-  // FIXME: WHYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY
   virt_map(virt_table, prog_arr[id - 1].buffer, (void *)(VIRT_NOP_PROG), VIRT_WRITE, (prog_arr[id - 1].size + 0x0FFF) >> 12);
+  virt_load(virt_table);
   
   for (int i = 0; i < 16; i++) {
     dbg_printf("%02X ", ((uint8_t *)(prog_arr[id - 1].buffer))[i]);
@@ -79,6 +79,7 @@ uint32_t prog_call(int id, uint32_t type, uint32_t data_1, uint32_t data_2, uint
   
   if (old_id) {
     virt_map(virt_table, prog_arr[old_id - 1].buffer, (void *)(VIRT_NOP_PROG), VIRT_WRITE, (prog_arr[old_id - 1].size + 0x0FFF) >> 12);
+    virt_load(virt_table);
   }
   
   prog_id = old_id;
