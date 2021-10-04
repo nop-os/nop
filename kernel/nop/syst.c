@@ -39,13 +39,9 @@ void syst_call(i586_regs_t *regs, idt_hand_t *hand) {
     return;  
   }
   
-  void *buffer = NULL;
-  
   switch (regs->eax) {
     case SYST_LOAD:
-      buffer = virt_clone(prog_arr[prog_id - 1].virt_table, (void *)(regs->ebx), virt_strlen(prog_arr[prog_id - 1].virt_table, (void *)(regs->ebx)));
-      regs->eax = (uint32_t)(syst_load(buffer));
-      mem_free(buffer);
+      regs->eax = (uint32_t)(syst_load((void *)(regs->ebx)));
       break;
     case SYST_KILL:
       syst_kill(regs->ebx);
@@ -66,22 +62,16 @@ void syst_call(i586_regs_t *regs, idt_hand_t *hand) {
       syst_free((void *)(regs->ebx));
       break;
     case SYST_OPEN:
-      buffer = virt_clone(prog_arr[prog_id - 1].virt_table, (void *)(regs->ebx), virt_strlen(prog_arr[prog_id - 1].virt_table, (void *)(regs->ebx)));
-      regs->eax = (uint32_t)(syst_open(buffer));
-      mem_free(buffer);
+      regs->eax = (uint32_t)(syst_open((void *)(regs->ebx)));
       break;
     case SYST_CLOS:
       syst_clos(regs->ebx);
       break;
     case SYST_READ:
-      buffer = virt_clone(prog_arr[prog_id - 1].virt_table, (void *)(regs->ecx), regs->edx);
-      regs->eax = (uint32_t)(syst_read(regs->ebx, buffer, regs->edx));
-      mem_free(buffer);
+      regs->eax = (uint32_t)(syst_read(regs->ebx, (void *)(regs->ecx), regs->edx));
       break;
     case SYST_WRIT:
-      buffer = virt_clone(prog_arr[prog_id - 1].virt_table, (void *)(regs->ecx), regs->edx);
-      regs->eax = (uint32_t)(syst_writ(regs->ebx, buffer, regs->edx));
-      mem_free(buffer);
+      regs->eax = (uint32_t)(syst_writ(regs->ebx, (void *)(regs->ecx), regs->edx));
       break;
     case SYST_SEEK:
       syst_seek(regs->ebx, regs->ecx, regs->edx);
@@ -96,9 +86,7 @@ void syst_call(i586_regs_t *regs, idt_hand_t *hand) {
       syst_size(regs->ebx, regs->ecx);
       break;
     case SYST_DELE:
-      buffer = virt_clone(prog_arr[prog_id - 1].virt_table, (void *)(regs->ebx), virt_strlen(prog_arr[prog_id - 1].virt_table, (void *)(regs->ebx)));
-      syst_dele(buffer);
-      mem_free(buffer);
+      syst_dele((void *)(regs->ebx));
       break;
   }
 }
@@ -115,8 +103,7 @@ int syst_load(const char *path) {
     if (prog_arr[i].free) {
       size_t size = (fat_size(part, cluster) * fat_parts[part].boot.cluster_size) << 9;
       
-      prog_arr[i].virt_table = virt_alloc();
-      prog_arr[i].buffer = (void *)(page_alloc((size + 0x01FF) >> 12));
+      prog_arr[i].buffer = (void *)(page_alloc((size + 0x0FFF) >> 12));
       prog_arr[i].size = size;
       prog_arr[i].free = 0;
       prog_arr[i].tick = 0;
@@ -134,11 +121,8 @@ int syst_load(const char *path) {
         dbg_panic();
       }
       
-      prog_arr[i].start = (void *)(nex_header[2] + 12);
+      prog_arr[i].start = (void *)(VIRT_NOP_PROG + 8);
       memcpy(prog_arr[i].name, nex_header + 1, 4);
-      
-      virt_map(prog_arr[i].virt_table, VIRT_NOP_ADDR, VIRT_NOP_ADDR, VIRT_WRITE, VIRT_NOP_SIZE);
-      virt_map(prog_arr[i].virt_table, prog_arr[i].buffer, (void *)(nex_header[2]), VIRT_WRITE, (size + 0x01FF) >> 12);
       
       return i + 1;
     }
@@ -149,21 +133,30 @@ int syst_load(const char *path) {
 
 void syst_kill(int id) {
   if (id > 0 && id <= PROG_MAX) {
-    virt_free(prog_arr[id - 1].virt_table);
-    page_free(prog_arr[id - 1].buffer, (prog_arr[id - 1].size + 0x01FF) >> 12);
+    page_free(prog_arr[id - 1].buffer, (prog_arr[id - 1].size + 0x0FFF) >> 12);
     prog_arr[id - 1].free = 1;
   }
 }
 
-void   syst_paus(int id, int pause); // disables message receiving
-int    syst_list(void); // returns file descriptor with list of programs AND partitions
+void syst_paus(int id, int pause) {
+  
+}
+
+int syst_list(void) {
+  
+}
 
 void syst_time(int id, int enable) {
   
 }
 
-int    syst_requ(void *ptr); // requests a 4 KiB page...
-void   syst_free(void *ptr); // ...and frees it
+int syst_requ(void *ptr) {
+  
+}
+
+void syst_free(void *ptr) {
+  
+}
 
 int syst_open(const char *path) {
   fat_node_t node;
@@ -199,16 +192,45 @@ int syst_open(const char *path) {
 }
 
 void syst_clos(int id) {
-  if (id > 0 && id <= SYST_OPEN_MAX) {
-    page_free(syst_files[id - 1].buffer, (syst_files[id - 1].size + 0x01FF) >> 12);
-    syst_files[id - 1].free = 1;
-  }
+  if (id <= 0 || id > SYST_OPEN_MAX) return;
+  
+  page_free(syst_files[id - 1].buffer, (syst_files[id - 1].size + 0x01FF) >> 12);
+  syst_files[id - 1].free = 1;
 }
 
-size_t syst_read(int id, void *buffer, size_t size);
-size_t syst_writ(int id, void *buffer, size_t size);
-void   syst_seek(int id, size_t offset, int mode);
-size_t syst_tell(int id);
-int    syst_stat(int id, int new_stat); // will only be set if != -1, otherwise just return stat
-void   syst_size(int id, size_t size);
-void   syst_dele(const char *path);
+size_t syst_read(int id, void *buffer, size_t size) {
+  if (id <= 0 || id > SYST_OPEN_MAX) return 0;
+  
+  if (size > syst_files[id - 1].size - syst_files[id - 1].offset) {
+    size = syst_files[id - 1].size - syst_files[id - 1].offset;
+  }
+  
+  memcpy(buffer, syst_files[id - 1].buffer + syst_files[id - 1].offset, size);
+  syst_files[id - 1].offset += size;
+  
+  return size;
+}
+
+size_t syst_writ(int id, void *buffer, size_t size) {
+  
+}
+
+void syst_seek(int id, size_t offset, int mode) {
+  
+}
+
+size_t syst_tell(int id) {
+  
+}
+
+int syst_stat(int id, int new_stat) {
+  
+}
+
+void syst_size(int id, size_t size) {
+  
+}
+
+void syst_dele(const char *path) {
+  
+}

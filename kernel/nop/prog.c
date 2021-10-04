@@ -2,6 +2,7 @@
 #include <nop/prog.h>
 #include <nop/type.h>
 #include <nop/virt.h>
+#include <nop/dbg.h>
 #include <nop/idt.h>
 #include <nop/mem.h>
 
@@ -47,23 +48,44 @@ uint32_t prog_call(int id, uint32_t type, uint32_t data_1, uint32_t data_2, uint
     return 0;
   }
   
-  int (*func)(uint32_t, uint32_t, uint32_t, uint32_t) = (void *)(prog_arr[id - 1].start);
+  int (*func)(uint32_t, uint32_t, uint32_t, uint32_t) = prog_arr[id - 1].start;
+  
+  dbg_infof("prog: mapping %d bytes of memory at 0x%08X\n", prog_arr[id - 1].size, prog_arr[id - 1].buffer);
   
   int old_id = prog_id;
   prog_id = id;
   
-  virt_load(prog_arr[id - 1].virt_table);
+  // TODO: make faster by allocating virtual memory maps!
+  
+  // FIXME: WHYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY
+  virt_map(virt_table, prog_arr[id - 1].buffer, (void *)(VIRT_NOP_PROG), VIRT_WRITE, (prog_arr[id - 1].size + 0x0FFF) >> 12);
+  
+  for (int i = 0; i < 16; i++) {
+    dbg_printf("%02X ", ((uint8_t *)(prog_arr[id - 1].buffer))[i]);
+  }
+  
+  dbg_printf("\n");
+  
+  for (int i = 0; i < 16; i++) {
+    dbg_printf("%02X ", ((uint8_t *)(VIRT_NOP_PROG))[i]);
+  }
+  
+  dbg_printf("\n");
+  
+  dbg_infof("prog: calling 0x%08X\n", prog_arr[id - 1].start);
   uint32_t value = func(type, data_1, data_2, data_3);
   
-  virt_load(virt_table);
+  dbg_infof("prog: returned\n");
+  
+  if (old_id) {
+    virt_map(virt_table, prog_arr[old_id - 1].buffer, (void *)(VIRT_NOP_PROG), VIRT_WRITE, (prog_arr[old_id - 1].size + 0x0FFF) >> 12);
+  }
   
   prog_id = old_id;
   return value;
 }
 
 void prog_tick(i586_regs_t *regs, idt_hand_t *hand) {
-  virt_load(virt_table);
-  
   if (!prog_arr) {
     return;
   }
@@ -72,9 +94,5 @@ void prog_tick(i586_regs_t *regs, idt_hand_t *hand) {
     if (!prog_arr[i].free && prog_arr[i].tick) {
       prog_call(0x4B434954, 0, 0, 0, i + 1);
     }
-  }
-  
-  if (prog_id) {
-    virt_load(prog_arr[prog_id - 1].virt_table);
   }
 }

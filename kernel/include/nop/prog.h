@@ -7,10 +7,12 @@
 
 #define PROG_MAX 64
 
+#define PROG_INIT 0x54494E49
+#define PROG_TICK 0x4B434954
+
 typedef struct prog_t prog_t;
 
 struct prog_t {
-  uint32_t *virt_table;
   char name[4];
   
   void *buffer, *start;

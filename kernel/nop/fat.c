@@ -116,8 +116,8 @@ uint32_t fat_find(int part, uint32_t directory, fat_node_t *node, const char *pa
   if (!path) return directory;
   if (!strlen(path)) return directory;
   
-  if (path[0] == ' ' || path[0] == '/') return fat_find(part, directory, node, path++);
-  if (path[strlen(path) - 1] == ' ' || path[strlen(path) - 1] == '/') return fat_find(part, directory, node, path++);
+  if (path[0] == ' ' || path[0] == '/') return fat_find(part, directory, node, ++path);
+  if (path[strlen(path) - 1] == ' ' || path[strlen(path) - 1] == '/') return fat_find(part, directory, node, ++path);
   
   if (!directory) return fat_find(part, fat_parts[part].boot.root_cluster, node, path);
   

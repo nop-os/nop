@@ -53,13 +53,3 @@ void virt_unmap(uint32_t *table, void *virt_addr, size_t count) {
     table[PAGE_TABLE_COUNT + i] = 0x00000000;
   }
 }
-
-void *virt_virt(uint32_t *table, void *real) {
-  // TODO
-  return real;
-}
-
-void *virt_real(uint32_t *table, void *virt) {
-  // TODO
-  return virt;
-}

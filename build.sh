@@ -13,6 +13,11 @@ cd kernel
   sh build.sh
 cd ..
 
+# Build programs
+cd apps
+  sh build.sh
+cd ..
+
 # Generate the image
 mkdir -p mnt
 dd if=/dev/zero of=nop.img count=131072

@@ -10,7 +10,7 @@
 #include <nop/mem.h>
 
 int test_1(uint32_t type, void *data) {
-  if (type == 0x4B434954) {
+  if (type == PROG_TICK) {
     dbg_infof("hey, i'm program number 1!\n");
   }
   
@@ -18,7 +18,7 @@ int test_1(uint32_t type, void *data) {
 }
 
 int test_2(uint32_t type, void *data) {
-  if (type == 0x4B434954) {
+  if (type == PROG_TICK) {
     dbg_infof("hey, i'm program number 2!\n");
   }
   
@@ -26,7 +26,7 @@ int test_2(uint32_t type, void *data) {
 }
 
 int test_3(uint32_t type, void *data) {
-  if (type == 0x4B434954) {
+  if (type == PROG_TICK) {
     dbg_infof("hey, i'm program number 3!\n");
   }
   
@@ -51,7 +51,7 @@ void nop(tb_mem_t *mem_table, tb_vid_t *vid_table) {
   
   int init_id = syst_open("0:/syst/init.txt");
   
-  if (!init_id) {
+  if (init_id <= 0 || init_id > SYST_OPEN_MAX) {
     dbg_failf("could not open 0:/syst/init.txt\n");
     dbg_panic();
   }
@@ -68,12 +68,12 @@ void nop(tb_mem_t *mem_table, tb_vid_t *vid_table) {
       if (prog_len) {
         int prog_id = syst_load(prog_buf);
       
-        if (!prog_id) {
+        if (prog_id <= 0 || prog_id > SYST_OPEN_MAX) {
           dbg_failf("could not open %s\n", prog_buf);
           dbg_panic();
         }
         
-        syst_send(prog_id, "INIT", (uint32_t)(vid_table), 0, 0);
+        prog_call(prog_id, PROG_INIT, (uint32_t)(vid_table), 0, 0);
       }
       
       prog_len = 0;
@@ -81,6 +81,8 @@ void nop(tb_mem_t *mem_table, tb_vid_t *vid_table) {
       prog_buf[prog_len++] = c;
     }
   }
+  
+  dbg_infof("done reading 0:/syst/init.txt!\n");
   
   syst_clos(init_id);
   for (;;);
