@@ -37,6 +37,8 @@ void nop(tb_mem_t *mem_table, tb_vid_t *vid_table) {
   
   char c;
   
+  dbg_infof("config buffer: 0x%08X\n", syst_files[init_id - 1].buffer);
+  
   while (syst_read(init_id, &c, 1)) {
     prog_buf[prog_len] = '\0';
     
@@ -57,7 +59,6 @@ void nop(tb_mem_t *mem_table, tb_vid_t *vid_table) {
       prog_buf[prog_len++] = c;
     }
   }
-  
   dbg_infof("done reading 0:/syst/init.txt!\n");
   
   syst_clos(init_id);

@@ -44,7 +44,7 @@ int prog_push(prog_t prog) {
 }
 
 uint32_t prog_call(int id, uint32_t type, uint32_t data_1, uint32_t data_2, uint32_t data_3) {
-  if (!id) {
+  if (id <= 0 || id > PROG_MAX) {
     return 0;
   }
   
@@ -52,7 +52,7 @@ uint32_t prog_call(int id, uint32_t type, uint32_t data_1, uint32_t data_2, uint
     return 0;
   }
   
-  int (*func)(uint32_t, uint32_t, uint32_t, uint32_t) = prog_arr[id - 1].start;
+  int (*func)(int, uint32_t, uint32_t, uint32_t, uint32_t) = prog_arr[id - 1].start;
   
   int old_id = prog_id;
   prog_id = id;
@@ -62,7 +62,7 @@ uint32_t prog_call(int id, uint32_t type, uint32_t data_1, uint32_t data_2, uint
   virt_map(virt_table, prog_arr[id - 1].buffer, (void *)(VIRT_NOP_PROG), VIRT_WRITE, (prog_arr[id - 1].size + 0x0FFF) >> 12);
   virt_load(virt_table);
   
-  uint32_t value = func(type, data_1, data_2, data_3);
+  uint32_t value = func(id, type, data_1, data_2, data_3);
   
   if (old_id) {
     virt_map(virt_table, prog_arr[old_id - 1].buffer, (void *)(VIRT_NOP_PROG), VIRT_WRITE, (prog_arr[old_id - 1].size + 0x0FFF) >> 12);

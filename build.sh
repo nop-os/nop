@@ -13,8 +13,13 @@ cd kernel
   sh build.sh
 cd ..
 
+# Build libnop
+cd libnop
+  sh build.sh
+cd ..
+
 # Build programs
-cd apps
+cd prog
   sh build.sh
 cd ..
 

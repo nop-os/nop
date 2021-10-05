@@ -34,8 +34,6 @@ void syst_init(void) {
 }
 
 void syst_call(i586_regs_t *regs, idt_hand_t *hand) {
-  dbg_infof("syst: %d: sent 0x%08X to %d\n", prog_id, regs->eax, regs->edi);
-  
   if (regs->edi) {
     regs->eax = prog_call(regs->edi, regs->eax, regs->ebx, regs->ecx, regs->edx);
     return;  
@@ -52,16 +50,16 @@ void syst_call(i586_regs_t *regs, idt_hand_t *hand) {
       syst_paus(regs->ebx, regs->ecx);
       break;
     case SYST_LIST:
-      regs->eax = (uint32_t)(syst_list());
+      regs->eax = (uint32_t)(syst_list(regs->ebx, (void *)(regs->ecx), (void *)(regs->edx)));
       break;
     case SYST_TIME:
       syst_time(regs->ebx, regs->ecx);
       break;
     case SYST_REQU:
-      regs->eax = (uint32_t)(syst_requ((void *)(regs->ebx)));
+      regs->eax = (uint32_t)(syst_requ(regs->ebx));
       break;
     case SYST_FREE:
-      syst_free((void *)(regs->ebx));
+      syst_free((void *)(regs->ebx), regs->ecx);
       break;
     case SYST_OPEN:
       regs->eax = (uint32_t)(syst_open((void *)(regs->ebx)));
@@ -97,6 +95,7 @@ int syst_load(const char *path) {
   fat_node_t node;
   
   int part = path[0] - '0';
+  dbg_infof("syst: %d: load program '%s'\n", prog_id, path);
   
   uint32_t cluster = fat_find(part, 0, &node, path + 2);
   if (cluster == 0x0FFFFFFF) return 0;
@@ -134,6 +133,8 @@ int syst_load(const char *path) {
 }
 
 void syst_kill(int id) {
+  dbg_infof("syst: %d: kill program %d\n", prog_id, id);
+  
   if (id > 0 && id <= PROG_MAX) {
     page_free(prog_arr[id - 1].buffer, (prog_arr[id - 1].size + 0x0FFF) >> 12);
     prog_arr[id - 1].free = 1;
@@ -141,34 +142,59 @@ void syst_kill(int id) {
 }
 
 void syst_paus(int id, int pause) {
+  // TODO: implement PAUS
   
+  dbg_failf("syst: %d: PAUS not implemented\n", prog_id);
+  dbg_panic();
 }
 
-int syst_list(void) {
-  
-}
-
-void syst_time(int id, int enable) {
-  if (id <= 0) {
+int syst_list(int id, char *name, size_t *size) {
+  if (id <= 0 || id > PROG_MAX) {
     id = prog_id;
   }
   
-  dbg_infof("syst: set timer of %d to %d\n", id, enable);
+  dbg_infof("syst: %d: listing %d\n", prog_id, id);
+  
+  memcpy(name, prog_arr[id - 1].name, 4);
+  ((char *)(name))[4] = '\0';
+  
+  *size = (size_t)(prog_arr[id - 1].size);
+  
+  if (id == PROG_MAX) {
+    return 0;
+  } else if (prog_arr[id].free) {
+    return 0;
+  } else {
+    return id + 1;
+  }
+}
+
+void syst_time(int id, int enable) {
+  if (id <= 0 || id > PROG_MAX) {
+    id = prog_id;
+  }
+  
+  dbg_infof("syst: %d: set timer of %d to %d\n", prog_id, id, enable);
   prog_arr[id - 1].tick = enable;
 }
 
-int syst_requ(void *ptr) {
+void *syst_requ(size_t count) {
+  dbg_infof("syst: %d: allocate %d pages\n", prog_id, count);
   
+  if (!count) return NULL;
+  return page_alloc(count);
 }
 
-void syst_free(void *ptr) {
-  
+void syst_free(void *ptr, size_t count) {
+  dbg_infof("syst: %d: free %d pages at 0x%08X\n", prog_id, count, ptr);
+  page_free(ptr, count);
 }
 
 int syst_open(const char *path) {
   fat_node_t node;
   
   int part = path[0] - '0';
+  dbg_infof("syst: %d: open file '%s'\n", prog_id, path);
   
   uint32_t cluster = fat_find(part, 0, &node, path + 2);
   if (cluster == 0x0FFFFFFF) return 0;
@@ -178,7 +204,7 @@ int syst_open(const char *path) {
       strncpy(syst_files[i].path, path, FAT_PATH_MAX - 1);
       syst_files[i].path[FAT_PATH_MAX - 1] = '\0';
       
-      syst_files[i].buffer = page_alloc((node.size + 0x01FF) >> 12);
+      syst_files[i].buffer = page_alloc((node.size + 0x0FFF) >> 12);
       syst_files[i].size = node.size;
       syst_files[i].offset = 0;
       syst_files[i].free = 0;
@@ -199,6 +225,8 @@ int syst_open(const char *path) {
 }
 
 void syst_clos(int id) {
+  dbg_infof("syst: %d: close file %d\n", prog_id, id);
+  
   if (id <= 0 || id > SYST_OPEN_MAX) return;
   if (syst_files[id - 1].free) return;
   
@@ -207,6 +235,8 @@ void syst_clos(int id) {
 }
 
 size_t syst_read(int id, void *buffer, size_t size) {
+  dbg_infof("syst: %d: read %d bytes from file %d to 0x%08X\n", prog_id, size, id, buffer);
+  
   if (id <= 0 || id > SYST_OPEN_MAX) return 0;
   if (syst_files[id - 1].free) return 0;
   
@@ -221,10 +251,17 @@ size_t syst_read(int id, void *buffer, size_t size) {
 }
 
 size_t syst_writ(int id, void *buffer, size_t size) {
+  // TODO: implement WRIT
   
+  dbg_failf("syst: %d: WRIT not implemented\n", prog_id);
+  dbg_panic();
+  
+  return 0; // does nothing!
 }
 
 void syst_seek(int id, size_t offset, int mode) {
+  dbg_infof("syst: %d: seek file %d to offset %d, mode %d\n", prog_id, id, offset, mode);
+  
   if (id <= 0 || id > SYST_OPEN_MAX) return;
   if (syst_files[id - 1].free) return;
   
@@ -238,6 +275,8 @@ void syst_seek(int id, size_t offset, int mode) {
 }
 
 size_t syst_tell(int id) {
+  dbg_infof("syst: %d: tell offset of file %d\n", prog_id, id);
+  
   if (id <= 0 || id > SYST_OPEN_MAX) return 0;
   if (syst_files[id - 1].free) return 0;
   
@@ -245,6 +284,12 @@ size_t syst_tell(int id) {
 }
 
 int syst_stat(int id, int new_stat) {
+  if (new_stat == -1) {
+    dbg_infof("syst: %d: get stat of file %d\n", prog_id, id);
+  } else {
+    dbg_infof("syst: %d: set stat of file %d to %d\n", prog_id, id, new_stat);
+  }
+  
   if (id <= 0 || id > SYST_OPEN_MAX) return 0;
   if (syst_files[id - 1].free) return 0;
   
@@ -256,9 +301,15 @@ int syst_stat(int id, int new_stat) {
 }
 
 void syst_size(int id, size_t size) {
+  // TODO: implement SIZE
   
+  dbg_failf("syst: %d: SIZE not implemented\n", prog_id);
+  dbg_panic();
 }
 
 void syst_dele(const char *path) {
+  // TODO: implement DELE
   
+  dbg_failf("syst: %d: DELE not implemented\n", prog_id);
+  dbg_panic();
 }

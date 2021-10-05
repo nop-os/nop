@@ -71,7 +71,6 @@ void *page_alloc(size_t count) {
   }
 
   page_used += (count * PAGE_SIZE);
-
   return (void *)(page * PAGE_SIZE);
 }
 

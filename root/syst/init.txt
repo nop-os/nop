@@ -1,1 +1,4 @@
-0:/syst/init.nex
+0:/prog/vide.nex
+0:/prog/videterm.nex
+
+0:/prog/shel.nex

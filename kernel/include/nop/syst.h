@@ -54,21 +54,21 @@ extern size_t syst_index;
 void syst_init(void);
 void syst_call(i586_regs_t *regs, idt_hand_t *hand);
 
-int    syst_load(const char *path);
-void   syst_kill(int id);
-void   syst_paus(int id, int pause); // disables message receiving
-int    syst_list(void); // returns file descriptor with list of programs
-void   syst_time(int id, int enable); // enables message every tick(TICK)
-int    syst_requ(void *ptr); // requests a 4 KiB page...
-void   syst_free(void *ptr); // ...and frees it
-int    syst_open(const char *path);
-void   syst_clos(int id);
-size_t syst_read(int id, void *buffer, size_t size);
-size_t syst_writ(int id, void *buffer, size_t size);
-void   syst_seek(int id, size_t offset, int mode);
-size_t syst_tell(int id);
-int    syst_stat(int id, int new_stat); // will only be set if != -1, otherwise just return stat
-void   syst_size(int id, size_t size); // resizes file(increase or decrease)
-void   syst_dele(const char *path);
+int     syst_load(const char *path);
+void    syst_kill(int id);
+void    syst_paus(int id, int pause); // disables message receiving
+int     syst_list(int id, char *name, size_t *size); // requests info about a program, returns next in list
+void    syst_time(int id, int enable); // enables message every tick(TICK)
+void   *syst_requ(size_t count); // requests a block of memory...
+void    syst_free(void *ptr, size_t count); // ...and frees it
+int     syst_open(const char *path);
+void    syst_clos(int id);
+size_t  syst_read(int id, void *buffer, size_t size);
+size_t  syst_writ(int id, void *buffer, size_t size);
+void    syst_seek(int id, size_t offset, int mode);
+size_t  syst_tell(int id);
+int     syst_stat(int id, int new_stat); // will only be set if != -1, otherwise just return stat
+void    syst_size(int id, size_t size); // resizes file(increase or decrease)
+void    syst_dele(const char *path);
 
 #endif
