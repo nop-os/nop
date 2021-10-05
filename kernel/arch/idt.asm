@@ -1805,7 +1805,7 @@ idt_list:
 idt_hand_0:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 0
   push eax
   call idt_call
@@ -1816,7 +1816,7 @@ idt_hand_0:
 idt_hand_1:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 1
   push eax
   call idt_call
@@ -1827,7 +1827,7 @@ idt_hand_1:
 idt_hand_2:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 2
   push eax
   call idt_call
@@ -1838,7 +1838,7 @@ idt_hand_2:
 idt_hand_3:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 3
   push eax
   call idt_call
@@ -1849,7 +1849,7 @@ idt_hand_3:
 idt_hand_4:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 4
   push eax
   call idt_call
@@ -1860,7 +1860,7 @@ idt_hand_4:
 idt_hand_5:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 5
   push eax
   call idt_call
@@ -1871,7 +1871,7 @@ idt_hand_5:
 idt_hand_6:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 6
   push eax
   call idt_call
@@ -1882,7 +1882,7 @@ idt_hand_6:
 idt_hand_7:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 7
   push eax
   call idt_call
@@ -1893,7 +1893,7 @@ idt_hand_7:
 idt_hand_8:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 8
   push eax
   call idt_call
@@ -1904,7 +1904,7 @@ idt_hand_8:
 idt_hand_9:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 9
   push eax
   call idt_call
@@ -1915,7 +1915,7 @@ idt_hand_9:
 idt_hand_10:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 10
   push eax
   call idt_call
@@ -1926,7 +1926,7 @@ idt_hand_10:
 idt_hand_11:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 11
   push eax
   call idt_call
@@ -1937,7 +1937,7 @@ idt_hand_11:
 idt_hand_12:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 12
   push eax
   call idt_call
@@ -1948,7 +1948,7 @@ idt_hand_12:
 idt_hand_13:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 13
   push eax
   call idt_call
@@ -1959,7 +1959,7 @@ idt_hand_13:
 idt_hand_14:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 14
   push eax
   call idt_call
@@ -1970,7 +1970,7 @@ idt_hand_14:
 idt_hand_15:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 15
   push eax
   call idt_call
@@ -1981,7 +1981,7 @@ idt_hand_15:
 idt_hand_16:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 16
   push eax
   call idt_call
@@ -1992,7 +1992,7 @@ idt_hand_16:
 idt_hand_17:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 17
   push eax
   call idt_call
@@ -2003,7 +2003,7 @@ idt_hand_17:
 idt_hand_18:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 18
   push eax
   call idt_call
@@ -2014,7 +2014,7 @@ idt_hand_18:
 idt_hand_19:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 19
   push eax
   call idt_call
@@ -2025,7 +2025,7 @@ idt_hand_19:
 idt_hand_20:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 20
   push eax
   call idt_call
@@ -2036,7 +2036,7 @@ idt_hand_20:
 idt_hand_21:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 21
   push eax
   call idt_call
@@ -2047,7 +2047,7 @@ idt_hand_21:
 idt_hand_22:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 22
   push eax
   call idt_call
@@ -2058,7 +2058,7 @@ idt_hand_22:
 idt_hand_23:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 23
   push eax
   call idt_call
@@ -2069,7 +2069,7 @@ idt_hand_23:
 idt_hand_24:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 24
   push eax
   call idt_call
@@ -2080,7 +2080,7 @@ idt_hand_24:
 idt_hand_25:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 25
   push eax
   call idt_call
@@ -2091,7 +2091,7 @@ idt_hand_25:
 idt_hand_26:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 26
   push eax
   call idt_call
@@ -2102,7 +2102,7 @@ idt_hand_26:
 idt_hand_27:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 27
   push eax
   call idt_call
@@ -2113,7 +2113,7 @@ idt_hand_27:
 idt_hand_28:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 28
   push eax
   call idt_call
@@ -2124,7 +2124,7 @@ idt_hand_28:
 idt_hand_29:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 29
   push eax
   call idt_call
@@ -2135,7 +2135,7 @@ idt_hand_29:
 idt_hand_30:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 30
   push eax
   call idt_call
@@ -2146,7 +2146,7 @@ idt_hand_30:
 idt_hand_31:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 31
   push eax
   call idt_call
@@ -2157,7 +2157,7 @@ idt_hand_31:
 idt_hand_32:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 32
   push eax
   call idt_call
@@ -2171,7 +2171,7 @@ idt_hand_32:
 idt_hand_33:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 33
   push eax
   call idt_call
@@ -2185,7 +2185,7 @@ idt_hand_33:
 idt_hand_34:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 34
   push eax
   call idt_call
@@ -2199,7 +2199,7 @@ idt_hand_34:
 idt_hand_35:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 35
   push eax
   call idt_call
@@ -2213,7 +2213,7 @@ idt_hand_35:
 idt_hand_36:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 36
   push eax
   call idt_call
@@ -2227,7 +2227,7 @@ idt_hand_36:
 idt_hand_37:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 37
   push eax
   call idt_call
@@ -2241,7 +2241,7 @@ idt_hand_37:
 idt_hand_38:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 38
   push eax
   call idt_call
@@ -2255,7 +2255,7 @@ idt_hand_38:
 idt_hand_39:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 39
   push eax
   call idt_call
@@ -2269,7 +2269,7 @@ idt_hand_39:
 idt_hand_40:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 40
   push eax
   call idt_call
@@ -2285,7 +2285,7 @@ idt_hand_40:
 idt_hand_41:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 41
   push eax
   call idt_call
@@ -2301,7 +2301,7 @@ idt_hand_41:
 idt_hand_42:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 42
   push eax
   call idt_call
@@ -2317,7 +2317,7 @@ idt_hand_42:
 idt_hand_43:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 43
   push eax
   call idt_call
@@ -2333,7 +2333,7 @@ idt_hand_43:
 idt_hand_44:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 44
   push eax
   call idt_call
@@ -2349,7 +2349,7 @@ idt_hand_44:
 idt_hand_45:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 45
   push eax
   call idt_call
@@ -2365,7 +2365,7 @@ idt_hand_45:
 idt_hand_46:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 46
   push eax
   call idt_call
@@ -2381,7 +2381,7 @@ idt_hand_46:
 idt_hand_47:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 47
   push eax
   call idt_call
@@ -2397,7 +2397,7 @@ idt_hand_47:
 idt_hand_48:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 48
   push eax
   call idt_call
@@ -2408,7 +2408,7 @@ idt_hand_48:
 idt_hand_49:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 49
   push eax
   call idt_call
@@ -2419,7 +2419,7 @@ idt_hand_49:
 idt_hand_50:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 50
   push eax
   call idt_call
@@ -2430,7 +2430,7 @@ idt_hand_50:
 idt_hand_51:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 51
   push eax
   call idt_call
@@ -2441,7 +2441,7 @@ idt_hand_51:
 idt_hand_52:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 52
   push eax
   call idt_call
@@ -2452,7 +2452,7 @@ idt_hand_52:
 idt_hand_53:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 53
   push eax
   call idt_call
@@ -2463,7 +2463,7 @@ idt_hand_53:
 idt_hand_54:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 54
   push eax
   call idt_call
@@ -2474,7 +2474,7 @@ idt_hand_54:
 idt_hand_55:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 55
   push eax
   call idt_call
@@ -2485,7 +2485,7 @@ idt_hand_55:
 idt_hand_56:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 56
   push eax
   call idt_call
@@ -2496,7 +2496,7 @@ idt_hand_56:
 idt_hand_57:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 57
   push eax
   call idt_call
@@ -2507,7 +2507,7 @@ idt_hand_57:
 idt_hand_58:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 58
   push eax
   call idt_call
@@ -2518,7 +2518,7 @@ idt_hand_58:
 idt_hand_59:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 59
   push eax
   call idt_call
@@ -2529,7 +2529,7 @@ idt_hand_59:
 idt_hand_60:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 60
   push eax
   call idt_call
@@ -2540,7 +2540,7 @@ idt_hand_60:
 idt_hand_61:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 61
   push eax
   call idt_call
@@ -2551,7 +2551,7 @@ idt_hand_61:
 idt_hand_62:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 62
   push eax
   call idt_call
@@ -2562,7 +2562,7 @@ idt_hand_62:
 idt_hand_63:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 63
   push eax
   call idt_call
@@ -2573,7 +2573,7 @@ idt_hand_63:
 idt_hand_64:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 64
   push eax
   call idt_call
@@ -2584,7 +2584,7 @@ idt_hand_64:
 idt_hand_65:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 65
   push eax
   call idt_call
@@ -2595,7 +2595,7 @@ idt_hand_65:
 idt_hand_66:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 66
   push eax
   call idt_call
@@ -2606,7 +2606,7 @@ idt_hand_66:
 idt_hand_67:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 67
   push eax
   call idt_call
@@ -2617,7 +2617,7 @@ idt_hand_67:
 idt_hand_68:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 68
   push eax
   call idt_call
@@ -2628,7 +2628,7 @@ idt_hand_68:
 idt_hand_69:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 69
   push eax
   call idt_call
@@ -2639,7 +2639,7 @@ idt_hand_69:
 idt_hand_70:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 70
   push eax
   call idt_call
@@ -2650,7 +2650,7 @@ idt_hand_70:
 idt_hand_71:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 71
   push eax
   call idt_call
@@ -2661,7 +2661,7 @@ idt_hand_71:
 idt_hand_72:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 72
   push eax
   call idt_call
@@ -2672,7 +2672,7 @@ idt_hand_72:
 idt_hand_73:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 73
   push eax
   call idt_call
@@ -2683,7 +2683,7 @@ idt_hand_73:
 idt_hand_74:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 74
   push eax
   call idt_call
@@ -2694,7 +2694,7 @@ idt_hand_74:
 idt_hand_75:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 75
   push eax
   call idt_call
@@ -2705,7 +2705,7 @@ idt_hand_75:
 idt_hand_76:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 76
   push eax
   call idt_call
@@ -2716,7 +2716,7 @@ idt_hand_76:
 idt_hand_77:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 77
   push eax
   call idt_call
@@ -2727,7 +2727,7 @@ idt_hand_77:
 idt_hand_78:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 78
   push eax
   call idt_call
@@ -2738,7 +2738,7 @@ idt_hand_78:
 idt_hand_79:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 79
   push eax
   call idt_call
@@ -2749,7 +2749,7 @@ idt_hand_79:
 idt_hand_80:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 80
   push eax
   call idt_call
@@ -2760,7 +2760,7 @@ idt_hand_80:
 idt_hand_81:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 81
   push eax
   call idt_call
@@ -2771,7 +2771,7 @@ idt_hand_81:
 idt_hand_82:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 82
   push eax
   call idt_call
@@ -2782,7 +2782,7 @@ idt_hand_82:
 idt_hand_83:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 83
   push eax
   call idt_call
@@ -2793,7 +2793,7 @@ idt_hand_83:
 idt_hand_84:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 84
   push eax
   call idt_call
@@ -2804,7 +2804,7 @@ idt_hand_84:
 idt_hand_85:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 85
   push eax
   call idt_call
@@ -2815,7 +2815,7 @@ idt_hand_85:
 idt_hand_86:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 86
   push eax
   call idt_call
@@ -2826,7 +2826,7 @@ idt_hand_86:
 idt_hand_87:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 87
   push eax
   call idt_call
@@ -2837,7 +2837,7 @@ idt_hand_87:
 idt_hand_88:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 88
   push eax
   call idt_call
@@ -2848,7 +2848,7 @@ idt_hand_88:
 idt_hand_89:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 89
   push eax
   call idt_call
@@ -2859,7 +2859,7 @@ idt_hand_89:
 idt_hand_90:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 90
   push eax
   call idt_call
@@ -2870,7 +2870,7 @@ idt_hand_90:
 idt_hand_91:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 91
   push eax
   call idt_call
@@ -2881,7 +2881,7 @@ idt_hand_91:
 idt_hand_92:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 92
   push eax
   call idt_call
@@ -2892,7 +2892,7 @@ idt_hand_92:
 idt_hand_93:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 93
   push eax
   call idt_call
@@ -2903,7 +2903,7 @@ idt_hand_93:
 idt_hand_94:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 94
   push eax
   call idt_call
@@ -2914,7 +2914,7 @@ idt_hand_94:
 idt_hand_95:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 95
   push eax
   call idt_call
@@ -2925,7 +2925,7 @@ idt_hand_95:
 idt_hand_96:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 96
   push eax
   call idt_call
@@ -2936,7 +2936,7 @@ idt_hand_96:
 idt_hand_97:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 97
   push eax
   call idt_call
@@ -2947,7 +2947,7 @@ idt_hand_97:
 idt_hand_98:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 98
   push eax
   call idt_call
@@ -2958,7 +2958,7 @@ idt_hand_98:
 idt_hand_99:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 99
   push eax
   call idt_call
@@ -2969,7 +2969,7 @@ idt_hand_99:
 idt_hand_100:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 100
   push eax
   call idt_call
@@ -2980,7 +2980,7 @@ idt_hand_100:
 idt_hand_101:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 101
   push eax
   call idt_call
@@ -2991,7 +2991,7 @@ idt_hand_101:
 idt_hand_102:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 102
   push eax
   call idt_call
@@ -3002,7 +3002,7 @@ idt_hand_102:
 idt_hand_103:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 103
   push eax
   call idt_call
@@ -3013,7 +3013,7 @@ idt_hand_103:
 idt_hand_104:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 104
   push eax
   call idt_call
@@ -3024,7 +3024,7 @@ idt_hand_104:
 idt_hand_105:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 105
   push eax
   call idt_call
@@ -3035,7 +3035,7 @@ idt_hand_105:
 idt_hand_106:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 106
   push eax
   call idt_call
@@ -3046,7 +3046,7 @@ idt_hand_106:
 idt_hand_107:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 107
   push eax
   call idt_call
@@ -3057,7 +3057,7 @@ idt_hand_107:
 idt_hand_108:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 108
   push eax
   call idt_call
@@ -3068,7 +3068,7 @@ idt_hand_108:
 idt_hand_109:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 109
   push eax
   call idt_call
@@ -3079,7 +3079,7 @@ idt_hand_109:
 idt_hand_110:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 110
   push eax
   call idt_call
@@ -3090,7 +3090,7 @@ idt_hand_110:
 idt_hand_111:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 111
   push eax
   call idt_call
@@ -3101,7 +3101,7 @@ idt_hand_111:
 idt_hand_112:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 112
   push eax
   call idt_call
@@ -3112,7 +3112,7 @@ idt_hand_112:
 idt_hand_113:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 113
   push eax
   call idt_call
@@ -3123,7 +3123,7 @@ idt_hand_113:
 idt_hand_114:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 114
   push eax
   call idt_call
@@ -3134,7 +3134,7 @@ idt_hand_114:
 idt_hand_115:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 115
   push eax
   call idt_call
@@ -3145,7 +3145,7 @@ idt_hand_115:
 idt_hand_116:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 116
   push eax
   call idt_call
@@ -3156,7 +3156,7 @@ idt_hand_116:
 idt_hand_117:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 117
   push eax
   call idt_call
@@ -3167,7 +3167,7 @@ idt_hand_117:
 idt_hand_118:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 118
   push eax
   call idt_call
@@ -3178,7 +3178,7 @@ idt_hand_118:
 idt_hand_119:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 119
   push eax
   call idt_call
@@ -3189,7 +3189,7 @@ idt_hand_119:
 idt_hand_120:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 120
   push eax
   call idt_call
@@ -3200,7 +3200,7 @@ idt_hand_120:
 idt_hand_121:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 121
   push eax
   call idt_call
@@ -3211,7 +3211,7 @@ idt_hand_121:
 idt_hand_122:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 122
   push eax
   call idt_call
@@ -3222,7 +3222,7 @@ idt_hand_122:
 idt_hand_123:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 123
   push eax
   call idt_call
@@ -3233,7 +3233,7 @@ idt_hand_123:
 idt_hand_124:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 124
   push eax
   call idt_call
@@ -3244,7 +3244,7 @@ idt_hand_124:
 idt_hand_125:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 125
   push eax
   call idt_call
@@ -3255,7 +3255,7 @@ idt_hand_125:
 idt_hand_126:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 126
   push eax
   call idt_call
@@ -3266,7 +3266,7 @@ idt_hand_126:
 idt_hand_127:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 127
   push eax
   call idt_call
@@ -3277,7 +3277,7 @@ idt_hand_127:
 idt_hand_128:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 128
   push eax
   call idt_call
@@ -3288,7 +3288,7 @@ idt_hand_128:
 idt_hand_129:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 129
   push eax
   call idt_call
@@ -3299,7 +3299,7 @@ idt_hand_129:
 idt_hand_130:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 130
   push eax
   call idt_call
@@ -3310,7 +3310,7 @@ idt_hand_130:
 idt_hand_131:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 131
   push eax
   call idt_call
@@ -3321,7 +3321,7 @@ idt_hand_131:
 idt_hand_132:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 132
   push eax
   call idt_call
@@ -3332,7 +3332,7 @@ idt_hand_132:
 idt_hand_133:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 133
   push eax
   call idt_call
@@ -3343,7 +3343,7 @@ idt_hand_133:
 idt_hand_134:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 134
   push eax
   call idt_call
@@ -3354,7 +3354,7 @@ idt_hand_134:
 idt_hand_135:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 135
   push eax
   call idt_call
@@ -3365,7 +3365,7 @@ idt_hand_135:
 idt_hand_136:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 136
   push eax
   call idt_call
@@ -3376,7 +3376,7 @@ idt_hand_136:
 idt_hand_137:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 137
   push eax
   call idt_call
@@ -3387,7 +3387,7 @@ idt_hand_137:
 idt_hand_138:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 138
   push eax
   call idt_call
@@ -3398,7 +3398,7 @@ idt_hand_138:
 idt_hand_139:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 139
   push eax
   call idt_call
@@ -3409,7 +3409,7 @@ idt_hand_139:
 idt_hand_140:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 140
   push eax
   call idt_call
@@ -3420,7 +3420,7 @@ idt_hand_140:
 idt_hand_141:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 141
   push eax
   call idt_call
@@ -3431,7 +3431,7 @@ idt_hand_141:
 idt_hand_142:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 142
   push eax
   call idt_call
@@ -3442,7 +3442,7 @@ idt_hand_142:
 idt_hand_143:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 143
   push eax
   call idt_call
@@ -3453,7 +3453,7 @@ idt_hand_143:
 idt_hand_144:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 144
   push eax
   call idt_call
@@ -3464,7 +3464,7 @@ idt_hand_144:
 idt_hand_145:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 145
   push eax
   call idt_call
@@ -3475,7 +3475,7 @@ idt_hand_145:
 idt_hand_146:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 146
   push eax
   call idt_call
@@ -3486,7 +3486,7 @@ idt_hand_146:
 idt_hand_147:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 147
   push eax
   call idt_call
@@ -3497,7 +3497,7 @@ idt_hand_147:
 idt_hand_148:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 148
   push eax
   call idt_call
@@ -3508,7 +3508,7 @@ idt_hand_148:
 idt_hand_149:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 149
   push eax
   call idt_call
@@ -3519,7 +3519,7 @@ idt_hand_149:
 idt_hand_150:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 150
   push eax
   call idt_call
@@ -3530,7 +3530,7 @@ idt_hand_150:
 idt_hand_151:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 151
   push eax
   call idt_call
@@ -3541,7 +3541,7 @@ idt_hand_151:
 idt_hand_152:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 152
   push eax
   call idt_call
@@ -3552,7 +3552,7 @@ idt_hand_152:
 idt_hand_153:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 153
   push eax
   call idt_call
@@ -3563,7 +3563,7 @@ idt_hand_153:
 idt_hand_154:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 154
   push eax
   call idt_call
@@ -3574,7 +3574,7 @@ idt_hand_154:
 idt_hand_155:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 155
   push eax
   call idt_call
@@ -3585,7 +3585,7 @@ idt_hand_155:
 idt_hand_156:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 156
   push eax
   call idt_call
@@ -3596,7 +3596,7 @@ idt_hand_156:
 idt_hand_157:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 157
   push eax
   call idt_call
@@ -3607,7 +3607,7 @@ idt_hand_157:
 idt_hand_158:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 158
   push eax
   call idt_call
@@ -3618,7 +3618,7 @@ idt_hand_158:
 idt_hand_159:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 159
   push eax
   call idt_call
@@ -3629,7 +3629,7 @@ idt_hand_159:
 idt_hand_160:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 160
   push eax
   call idt_call
@@ -3640,7 +3640,7 @@ idt_hand_160:
 idt_hand_161:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 161
   push eax
   call idt_call
@@ -3651,7 +3651,7 @@ idt_hand_161:
 idt_hand_162:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 162
   push eax
   call idt_call
@@ -3662,7 +3662,7 @@ idt_hand_162:
 idt_hand_163:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 163
   push eax
   call idt_call
@@ -3673,7 +3673,7 @@ idt_hand_163:
 idt_hand_164:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 164
   push eax
   call idt_call
@@ -3684,7 +3684,7 @@ idt_hand_164:
 idt_hand_165:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 165
   push eax
   call idt_call
@@ -3695,7 +3695,7 @@ idt_hand_165:
 idt_hand_166:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 166
   push eax
   call idt_call
@@ -3706,7 +3706,7 @@ idt_hand_166:
 idt_hand_167:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 167
   push eax
   call idt_call
@@ -3717,7 +3717,7 @@ idt_hand_167:
 idt_hand_168:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 168
   push eax
   call idt_call
@@ -3728,7 +3728,7 @@ idt_hand_168:
 idt_hand_169:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 169
   push eax
   call idt_call
@@ -3739,7 +3739,7 @@ idt_hand_169:
 idt_hand_170:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 170
   push eax
   call idt_call
@@ -3750,7 +3750,7 @@ idt_hand_170:
 idt_hand_171:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 171
   push eax
   call idt_call
@@ -3761,7 +3761,7 @@ idt_hand_171:
 idt_hand_172:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 172
   push eax
   call idt_call
@@ -3772,7 +3772,7 @@ idt_hand_172:
 idt_hand_173:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 173
   push eax
   call idt_call
@@ -3783,7 +3783,7 @@ idt_hand_173:
 idt_hand_174:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 174
   push eax
   call idt_call
@@ -3794,7 +3794,7 @@ idt_hand_174:
 idt_hand_175:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 175
   push eax
   call idt_call
@@ -3805,7 +3805,7 @@ idt_hand_175:
 idt_hand_176:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 176
   push eax
   call idt_call
@@ -3816,7 +3816,7 @@ idt_hand_176:
 idt_hand_177:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 177
   push eax
   call idt_call
@@ -3827,7 +3827,7 @@ idt_hand_177:
 idt_hand_178:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 178
   push eax
   call idt_call
@@ -3838,7 +3838,7 @@ idt_hand_178:
 idt_hand_179:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 179
   push eax
   call idt_call
@@ -3849,7 +3849,7 @@ idt_hand_179:
 idt_hand_180:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 180
   push eax
   call idt_call
@@ -3860,7 +3860,7 @@ idt_hand_180:
 idt_hand_181:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 181
   push eax
   call idt_call
@@ -3871,7 +3871,7 @@ idt_hand_181:
 idt_hand_182:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 182
   push eax
   call idt_call
@@ -3882,7 +3882,7 @@ idt_hand_182:
 idt_hand_183:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 183
   push eax
   call idt_call
@@ -3893,7 +3893,7 @@ idt_hand_183:
 idt_hand_184:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 184
   push eax
   call idt_call
@@ -3904,7 +3904,7 @@ idt_hand_184:
 idt_hand_185:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 185
   push eax
   call idt_call
@@ -3915,7 +3915,7 @@ idt_hand_185:
 idt_hand_186:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 186
   push eax
   call idt_call
@@ -3926,7 +3926,7 @@ idt_hand_186:
 idt_hand_187:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 187
   push eax
   call idt_call
@@ -3937,7 +3937,7 @@ idt_hand_187:
 idt_hand_188:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 188
   push eax
   call idt_call
@@ -3948,7 +3948,7 @@ idt_hand_188:
 idt_hand_189:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 189
   push eax
   call idt_call
@@ -3959,7 +3959,7 @@ idt_hand_189:
 idt_hand_190:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 190
   push eax
   call idt_call
@@ -3970,7 +3970,7 @@ idt_hand_190:
 idt_hand_191:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 191
   push eax
   call idt_call
@@ -3981,7 +3981,7 @@ idt_hand_191:
 idt_hand_192:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 192
   push eax
   call idt_call
@@ -3992,7 +3992,7 @@ idt_hand_192:
 idt_hand_193:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 193
   push eax
   call idt_call
@@ -4003,7 +4003,7 @@ idt_hand_193:
 idt_hand_194:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 194
   push eax
   call idt_call
@@ -4014,7 +4014,7 @@ idt_hand_194:
 idt_hand_195:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 195
   push eax
   call idt_call
@@ -4025,7 +4025,7 @@ idt_hand_195:
 idt_hand_196:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 196
   push eax
   call idt_call
@@ -4036,7 +4036,7 @@ idt_hand_196:
 idt_hand_197:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 197
   push eax
   call idt_call
@@ -4047,7 +4047,7 @@ idt_hand_197:
 idt_hand_198:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 198
   push eax
   call idt_call
@@ -4058,7 +4058,7 @@ idt_hand_198:
 idt_hand_199:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 199
   push eax
   call idt_call
@@ -4069,7 +4069,7 @@ idt_hand_199:
 idt_hand_200:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 200
   push eax
   call idt_call
@@ -4080,7 +4080,7 @@ idt_hand_200:
 idt_hand_201:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 201
   push eax
   call idt_call
@@ -4091,7 +4091,7 @@ idt_hand_201:
 idt_hand_202:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 202
   push eax
   call idt_call
@@ -4102,7 +4102,7 @@ idt_hand_202:
 idt_hand_203:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 203
   push eax
   call idt_call
@@ -4113,7 +4113,7 @@ idt_hand_203:
 idt_hand_204:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 204
   push eax
   call idt_call
@@ -4124,7 +4124,7 @@ idt_hand_204:
 idt_hand_205:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 205
   push eax
   call idt_call
@@ -4135,7 +4135,7 @@ idt_hand_205:
 idt_hand_206:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 206
   push eax
   call idt_call
@@ -4146,7 +4146,7 @@ idt_hand_206:
 idt_hand_207:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 207
   push eax
   call idt_call
@@ -4157,7 +4157,7 @@ idt_hand_207:
 idt_hand_208:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 208
   push eax
   call idt_call
@@ -4168,7 +4168,7 @@ idt_hand_208:
 idt_hand_209:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 209
   push eax
   call idt_call
@@ -4179,7 +4179,7 @@ idt_hand_209:
 idt_hand_210:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 210
   push eax
   call idt_call
@@ -4190,7 +4190,7 @@ idt_hand_210:
 idt_hand_211:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 211
   push eax
   call idt_call
@@ -4201,7 +4201,7 @@ idt_hand_211:
 idt_hand_212:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 212
   push eax
   call idt_call
@@ -4212,7 +4212,7 @@ idt_hand_212:
 idt_hand_213:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 213
   push eax
   call idt_call
@@ -4223,7 +4223,7 @@ idt_hand_213:
 idt_hand_214:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 214
   push eax
   call idt_call
@@ -4234,7 +4234,7 @@ idt_hand_214:
 idt_hand_215:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 215
   push eax
   call idt_call
@@ -4245,7 +4245,7 @@ idt_hand_215:
 idt_hand_216:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 216
   push eax
   call idt_call
@@ -4256,7 +4256,7 @@ idt_hand_216:
 idt_hand_217:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 217
   push eax
   call idt_call
@@ -4267,7 +4267,7 @@ idt_hand_217:
 idt_hand_218:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 218
   push eax
   call idt_call
@@ -4278,7 +4278,7 @@ idt_hand_218:
 idt_hand_219:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 219
   push eax
   call idt_call
@@ -4289,7 +4289,7 @@ idt_hand_219:
 idt_hand_220:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 220
   push eax
   call idt_call
@@ -4300,7 +4300,7 @@ idt_hand_220:
 idt_hand_221:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 221
   push eax
   call idt_call
@@ -4311,7 +4311,7 @@ idt_hand_221:
 idt_hand_222:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 222
   push eax
   call idt_call
@@ -4322,7 +4322,7 @@ idt_hand_222:
 idt_hand_223:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 223
   push eax
   call idt_call
@@ -4333,7 +4333,7 @@ idt_hand_223:
 idt_hand_224:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 224
   push eax
   call idt_call
@@ -4344,7 +4344,7 @@ idt_hand_224:
 idt_hand_225:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 225
   push eax
   call idt_call
@@ -4355,7 +4355,7 @@ idt_hand_225:
 idt_hand_226:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 226
   push eax
   call idt_call
@@ -4366,7 +4366,7 @@ idt_hand_226:
 idt_hand_227:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 227
   push eax
   call idt_call
@@ -4377,7 +4377,7 @@ idt_hand_227:
 idt_hand_228:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 228
   push eax
   call idt_call
@@ -4388,7 +4388,7 @@ idt_hand_228:
 idt_hand_229:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 229
   push eax
   call idt_call
@@ -4399,7 +4399,7 @@ idt_hand_229:
 idt_hand_230:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 230
   push eax
   call idt_call
@@ -4410,7 +4410,7 @@ idt_hand_230:
 idt_hand_231:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 231
   push eax
   call idt_call
@@ -4421,7 +4421,7 @@ idt_hand_231:
 idt_hand_232:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 232
   push eax
   call idt_call
@@ -4432,7 +4432,7 @@ idt_hand_232:
 idt_hand_233:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 233
   push eax
   call idt_call
@@ -4443,7 +4443,7 @@ idt_hand_233:
 idt_hand_234:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 234
   push eax
   call idt_call
@@ -4454,7 +4454,7 @@ idt_hand_234:
 idt_hand_235:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 235
   push eax
   call idt_call
@@ -4465,7 +4465,7 @@ idt_hand_235:
 idt_hand_236:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 236
   push eax
   call idt_call
@@ -4476,7 +4476,7 @@ idt_hand_236:
 idt_hand_237:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 237
   push eax
   call idt_call
@@ -4487,7 +4487,7 @@ idt_hand_237:
 idt_hand_238:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 238
   push eax
   call idt_call
@@ -4498,7 +4498,7 @@ idt_hand_238:
 idt_hand_239:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 239
   push eax
   call idt_call
@@ -4509,7 +4509,7 @@ idt_hand_239:
 idt_hand_240:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 240
   push eax
   call idt_call
@@ -4520,7 +4520,7 @@ idt_hand_240:
 idt_hand_241:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 241
   push eax
   call idt_call
@@ -4531,7 +4531,7 @@ idt_hand_241:
 idt_hand_242:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 242
   push eax
   call idt_call
@@ -4542,7 +4542,7 @@ idt_hand_242:
 idt_hand_243:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 243
   push eax
   call idt_call
@@ -4553,7 +4553,7 @@ idt_hand_243:
 idt_hand_244:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 244
   push eax
   call idt_call
@@ -4564,7 +4564,7 @@ idt_hand_244:
 idt_hand_245:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 245
   push eax
   call idt_call
@@ -4575,7 +4575,7 @@ idt_hand_245:
 idt_hand_246:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 246
   push eax
   call idt_call
@@ -4586,7 +4586,7 @@ idt_hand_246:
 idt_hand_247:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 247
   push eax
   call idt_call
@@ -4597,7 +4597,7 @@ idt_hand_247:
 idt_hand_248:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 248
   push eax
   call idt_call
@@ -4608,7 +4608,7 @@ idt_hand_248:
 idt_hand_249:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 249
   push eax
   call idt_call
@@ -4619,7 +4619,7 @@ idt_hand_249:
 idt_hand_250:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 250
   push eax
   call idt_call
@@ -4630,7 +4630,7 @@ idt_hand_250:
 idt_hand_251:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 251
   push eax
   call idt_call
@@ -4641,7 +4641,7 @@ idt_hand_251:
 idt_hand_252:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 252
   push eax
   call idt_call
@@ -4652,7 +4652,7 @@ idt_hand_252:
 idt_hand_253:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 253
   push eax
   call idt_call
@@ -4663,7 +4663,7 @@ idt_hand_253:
 idt_hand_254:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 254
   push eax
   call idt_call
@@ -4674,7 +4674,7 @@ idt_hand_254:
 idt_hand_255:
   pushad
   mov eax, esp
-  add eax, (9 * 4)
+  ; add eax, (9 * 4)
   push dword 255
   push eax
   call idt_call

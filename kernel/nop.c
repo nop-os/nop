@@ -9,30 +9,6 @@
 #include <nop/idt.h>
 #include <nop/mem.h>
 
-int test_1(uint32_t type, void *data) {
-  if (type == PROG_TICK) {
-    dbg_infof("hey, i'm program number 1!\n");
-  }
-  
-  return 0;
-}
-
-int test_2(uint32_t type, void *data) {
-  if (type == PROG_TICK) {
-    dbg_infof("hey, i'm program number 2!\n");
-  }
-  
-  return 0;
-}
-
-int test_3(uint32_t type, void *data) {
-  if (type == PROG_TICK) {
-    dbg_infof("hey, i'm program number 3!\n");
-  }
-  
-  return 0;
-}
-
 __attribute__((__section__(".entry"), __used__))
 void nop(tb_mem_t *mem_table, tb_vid_t *vid_table) {
   dbg_init(0x03F8);

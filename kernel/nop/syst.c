@@ -34,6 +34,8 @@ void syst_init(void) {
 }
 
 void syst_call(i586_regs_t *regs, idt_hand_t *hand) {
+  dbg_infof("syst: %d: sent 0x%08X to %d\n", prog_id, regs->eax, regs->edi);
+  
   if (regs->edi) {
     regs->eax = prog_call(regs->edi, regs->eax, regs->ebx, regs->ecx, regs->edx);
     return;  
@@ -147,7 +149,12 @@ int syst_list(void) {
 }
 
 void syst_time(int id, int enable) {
+  if (id <= 0) {
+    id = prog_id;
+  }
   
+  dbg_infof("syst: set timer of %d to %d\n", id, enable);
+  prog_arr[id - 1].tick = enable;
 }
 
 int syst_requ(void *ptr) {
@@ -193,6 +200,7 @@ int syst_open(const char *path) {
 
 void syst_clos(int id) {
   if (id <= 0 || id > SYST_OPEN_MAX) return;
+  if (syst_files[id - 1].free) return;
   
   page_free(syst_files[id - 1].buffer, (syst_files[id - 1].size + 0x01FF) >> 12);
   syst_files[id - 1].free = 1;
@@ -200,6 +208,7 @@ void syst_clos(int id) {
 
 size_t syst_read(int id, void *buffer, size_t size) {
   if (id <= 0 || id > SYST_OPEN_MAX) return 0;
+  if (syst_files[id - 1].free) return 0;
   
   if (size > syst_files[id - 1].size - syst_files[id - 1].offset) {
     size = syst_files[id - 1].size - syst_files[id - 1].offset;
@@ -216,15 +225,34 @@ size_t syst_writ(int id, void *buffer, size_t size) {
 }
 
 void syst_seek(int id, size_t offset, int mode) {
+  if (id <= 0 || id > SYST_OPEN_MAX) return;
+  if (syst_files[id - 1].free) return;
   
+  if (mode == SYST_SEEK_ZERO) {
+    syst_files[id - 1].offset = offset;
+  } else if (mode == SYST_SEEK_OFFS) {
+    syst_files[id - 1].offset += offset;
+  } else {
+    syst_files[id - 1].offset = syst_files[id - 1].size - offset;
+  }
 }
 
 size_t syst_tell(int id) {
+  if (id <= 0 || id > SYST_OPEN_MAX) return 0;
+  if (syst_files[id - 1].free) return 0;
   
+  return syst_files[id - 1].offset;
 }
 
 int syst_stat(int id, int new_stat) {
+  if (id <= 0 || id > SYST_OPEN_MAX) return 0;
+  if (syst_files[id - 1].free) return 0;
   
+  if (new_stat != -1) {
+    syst_files[id - 1].stat = new_stat;
+  }
+  
+  return syst_files[id - 1].stat;
 }
 
 void syst_size(int id, size_t size) {

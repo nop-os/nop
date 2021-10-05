@@ -1,21 +1,36 @@
-MIT License
+Copyright segfaultdev, 2021
 
-Copyright (c) 2021 segfaultdev
+This project is distributed with the nop license version 1.0:
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+Distribution of this project, with or without modification, is permitted as
+long as this license and file are not modified and publicly available along
+with the rest of the project, attribution to the author(s) is kept/added and
+publicly available and the source code is also made publicly available with the
+project. Additionally, all of the files that were originally provided with the
+project must keep this license, although additional files can use other
+licenses. Finally, the author(s) will always have the right to determine if
+the terms of the license are not met, forcing the distributors to stop
+distributing the content or to change the content accordingly to meet the
+terms.
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+Meanings:
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+- Author(s): Whoever created the original version of the program and its
+  contributors, although the main creator will always have priority in
+  decisions. This does include creators and contributors of forks and
+  redistributions, although with a lower priority than the original creator and
+  its contributors in decisions.
+
+- Redistributions: Unmodified copies of the project made public by someone that
+  is not the original author.
+
+- Forks: Modified copies of the project available made public by someone that
+  is not the original author.
+
+Modifying the license:
+
+Creating a custom license based off of the nop license is allowed as long as
+all authors excluding creators and contributors of forks and redistributions
+give their own consent to do so. However, the custom license must have a
+different name to this one. Renaming an existing version of the license is
+not allowed either, so a new license must be created.

@@ -1,21 +1,21 @@
 # nop
 
-nop is a simple educational kernel made to be as small and simple to understand as possible, while being a fully complete kernel.
-
+nop is a simple educational x86 kernel made to be as small and simple to understand as possible, while being a fully complete kernel.
 It should be able to run in any Pentium CPU or better, and it uses a custom bootloader called tinyboot.
 
 This project is made just for fun, and any help would be appreciated, so feel free to help us! (see "Contributions")
 
 ## Design
 
-nop doesn't try to be another \*nix operative system, by instead using our own original designs, our own path structure and the use of the UD2 instruction to generate syscalls, as faster options were not present in original Pentium CPUs.
+nop could be described as an insecure microkernel, as the kernel is really small and almost all drivers and programs run in userspace, but that userspace is actually running in ring 0, giving access to everything.
+It has a very unique syscall and IPC design, merging those two together, and calling syscalls by sending IPC messages to a fake running program with ID 0.
 
-As a result of our goal of running on old processors, we are also limited to 32-bit protected mode, although that also makes the design simpler, making it more understandable.
+It's not multitasking, but multiple programs can be loaded into memory at the same time, so some level of multitasking can be implemented by setting up event handlers that trigger each 10ms tick in each program.
+The kernel runs in 32-bit protected mode, in order to be able to run in older computers.
 
 ## Why nop?
 
 `nop` is an assembly instruction present on almost every ISA ever designed, and it does absolutely nothing. It can be used as a placeholder for other instructions, for alignment purposes or for timing.
-
 This instruction was just a random choice, it just sounded nice :).
 
 ## How to build nop
@@ -33,29 +33,24 @@ Once built, you can test it with QEMU like this:
 ```sh
 # From nop's directory:
 
-qemu-system-i386 -hda nop.img -m 64M
+qemu-system-i386 -hda nop.img -m 64M -serial /dev/tty -device sb16
 ```
 
 ## TODO
 
-(keep in mind nop has recently been restarted from scratch as the codebase was a bit too messy)
+- [x] Memory management
+- [x] IPC and syscalls
+- [x] ATA PIO and FAT32 reading
+- [x] Parsing and running programs
+- [ ] FAT32 writing
 
-- [x] PMM
-- [x] VMM
-- [x] Kernel heap allocator
-- [x] IDT
-- [x] Connection API
-- [x] PCI enumerator
-- [x] Serial port connector
-- [x] Framebuffer connector
-- [ ] ATA PIO connector
-- [ ] ELF loading
-- [ ] Simple "userland" shell
-- [ ] SoundBlaster 16 connector
+- [ ] PS/2 keyboard driver
+- [ ] Framebuffer driver
+- [ ] Shell
 
 ## License
 
-This project uses the MIT license, as this is just an educational project for people to learn from.
+This project uses the nop license, check LICENSE for more information.
 
 ## Contributions
 
