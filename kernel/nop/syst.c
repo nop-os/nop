@@ -88,6 +88,9 @@ void syst_call(i586_regs_t *regs, idt_hand_t *hand) {
     case SYST_DELE:
       syst_dele((void *)(regs->ebx));
       break;
+    case SYST_PHYS:
+      regs->eax = (uint32_t)(syst_phys(regs->ebx, (void *)(regs->ecx)));
+      break;
   }
 }
 
@@ -155,10 +158,14 @@ int syst_list(int id, char *name, size_t *size) {
   
   dbg_infof("syst: %d: listing %d\n", prog_id, id);
   
-  memcpy(name, prog_arr[id - 1].name, 4);
-  ((char *)(name))[4] = '\0';
+  if (name) {
+    memcpy(name, prog_arr[id - 1].name, 4);
+    ((char *)(name))[4] = '\0';
+  }
   
-  *size = (size_t)(prog_arr[id - 1].size);
+  if (size) {
+    *size = (size_t)(prog_arr[id - 1].size);
+  }
   
   if (id == PROG_MAX) {
     return 0;
@@ -312,4 +319,13 @@ void syst_dele(const char *path) {
   
   dbg_failf("syst: %d: DELE not implemented\n", prog_id);
   dbg_panic();
+}
+
+void *syst_phys(int id, void *addr) {
+  if (id <= 0 || id > PROG_MAX) {
+    id = prog_id;
+  }
+  
+  dbg_infof("syst: %d: converted program %d address 0x%08X to 0x%08X\n", prog_id, id, addr, ((uint32_t)(addr) - VIRT_NOP_PROG) + (uint32_t)(prog_arr[id - 1].buffer));
+  return (void *)(((uint32_t)(addr) - VIRT_NOP_PROG) + (uint32_t)(prog_arr[id - 1].buffer));
 }

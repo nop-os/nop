@@ -62,7 +62,7 @@ uint32_t prog_call(int id, uint32_t type, uint32_t data_1, uint32_t data_2, uint
   virt_map(virt_table, prog_arr[id - 1].buffer, (void *)(VIRT_NOP_PROG), VIRT_WRITE, (prog_arr[id - 1].size + 0x0FFF) >> 12);
   virt_load(virt_table);
   
-  uint32_t value = func(id, type, data_1, data_2, data_3);
+  uint32_t value = func(old_id, type, data_1, data_2, data_3);
   
   if (old_id) {
     virt_map(virt_table, prog_arr[old_id - 1].buffer, (void *)(VIRT_NOP_PROG), VIRT_WRITE, (prog_arr[old_id - 1].size + 0x0FFF) >> 12);

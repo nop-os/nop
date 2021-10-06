@@ -34,6 +34,7 @@
 #define SYST_STAT 0x54415453
 #define SYST_SIZE 0x455A4953
 #define SYST_DELE 0x454C4544
+#define SYST_PHYS 0x53594850
 
 #include <nop/type.h>
 #include <nop/fat.h>
@@ -70,5 +71,6 @@ size_t  syst_tell(int id);
 int     syst_stat(int id, int new_stat); // will only be set if != -1, otherwise just return stat
 void    syst_size(int id, size_t size); // resizes file(increase or decrease)
 void    syst_dele(const char *path);
+void   *syst_phys(int id, void *addr);
 
 #endif

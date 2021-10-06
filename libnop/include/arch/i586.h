@@ -61,4 +61,6 @@ extern void i586_cli(void);
 
 extern void i586_lidt(const void *edi);
 
+extern uint32_t i586_send(uint32_t eax, uint32_t ebx, uint32_t ecx, uint32_t edx, uint32_t edi);
+
 #endif

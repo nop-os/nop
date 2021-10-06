@@ -52,7 +52,7 @@ global i586_cli
 
 global i586_lidt
 
-global i586_call
+global i586_send
 
 ; Implementations(see i586/instr.h for more info):
 
@@ -377,3 +377,20 @@ i586_lidt:
   dw 0x0800
 .idt:
   dd 0x00000000
+  
+i586_send:
+  push ebx
+  push ecx
+  push edx
+  push edi
+  mov eax, [esp + 16 +  4]
+  mov ebx, [esp + 16 +  8]
+  mov ecx, [esp + 16 + 12]
+  mov edx, [esp + 16 + 16]
+  mov edi, [esp + 16 + 20]
+  int 0x30
+  pop edi
+  pop edx
+  pop ecx
+  pop ebx
+  ret
