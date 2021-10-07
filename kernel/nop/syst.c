@@ -27,13 +27,18 @@ void syst_init(void) {
   idt_hand_t hand = (idt_hand_t){
     syst_call,
     NULL,
-    0x30
+    IDT_NOP_BASE
   };
   
   syst_index = idt_add(hand);
 }
 
 void syst_call(i586_regs_t *regs, idt_hand_t *hand) {
+  if (hand->id != IDT_NOP_BASE) {
+    prog_call((int)(hand->data), PROG_TRIG, (uint32_t)(regs), hand->id, 0);
+    return;
+  }
+  
   if (regs->edi) {
     regs->eax = prog_call(regs->edi, regs->eax, regs->ebx, regs->ecx, regs->edx);
     return;  
@@ -91,6 +96,12 @@ void syst_call(i586_regs_t *regs, idt_hand_t *hand) {
     case SYST_PHYS:
       regs->eax = (uint32_t)(syst_phys(regs->ebx, (void *)(regs->ecx)));
       break;
+    case SYST_HOOK:
+      regs->eax = (uint32_t)(syst_hook(regs->ebx, (void *)(regs->ecx)));
+      break;
+    case SYST_RELE:
+      syst_rele(regs->ebx);
+      break;
   }
 }
 
@@ -141,6 +152,12 @@ void syst_kill(int id) {
   if (id > 0 && id <= PROG_MAX) {
     page_free(prog_arr[id - 1].buffer, (prog_arr[id - 1].size + 0x0FFF) >> 12);
     prog_arr[id - 1].free = 1;
+    
+    for (int i = 0; i < PROG_MAX; i++) {
+      if (!prog_arr[i].free && prog_arr[i].tick) {
+        prog_call(i + 1, PROG_DEAD, id, 0, 0);
+      }
+    }
   }
 }
 
@@ -328,4 +345,26 @@ void *syst_phys(int id, void *addr) {
   
   dbg_infof("syst: %d: converted program %d address 0x%08X to 0x%08X\n", prog_id, id, addr, ((uint32_t)(addr) - VIRT_NOP_PROG) + (uint32_t)(prog_arr[id - 1].buffer));
   return (void *)(((uint32_t)(addr) - VIRT_NOP_PROG) + (uint32_t)(prog_arr[id - 1].buffer));
+}
+
+int syst_hook(int id, void *func) {
+  idt_hand_t hand = (idt_hand_t){
+    syst_call,
+    (void *)(prog_id),
+    id
+  };
+  
+  dbg_infof("syst: %d: hooked handler for %d\n", prog_id, id);
+  
+  size_t val = idt_add(hand);
+  if (val == 0xFFFFFFFF) return 0;
+  
+  return (int)(val) + 1;
+}
+
+void syst_rele(int id) {
+  dbg_infof("syst: %d: released handler %d\n", prog_id, id);
+  
+  if (!id) return;
+  idt_remove((size_t)(id - 1));
 }

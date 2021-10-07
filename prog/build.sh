@@ -10,6 +10,12 @@ cd vide
   mv vide.nex ../../root/prog/
 cd ..
 
+# keyb.nex: PS/2 keyboard driver
+cd keyb
+  sh build.sh
+  mv keyb.nex ../../root/prog/
+cd ..
+
 # videterm.nex: terminal emulator, using VIDE
 cd videterm
   sh build.sh

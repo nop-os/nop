@@ -9,6 +9,8 @@
 
 #define PROG_INIT 0x54494E49
 #define PROG_TICK 0x4B434954
+#define PROG_TRIG 0x47495254
+#define PROG_DEAD 0x44414544
 
 typedef struct prog_t prog_t;
 

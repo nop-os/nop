@@ -44,9 +44,9 @@ qemu-system-i386 -hda nop.img -m 64M -serial /dev/tty -device sb16
 - [x] Parsing and running programs
 - [ ] FAT32 writing
 
-- [ ] PS/2 keyboard driver
-- [ ] Framebuffer driver
-- [ ] Shell
+- [x] PS/2 keyboard driver
+- [x] Framebuffer driver
+- [ ] Shell(not finished yet)
 
 ## License
 

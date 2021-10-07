@@ -80,7 +80,7 @@ void prog_tick(i586_regs_t *regs, idt_hand_t *hand) {
   
   for (int i = 0; i < PROG_MAX; i++) {
     if (!prog_arr[i].free && prog_arr[i].tick) {
-      prog_call(i + 1, 0x4B434954, 0, 0, 0);
+      prog_call(i + 1, PROG_TICK, 0, 0, 0);
     }
   }
 }
