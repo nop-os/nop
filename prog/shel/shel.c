@@ -4,12 +4,15 @@
 #include <stdio.h>
 
 char curr_dir[256];
+int running = 1;
 
 void cmd_next(char *buffer, const char **cmd);
 void cmd_parse(const char *cmd);
 
 __attribute__((__section__(".entry"), __used__))
 int nex_start(int id, uint32_t type, uint32_t data_1, uint32_t data_2, uint32_t data_3) {
+  if (type != nop_type("INIT")) return 0;
+  
   int term = nop_find("TERM");
   if (!term) return 0;
   
@@ -18,7 +21,7 @@ int nex_start(int id, uint32_t type, uint32_t data_1, uint32_t data_2, uint32_t 
   
   printf("SHEL.NEX r01, by segfaultdev\n");
   
-  for (;;) {
+  while (running) {
     printf("%s> ", curr_dir);
     
     char buffer[256];
@@ -72,7 +75,20 @@ void cmd_parse(const char *cmd) {
     printf("%s\n", curr_dir);
   } else if (!strcmp(buffer, "clear")) {
     printf("\x1B[2J");
+  } else if (!strcmp(buffer, "exit")) {
+    running = 0;
+  } else if (!strcmp(buffer, "help")) {
+    printf("echo pwd clear exit help\n");
   } else {
-    printf("unknown command: '%s'\n", buffer);
+    int new_id = nop_send(0, "LOAD", (uint32_t)(buffer), 0, 0);
+    
+    if (!new_id) {
+      printf("unknown command: '%s'\n", buffer);
+      return;
+    }
+    
+    // TODO: pass arguments(argc, argv) and curr. directory
+    nop_send(new_id, "INIT", 0, 0, 0);
+    nop_send(0, "KILL", new_id, 0, 0);
   }
 }
