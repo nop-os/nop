@@ -35,7 +35,7 @@ int nop_find(const char *prog) {
 }
 
 void *nop_phys(int id, uint32_t addr) {
-  if (addr < 0xE0000000 || addr >= 0xF0000000) {
+  if (addr < 0xC0000000 || addr >= 0xE0000000) {
     return (void *)(addr);
   }
   

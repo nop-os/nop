@@ -9,7 +9,7 @@
 
 #define VIRT_NOP_ADDR 0x00000000
 #define VIRT_NOP_SIZE 0x00100000
-#define VIRT_NOP_PROG 0xE0000000
+#define VIRT_NOP_PROG 0xC0000000
 
 extern uint32_t *virt_table;
 

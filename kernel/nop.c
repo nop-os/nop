@@ -44,14 +44,14 @@ void nop(tb_mem_t *mem_table, tb_vid_t *vid_table) {
     
     if (c == '\n') {
       if (prog_len) {
-        int prog_id = syst_load(prog_buf);
+        int new_id = syst_load(prog_buf);
       
-        if (prog_id <= 0 || prog_id > SYST_OPEN_MAX) {
+        if (new_id <= 0 || new_id > SYST_OPEN_MAX) {
           dbg_failf("could not open %s\n", prog_buf);
           dbg_panic();
         }
         
-        prog_call(prog_id, PROG_INIT, (uint32_t)(vid_table), 0, 0);
+        prog_call(new_id, PROG_INIT, (uint32_t)(vid_table), 0, 0);
       }
       
       prog_len = 0;
@@ -59,6 +59,7 @@ void nop(tb_mem_t *mem_table, tb_vid_t *vid_table) {
       prog_buf[prog_len++] = c;
     }
   }
+  
   dbg_infof("done reading 0:/syst/init.txt!\n");
   
   syst_clos(init_id);

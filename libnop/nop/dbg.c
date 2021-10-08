@@ -26,7 +26,7 @@ void dbg_init(uint16_t port) {
 }
 
 void dbg_panic(void) {
-  for (;;);
+  // for (;;);
 }
 
 void dbg_putchr(char chr) {
@@ -47,7 +47,7 @@ void dbg_putnum(int num, int base, int upper) {
 }
 
 void dbg_putstr_opt(const char *str, int pad_aln, int pad_len, char pad_chr) {
-  int length = strlen(str);
+  int length = strlen(str) + 1;
 
   if (pad_aln) {
     while (pad_len >= length) {

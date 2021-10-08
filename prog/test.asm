@@ -1,4 +1,4 @@
-[org 0xE0000000]
+[org 0xC0000000]
 [bits 32]
 
 nex_header:

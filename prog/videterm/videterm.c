@@ -1,6 +1,5 @@
 #include <nop/send.h>
 #include <nop/type.h>
-#include <nop/dbg.h>
 #include <string.h>
 
 #include "font.h"
