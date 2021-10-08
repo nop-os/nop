@@ -12,7 +12,7 @@ int nex_start(int id, uint32_t type, uint32_t data_1, uint32_t data_2, uint32_t 
   nop_send(term, "WRIT", (uint32_t)(intro), strlen(intro), 0);
   
   for (;;) {
-    char *prompt = "nop> ";
+    char *prompt = "> ";
     
     nop_send(term, "WRIT", (uint32_t)(prompt), strlen(prompt), 0);
     nop_send(term, "ECHO", 1, 0, 0);
