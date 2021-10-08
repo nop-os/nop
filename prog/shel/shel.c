@@ -16,7 +16,7 @@ int nex_start(int id, uint32_t type, uint32_t data_1, uint32_t data_2, uint32_t 
   strcpy(curr_dir, "0:/");
   stdio_init(term, term);
   
-  printf("SHEL.NEX r01, by segfaultdev\n\n");
+  printf("SHEL.NEX r01, by segfaultdev\n");
   
   for (;;) {
     printf("%s> ", curr_dir);
@@ -51,16 +51,28 @@ int nex_start(int id, uint32_t type, uint32_t data_1, uint32_t data_2, uint32_t 
 }
 
 void cmd_next(char *buffer, const char **cmd) {
+  while (**cmd && **cmd != ' ') {
+    *(buffer++) = *((*cmd)++);
+  }
   
+  while (**cmd == ' ') {
+    (*cmd)++;
+  }
+  
+  *buffer = '\0';
 }
 
 void cmd_parse(const char *cmd) {
   char buffer[64];
   cmd_next(buffer, &cmd);
   
-  if (!strcmp(buffer, "pwd")) {
-    // nop_send(term, "WRIT", (uint32_t)(curr_dir), strlen(curr_dir), 0);
-    
-    
+  if (!strcmp(buffer, "echo")) {
+    printf("%s\n", cmd);
+  } else if (!strcmp(buffer, "pwd")) {
+    printf("%s\n", curr_dir);
+  } else if (!strcmp(buffer, "clear")) {
+    printf("\x1B[2J");
+  } else {
+    printf("unknown command: '%s'\n", buffer);
   }
 }

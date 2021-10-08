@@ -15,8 +15,8 @@ int blink_state = 0;
 int cursor_x = 0;
 int cursor_y = 0;
 
-uint32_t fore_color = 0xFFFFFFFF;
-uint32_t back_color = 0xFF000000;
+uint32_t fore_color = 0xFFDFDFDF;
+uint32_t back_color = 0xFF1F1F1F;
 
 char key_buffer[64];
 
@@ -24,6 +24,9 @@ int key_offset_w = 0;
 int key_offset_r = 0;
 
 int echo = 0;
+
+char ansi_buffer[16];
+int ansi_length = 0;
 
 void term_putchar(char c);
 
@@ -101,6 +104,25 @@ int nex_start(int id, uint32_t type, uint32_t data_1, uint32_t data_2, uint32_t 
 }
 
 void term_putchar(char c) {
+  if (ansi_length || c == '\x1B') {
+    ansi_buffer[ansi_length++] = c;
+    
+    if (c >= 'A' && c <= 'Z') {
+      ansi_buffer[ansi_length] = '\0';
+      
+      if (!strcmp(ansi_buffer, "\x1B[2J")) {
+        cursor_x = 0;
+        cursor_y = 0;
+        
+        nop_send(vide, "RECT", 0, width + (height << 16), back_color);
+      }
+      
+      ansi_length = 0;
+    }
+    
+    return;
+  }
+  
   if (cursor_x < width / (8 * font_scale_x)) {
     nop_send(vide, "RECT",
              (cursor_x * 8 * font_scale_x) + (((cursor_y * font_height + (font_height - 1)) * font_scale_y) << 16),
