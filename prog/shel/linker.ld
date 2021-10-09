@@ -2,7 +2,7 @@ OUTPUT_FORMAT("binary")
 ENTRY(nex_start)
 
 SECTIONS {
-  . = 0xE0000000;
+  . = 0xC0000000;
 
   .header : {
     *(.header*)

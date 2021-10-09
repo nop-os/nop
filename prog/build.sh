@@ -1,9 +1,5 @@
 #!/usr/bin/sh
 
-# test.nex: hello world program in assembly
-nasm test.asm -fbin -O4 -o test.nex
-mv test.nex ../root/prog/
-
 # vide.nex: framebuffer video driver
 cd vide
   sh build.sh
@@ -26,4 +22,10 @@ cd ..
 cd shel
   sh build.sh
   mv shel.nex ../../root/prog/
+cd ..
+
+# test.nex: hello world program, using TERM(videterm, seriterm, etc.)
+cd test
+  sh build.sh
+  mv test.nex ../../root/prog/
 cd ..

@@ -108,10 +108,16 @@ void syst_call(i586_regs_t *regs, idt_hand_t *hand) {
 int syst_load(const char *path) {
   fat_node_t node;
   
+  if (strlen(path) < 2) return 0;
+  if (!(path[0] >= '0' && path[0] <= '9')) return 0;
+  if (path[1] != ':') return 0;
+  
   int part = path[0] - '0';
   dbg_infof("syst: %d: load program '%s'\n", prog_id, path);
   
   uint32_t cluster = fat_find(part, 0, &node, path + 2);
+  
+  dbg_infof("syst: %d: search completed(0x%08X)\n", prog_id, cluster);
   if (cluster == 0x0FFFFFFF) return 0;
   
   for (int i = 0; i < PROG_MAX; i++) {

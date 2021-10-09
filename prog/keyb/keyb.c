@@ -23,6 +23,14 @@ int nex_start(int id, uint32_t type, uint32_t data_1, uint32_t data_2, uint32_t 
   if (type == nop_type("INIT")) {
     dbg_init(0x03F8);
     
+    dbg_infof("keyb: setting up interrupts\n");
+    hand = (int)(nop_send(0, "HOOK", 0x21, 0, 0));
+    
+    if (!hand) {
+      dbg_failf("keyb: cannot hook up handler\n");
+      dbg_panic();
+    }
+    
     i586_outb(0xAD, 0x64); // disable port 1
     i586_outb(0xA7, 0x64); // disable port 2
     
@@ -42,6 +50,8 @@ int nex_start(int id, uint32_t type, uint32_t data_1, uint32_t data_2, uint32_t 
     conf &= ~(1 << 6); // no idea of what this does
     
     dbg_infof("keyb: setting configuration: 0x%02X\n", conf);
+    
+    while (i586_inb(0x64) & 2);
     i586_outb(0x60, 0x64); // set conf.
     
     while (i586_inb(0x64) & 2);
@@ -52,8 +62,6 @@ int nex_start(int id, uint32_t type, uint32_t data_1, uint32_t data_2, uint32_t 
     while (i586_inb(0x64) & 2);
     i586_outb(0xF0, 0x60); // set scan code set
     
-    i586_inb(0x60); // clear buffer
-    
     while (i586_inb(0x64) & 2);
     i586_outb(0x02, 0x60);
     
@@ -61,13 +69,6 @@ int nex_start(int id, uint32_t type, uint32_t data_1, uint32_t data_2, uint32_t 
     
     dbg_infof("keyb: enabling port 1\n");
     i586_outb(0xAE, 0x64); // enable port 1
-    
-    hand = (int)(nop_send(0, "HOOK", 0x21, 0, 0));
-    
-    if (!hand) {
-      dbg_failf("keyb: cannot hook up handler\n");
-      dbg_panic();
-    }
     
     mode = 0;
     extra = 0;
@@ -96,6 +97,8 @@ int nex_start(int id, uint32_t type, uint32_t data_1, uint32_t data_2, uint32_t 
     if (data_1 && data_1 < 384) {
       return keys[data_1];
     }
+  } else {
+    dbg_infof("keyb: 0x%08X\n", type);
   }
   
   return 0;
