@@ -1,0 +1,580 @@
+[nop] building tinyboot...
+[nop] building nop kernel...
+rm: cannot remove 'nopkernl.bin': No such file or directory
+rm: cannot remove 'nopkernl.elf': No such file or directory
+In file included from ./nop.c:1:
+In file included from include/boot/tinyboot.h:4:
+include/nop/type.h:4: error: include file 'stddef.h' not found
+In file included from ./string.c:1:
+In file included from include/arch/i586.h:4:
+include/nop/type.h:4: error: include file 'stddef.h' not found
+In file included from ./nop/term_font.c:1:
+In file included from include/nop/term.h:4:
+In file included from include/boot/tinyboot.h:4:
+include/nop/type.h:4: error: include file 'stddef.h' not found
+In file included from ./nop/ps2.c:1:
+In file included from include/arch/i586.h:4:
+include/nop/type.h:4: error: include file 'stddef.h' not found
+In file included from ./nop/ata.c:1:
+In file included from include/arch/i586.h:4:
+include/nop/type.h:4: error: include file 'stddef.h' not found
+In file included from ./nop/idt.c:1:
+In file included from include/arch/i586.h:4:
+include/nop/type.h:4: error: include file 'stddef.h' not found
+In file included from ./nop/page.c:1:
+In file included from include/boot/tinyboot.h:4:
+include/nop/type.h:4: error: include file 'stddef.h' not found
+In file included from ./nop/fat.c:1:
+In file included from include/nop/alloc.h:4:
+include/nop/type.h:4: error: include file 'stddef.h' not found
+In file included from ./nop/term.c:1:
+In file included from include/boot/tinyboot.h:4:
+include/nop/type.h:4: error: include file 'stddef.h' not found
+In file included from ./nop/term_colors.c:1:
+In file included from include/nop/term.h:4:
+In file included from include/boot/tinyboot.h:4:
+include/nop/type.h:4: error: include file 'stddef.h' not found
+In file included from ./nop/real.c:1:
+In file included from include/arch/i586.h:4:
+include/nop/type.h:4: error: include file 'stddef.h' not found
+In file included from ./nop/alloc.c:1:
+In file included from include/nop/alloc.h:4:
+include/nop/type.h:4: error: include file 'stddef.h' not found
+In file included from ./nop/prog.c:1:
+In file included from include/nop/alloc.h:4:
+include/nop/type.h:4: error: include file 'stddef.h' not found
+In file included from ./nop/time.c:1:
+In file included from include/arch/i586.h:4:
+include/nop/type.h:4: error: include file 'stddef.h' not found
+In file included from ./nop/file.c:1:
+In file included from include/nop/alloc.h:4:
+include/nop/type.h:4: error: include file 'stddef.h' not found
+In file included from ./nop/virt.c:1:
+In file included from include/arch/i586.h:4:
+include/nop/type.h:4: error: include file 'stddef.h' not found
+idt.asm.o: In "idt_hand_0":
+Error 21: idt.asm.o (.text+0xc07): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_1":
+Error 21: idt.asm.o (.text+0xc17): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_2":
+Error 21: idt.asm.o (.text+0xc27): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_3":
+Error 21: idt.asm.o (.text+0xc37): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_4":
+Error 21: idt.asm.o (.text+0xc47): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_5":
+Error 21: idt.asm.o (.text+0xc57): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_6":
+Error 21: idt.asm.o (.text+0xc67): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_7":
+Error 21: idt.asm.o (.text+0xc77): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_8":
+Error 21: idt.asm.o (.text+0xc87): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_9":
+Error 21: idt.asm.o (.text+0xc97): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_10":
+Error 21: idt.asm.o (.text+0xca7): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_11":
+Error 21: idt.asm.o (.text+0xcb7): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_12":
+Error 21: idt.asm.o (.text+0xcc7): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_13":
+Error 21: idt.asm.o (.text+0xcd7): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_14":
+Error 21: idt.asm.o (.text+0xce7): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_15":
+Error 21: idt.asm.o (.text+0xcf7): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_16":
+Error 21: idt.asm.o (.text+0xd07): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_17":
+Error 21: idt.asm.o (.text+0xd17): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_18":
+Error 21: idt.asm.o (.text+0xd27): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_19":
+Error 21: idt.asm.o (.text+0xd37): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_20":
+Error 21: idt.asm.o (.text+0xd47): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_21":
+Error 21: idt.asm.o (.text+0xd57): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_22":
+Error 21: idt.asm.o (.text+0xd67): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_23":
+Error 21: idt.asm.o (.text+0xd77): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_24":
+Error 21: idt.asm.o (.text+0xd87): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_25":
+Error 21: idt.asm.o (.text+0xd97): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_26":
+Error 21: idt.asm.o (.text+0xda7): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_27":
+Error 21: idt.asm.o (.text+0xdb7): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_28":
+Error 21: idt.asm.o (.text+0xdc7): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_29":
+Error 21: idt.asm.o (.text+0xdd7): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_30":
+Error 21: idt.asm.o (.text+0xde7): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_31":
+Error 21: idt.asm.o (.text+0xdf7): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_32":
+Error 21: idt.asm.o (.text+0xe07): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_33":
+Error 21: idt.asm.o (.text+0xe1e): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_34":
+Error 21: idt.asm.o (.text+0xe35): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_35":
+Error 21: idt.asm.o (.text+0xe4c): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_36":
+Error 21: idt.asm.o (.text+0xe63): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_37":
+Error 21: idt.asm.o (.text+0xe7a): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_38":
+Error 21: idt.asm.o (.text+0xe91): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_39":
+Error 21: idt.asm.o (.text+0xea8): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_40":
+Error 21: idt.asm.o (.text+0xebf): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_41":
+Error 21: idt.asm.o (.text+0xee2): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_42":
+Error 21: idt.asm.o (.text+0xefc): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_43":
+Error 21: idt.asm.o (.text+0xf16): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_44":
+Error 21: idt.asm.o (.text+0xf30): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_45":
+Error 21: idt.asm.o (.text+0xf4a): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_46":
+Error 21: idt.asm.o (.text+0xf64): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_47":
+Error 21: idt.asm.o (.text+0xf7e): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_48":
+Error 21: idt.asm.o (.text+0xf98): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_49":
+Error 21: idt.asm.o (.text+0xfa8): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_50":
+Error 21: idt.asm.o (.text+0xfb8): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_51":
+Error 21: idt.asm.o (.text+0xfc8): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_52":
+Error 21: idt.asm.o (.text+0xfd8): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_53":
+Error 21: idt.asm.o (.text+0xfe8): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_54":
+Error 21: idt.asm.o (.text+0xff8): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_55":
+Error 21: idt.asm.o (.text+0x1008): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_56":
+Error 21: idt.asm.o (.text+0x1018): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_57":
+Error 21: idt.asm.o (.text+0x1028): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_58":
+Error 21: idt.asm.o (.text+0x1038): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_59":
+Error 21: idt.asm.o (.text+0x1048): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_60":
+Error 21: idt.asm.o (.text+0x1058): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_61":
+Error 21: idt.asm.o (.text+0x1068): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_62":
+Error 21: idt.asm.o (.text+0x1078): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_63":
+Error 21: idt.asm.o (.text+0x1088): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_64":
+Error 21: idt.asm.o (.text+0x1098): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_65":
+Error 21: idt.asm.o (.text+0x10a8): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_66":
+Error 21: idt.asm.o (.text+0x10b8): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_67":
+Error 21: idt.asm.o (.text+0x10c8): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_68":
+Error 21: idt.asm.o (.text+0x10d8): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_69":
+Error 21: idt.asm.o (.text+0x10e8): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_70":
+Error 21: idt.asm.o (.text+0x10f8): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_71":
+Error 21: idt.asm.o (.text+0x1108): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_72":
+Error 21: idt.asm.o (.text+0x1118): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_73":
+Error 21: idt.asm.o (.text+0x1128): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_74":
+Error 21: idt.asm.o (.text+0x1138): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_75":
+Error 21: idt.asm.o (.text+0x1148): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_76":
+Error 21: idt.asm.o (.text+0x1158): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_77":
+Error 21: idt.asm.o (.text+0x1168): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_78":
+Error 21: idt.asm.o (.text+0x1178): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_79":
+Error 21: idt.asm.o (.text+0x1188): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_80":
+Error 21: idt.asm.o (.text+0x1198): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_81":
+Error 21: idt.asm.o (.text+0x11a8): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_82":
+Error 21: idt.asm.o (.text+0x11b8): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_83":
+Error 21: idt.asm.o (.text+0x11c8): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_84":
+Error 21: idt.asm.o (.text+0x11d8): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_85":
+Error 21: idt.asm.o (.text+0x11e8): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_86":
+Error 21: idt.asm.o (.text+0x11f8): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_87":
+Error 21: idt.asm.o (.text+0x1208): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_88":
+Error 21: idt.asm.o (.text+0x1218): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_89":
+Error 21: idt.asm.o (.text+0x1228): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_90":
+Error 21: idt.asm.o (.text+0x1238): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_91":
+Error 21: idt.asm.o (.text+0x1248): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_92":
+Error 21: idt.asm.o (.text+0x1258): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_93":
+Error 21: idt.asm.o (.text+0x1268): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_94":
+Error 21: idt.asm.o (.text+0x1278): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_95":
+Error 21: idt.asm.o (.text+0x1288): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_96":
+Error 21: idt.asm.o (.text+0x1298): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_97":
+Error 21: idt.asm.o (.text+0x12a8): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_98":
+Error 21: idt.asm.o (.text+0x12b8): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_99":
+Error 21: idt.asm.o (.text+0x12c8): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_100":
+Error 21: idt.asm.o (.text+0x12d8): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_101":
+Error 21: idt.asm.o (.text+0x12e8): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_102":
+Error 21: idt.asm.o (.text+0x12f8): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_103":
+Error 21: idt.asm.o (.text+0x1308): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_104":
+Error 21: idt.asm.o (.text+0x1318): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_105":
+Error 21: idt.asm.o (.text+0x1328): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_106":
+Error 21: idt.asm.o (.text+0x1338): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_107":
+Error 21: idt.asm.o (.text+0x1348): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_108":
+Error 21: idt.asm.o (.text+0x1358): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_109":
+Error 21: idt.asm.o (.text+0x1368): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_110":
+Error 21: idt.asm.o (.text+0x1378): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_111":
+Error 21: idt.asm.o (.text+0x1388): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_112":
+Error 21: idt.asm.o (.text+0x1398): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_113":
+Error 21: idt.asm.o (.text+0x13a8): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_114":
+Error 21: idt.asm.o (.text+0x13b8): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_115":
+Error 21: idt.asm.o (.text+0x13c8): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_116":
+Error 21: idt.asm.o (.text+0x13d8): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_117":
+Error 21: idt.asm.o (.text+0x13e8): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_118":
+Error 21: idt.asm.o (.text+0x13f8): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_119":
+Error 21: idt.asm.o (.text+0x1408): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_120":
+Error 21: idt.asm.o (.text+0x1418): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_121":
+Error 21: idt.asm.o (.text+0x1428): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_122":
+Error 21: idt.asm.o (.text+0x1438): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_123":
+Error 21: idt.asm.o (.text+0x1448): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_124":
+Error 21: idt.asm.o (.text+0x1458): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_125":
+Error 21: idt.asm.o (.text+0x1468): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_126":
+Error 21: idt.asm.o (.text+0x1478): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_127":
+Error 21: idt.asm.o (.text+0x1488): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_128":
+Error 21: idt.asm.o (.text+0x149b): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_129":
+Error 21: idt.asm.o (.text+0x14ae): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_130":
+Error 21: idt.asm.o (.text+0x14c1): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_131":
+Error 21: idt.asm.o (.text+0x14d4): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_132":
+Error 21: idt.asm.o (.text+0x14e7): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_133":
+Error 21: idt.asm.o (.text+0x14fa): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_134":
+Error 21: idt.asm.o (.text+0x150d): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_135":
+Error 21: idt.asm.o (.text+0x1520): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_136":
+Error 21: idt.asm.o (.text+0x1533): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_137":
+Error 21: idt.asm.o (.text+0x1546): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_138":
+Error 21: idt.asm.o (.text+0x1559): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_139":
+Error 21: idt.asm.o (.text+0x156c): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_140":
+Error 21: idt.asm.o (.text+0x157f): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_141":
+Error 21: idt.asm.o (.text+0x1592): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_142":
+Error 21: idt.asm.o (.text+0x15a5): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_143":
+Error 21: idt.asm.o (.text+0x15b8): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_144":
+Error 21: idt.asm.o (.text+0x15cb): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_145":
+Error 21: idt.asm.o (.text+0x15de): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_146":
+Error 21: idt.asm.o (.text+0x15f1): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_147":
+Error 21: idt.asm.o (.text+0x1604): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_148":
+Error 21: idt.asm.o (.text+0x1617): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_149":
+Error 21: idt.asm.o (.text+0x162a): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_150":
+Error 21: idt.asm.o (.text+0x163d): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_151":
+Error 21: idt.asm.o (.text+0x1650): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_152":
+Error 21: idt.asm.o (.text+0x1663): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_153":
+Error 21: idt.asm.o (.text+0x1676): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_154":
+Error 21: idt.asm.o (.text+0x1689): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_155":
+Error 21: idt.asm.o (.text+0x169c): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_156":
+Error 21: idt.asm.o (.text+0x16af): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_157":
+Error 21: idt.asm.o (.text+0x16c2): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_158":
+Error 21: idt.asm.o (.text+0x16d5): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_159":
+Error 21: idt.asm.o (.text+0x16e8): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_160":
+Error 21: idt.asm.o (.text+0x16fb): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_161":
+Error 21: idt.asm.o (.text+0x170e): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_162":
+Error 21: idt.asm.o (.text+0x1721): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_163":
+Error 21: idt.asm.o (.text+0x1734): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_164":
+Error 21: idt.asm.o (.text+0x1747): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_165":
+Error 21: idt.asm.o (.text+0x175a): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_166":
+Error 21: idt.asm.o (.text+0x176d): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_167":
+Error 21: idt.asm.o (.text+0x1780): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_168":
+Error 21: idt.asm.o (.text+0x1793): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_169":
+Error 21: idt.asm.o (.text+0x17a6): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_170":
+Error 21: idt.asm.o (.text+0x17b9): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_171":
+Error 21: idt.asm.o (.text+0x17cc): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_172":
+Error 21: idt.asm.o (.text+0x17df): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_173":
+Error 21: idt.asm.o (.text+0x17f2): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_174":
+Error 21: idt.asm.o (.text+0x1805): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_175":
+Error 21: idt.asm.o (.text+0x1818): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_176":
+Error 21: idt.asm.o (.text+0x182b): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_177":
+Error 21: idt.asm.o (.text+0x183e): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_178":
+Error 21: idt.asm.o (.text+0x1851): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_179":
+Error 21: idt.asm.o (.text+0x1864): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_180":
+Error 21: idt.asm.o (.text+0x1877): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_181":
+Error 21: idt.asm.o (.text+0x188a): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_182":
+Error 21: idt.asm.o (.text+0x189d): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_183":
+Error 21: idt.asm.o (.text+0x18b0): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_184":
+Error 21: idt.asm.o (.text+0x18c3): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_185":
+Error 21: idt.asm.o (.text+0x18d6): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_186":
+Error 21: idt.asm.o (.text+0x18e9): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_187":
+Error 21: idt.asm.o (.text+0x18fc): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_188":
+Error 21: idt.asm.o (.text+0x190f): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_189":
+Error 21: idt.asm.o (.text+0x1922): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_190":
+Error 21: idt.asm.o (.text+0x1935): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_191":
+Error 21: idt.asm.o (.text+0x1948): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_192":
+Error 21: idt.asm.o (.text+0x195b): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_193":
+Error 21: idt.asm.o (.text+0x196e): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_194":
+Error 21: idt.asm.o (.text+0x1981): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_195":
+Error 21: idt.asm.o (.text+0x1994): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_196":
+Error 21: idt.asm.o (.text+0x19a7): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_197":
+Error 21: idt.asm.o (.text+0x19ba): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_198":
+Error 21: idt.asm.o (.text+0x19cd): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_199":
+Error 21: idt.asm.o (.text+0x19e0): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_200":
+Error 21: idt.asm.o (.text+0x19f3): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_201":
+Error 21: idt.asm.o (.text+0x1a06): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_202":
+Error 21: idt.asm.o (.text+0x1a19): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_203":
+Error 21: idt.asm.o (.text+0x1a2c): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_204":
+Error 21: idt.asm.o (.text+0x1a3f): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_205":
+Error 21: idt.asm.o (.text+0x1a52): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_206":
+Error 21: idt.asm.o (.text+0x1a65): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_207":
+Error 21: idt.asm.o (.text+0x1a78): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_208":
+Error 21: idt.asm.o (.text+0x1a8b): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_209":
+Error 21: idt.asm.o (.text+0x1a9e): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_210":
+Error 21: idt.asm.o (.text+0x1ab1): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_211":
+Error 21: idt.asm.o (.text+0x1ac4): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_212":
+Error 21: idt.asm.o (.text+0x1ad7): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_213":
+Error 21: idt.asm.o (.text+0x1aea): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_214":
+Error 21: idt.asm.o (.text+0x1afd): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_215":
+Error 21: idt.asm.o (.text+0x1b10): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_216":
+Error 21: idt.asm.o (.text+0x1b23): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_217":
+Error 21: idt.asm.o (.text+0x1b36): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_218":
+Error 21: idt.asm.o (.text+0x1b49): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_219":
+Error 21: idt.asm.o (.text+0x1b5c): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_220":
+Error 21: idt.asm.o (.text+0x1b6f): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_221":
+Error 21: idt.asm.o (.text+0x1b82): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_222":
+Error 21: idt.asm.o (.text+0x1b95): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_223":
+Error 21: idt.asm.o (.text+0x1ba8): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_224":
+Error 21: idt.asm.o (.text+0x1bbb): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_225":
+Error 21: idt.asm.o (.text+0x1bce): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_226":
+Error 21: idt.asm.o (.text+0x1be1): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_227":
+Error 21: idt.asm.o (.text+0x1bf4): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_228":
+Error 21: idt.asm.o (.text+0x1c07): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_229":
+Error 21: idt.asm.o (.text+0x1c1a): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_230":
+Error 21: idt.asm.o (.text+0x1c2d): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_231":
+Error 21: idt.asm.o (.text+0x1c40): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_232":
+Error 21: idt.asm.o (.text+0x1c53): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_233":
+Error 21: idt.asm.o (.text+0x1c66): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_234":
+Error 21: idt.asm.o (.text+0x1c79): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_235":
+Error 21: idt.asm.o (.text+0x1c8c): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_236":
+Error 21: idt.asm.o (.text+0x1c9f): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_237":
+Error 21: idt.asm.o (.text+0x1cb2): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_238":
+Error 21: idt.asm.o (.text+0x1cc5): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_239":
+Error 21: idt.asm.o (.text+0x1cd8): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_240":
+Error 21: idt.asm.o (.text+0x1ceb): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_241":
+Error 21: idt.asm.o (.text+0x1cfe): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_242":
+Error 21: idt.asm.o (.text+0x1d11): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_243":
+Error 21: idt.asm.o (.text+0x1d24): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_244":
+Error 21: idt.asm.o (.text+0x1d37): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_245":
+Error 21: idt.asm.o (.text+0x1d4a): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_246":
+Error 21: idt.asm.o (.text+0x1d5d): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_247":
+Error 21: idt.asm.o (.text+0x1d70): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_248":
+Error 21: idt.asm.o (.text+0x1d83): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_249":
+Error 21: idt.asm.o (.text+0x1d96): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_250":
+Error 21: idt.asm.o (.text+0x1da9): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_251":
+Error 21: idt.asm.o (.text+0x1dbc): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_252":
+Error 21: idt.asm.o (.text+0x1dcf): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_253":
+Error 21: idt.asm.o (.text+0x1de2): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_254":
+Error 21: idt.asm.o (.text+0x1df5): Reference to undefined symbol idt_call.
+idt.asm.o: In "idt_hand_255":
+Error 21: idt.asm.o (.text+0x1e08): Reference to undefined symbol idt_call.
+objcopy: 'nopkernl.elf': No such file
+cp: cannot stat 'nopkernl.bin': No such file or directory
+[nop] generating image...
+131072+0 records in
+131072+0 records out
+67108864 bytes (67 MB, 64 MiB) copied, 0.217881 s, 308 MB/s
+mkfs.fat 4.2 (2021-01-31)
+kernel/nopkernl.bin: No such file or directory
+3+0 records in
+3+0 records out
+3 bytes copied, 2.7801e-05 s, 108 kB/s
+1920+0 records in
+1920+0 records out
+1920 bytes (1.9 kB, 1.9 KiB) copied, 0.00228075 s, 842 kB/s

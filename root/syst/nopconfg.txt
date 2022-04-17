@@ -1,0 +1,8 @@
+# nop's config file
+
+layout: "0:/syst/layoutes.bin"
+timezome: "madrid"
+
+init: [
+  "0:/prog/shell"
+]

@@ -1,0 +1,28 @@
+nop\ 1280x800 {
+  file NOPKERNLBIN
+  addr 4096
+
+  vidw 1280
+  vidh 800
+  vidb 32
+}
+
+nop\ 1366x768 {
+  file NOPKERNLBIN
+  addr 4096
+
+  vidw 1366
+  vidh 768
+  vidb 32
+}
+
+nop\ text\ mode {
+  file NOPKERNLBIN
+  addr 4096
+
+  vidw 3
+  vidh 0
+  vidb 0
+}
+
+end

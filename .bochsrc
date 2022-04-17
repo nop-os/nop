@@ -1,0 +1,9 @@
+megs: 128
+romimage: file=/usr/share/bochs/BIOS-bochs-legacy
+ata0: enabled=1, ioaddr1=0x1f0, ioaddr2=0x3f0, irq=14
+ata0-master: type=disk, path="nop.img", mode=flat, cylinders=512, heads=8, spt=32, translation=auto, biosdetect=auto
+boot: c
+com1: enabled=1, mode=file, dev=/dev/tty
+display_library: x, options="gui_debug"
+speaker: enabled=1
+magic_break: enabled=1
