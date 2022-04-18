@@ -17,9 +17,6 @@ typedef unsigned char      uint8_t;
 extern void nop_call(const char *name, uint32_t arg_1, uint32_t arg_2, uint32_t arg_3, uint32_t arg_4);
 
 int _start(const char **argv, const char **envp) {
-  for (;;) {
-    nop_call("term_write", (uint32_t)("hello, world!\n"), 14, 0, 0);
-  }
-  
+  nop_call("term_write", (uint32_t)("hello, world!\n"), 14, 0, 0);
   return 1;
 }

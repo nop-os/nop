@@ -6,13 +6,13 @@ call_switch:
   mov esi, cr3
   mov cr3, edi
   mov dword [eax + 4], .return
-  mov [eax + 24], esi
-  mov [eax + 28], esp
+  mov [eax + 28], esi
+  mov [eax + 32], esp
   mov esp, eax
   sti
   ret
 .return:
-  add esp, 0x10
+  add esp, 0x14
   mov edx, eax
   pop edi
   pop eax

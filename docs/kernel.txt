@@ -4,7 +4,7 @@ syscalls:
 
 - called with "int 0x30"
 - pointer to call name in esi
-- arguments in eax, ebx, ecx and edx
+- arguments in eax, ebx, ecx, edx and edi
 - return value in eax
 
 default callset:
@@ -25,7 +25,7 @@ default callset:
 | term_read        | reads from the terminal                                    | the amount of bytes successfully read                   | eax: buffer, ebx: size                                                             |
 | term_getmode     | gets the terminal's mode(echo, cook, etc.)                 | the terminal's mode                                     |                                                                                    |
 | term_setmode     | sets the terminal's mode                                   | non-0 if successfully set                               | eax: mode                                                                          |
-| prog_load        | loads and runs a program(optionally with a custom callset) | the loaded program's id, or 0 if failed                 | eax: path, ebx: callset pointer, ecx: call count(in callset)                       |
+| prog_load        | loads and runs a program(optionally with a custom callset) | the loaded program's id, or 0 if failed                 | eax: path, ebx: argv, ecx: envp, edx: callset pointer, edi: call count(in callset) |
 | prog_kill        | kills a program and unloads it                             | non-0 if successfully killed                            | eax: program id                                                                    |
 | prog_wait        | waits for a program to finish                              | that program's return code, or 0 if non-existent        | eax: program id                                                                    |
 | prog_skip        | let the scheduler skip to the next program                 | always 1                                                |                                                                                    |

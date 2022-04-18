@@ -2,6 +2,7 @@
 #define __NOP_PROG_H__
 
 #include <arch/i586.h>
+#include <nop/call.h>
 #include <nop/type.h>
 
 #define PROG_COUNT 256
@@ -18,7 +19,9 @@ struct prog_data_t {
 
 struct prog_t {
   int free, done;
-  char name[32];
+  
+  // parent program id
+  int parent;
   
   // where the program is actually loaded at
   prog_data_t data;
@@ -32,19 +35,24 @@ struct prog_t {
   
   // the amount of allocated pages, 16 by default
   size_t page_count;
+  
+  // custom callset(if any)
+  call_t *call_array;
+  int call_count;
 };
 
 extern prog_t *prog_list;
 extern int prog_id;
 
-extern int prog_busy;
 extern int prog_waiting;
 
 void prog_init(void);
 void prog_start(void);
 
-int  prog_load(const char *path, const char **argv, const char **envp);
-int  prog_alloc(int id, size_t count);
+int prog_load(const char *path, const char **argv, const char **envp, call_t *call_array, int call_count);
+int prog_kill(int id);
+
+int prog_alloc(int id, size_t count);
 
 void prog_switch(i586_regs_t *regs);
 void prog_return(uint32_t value);

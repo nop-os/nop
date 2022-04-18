@@ -30,7 +30,7 @@ void nop(tb_mem_t *mem_table, tb_vid_t *vid_table) {
   const char *argv[1] = {NULL};
   const char *envp[1] = {NULL};
   
-  prog_load("0:/prog/test.out", argv, envp);
+  prog_load("0:/prog/test.out", argv, envp, NULL, 0);
   
   prog_start(); // start scheduler
   for (;;);

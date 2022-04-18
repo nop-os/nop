@@ -1,5 +1,6 @@
 #include <exec/aout.h>
 #include <nop/alloc.h>
+#include <nop/call.h>
 #include <nop/file.h>
 #include <nop/page.h>
 #include <nop/prog.h>
@@ -7,12 +8,9 @@
 #include <nop/virt.h>
 #include <nop/idt.h>
 
-#include <nop/term.h>
-
 prog_t *prog_list = NULL;
 int prog_id = 0;
 
-int prog_busy = 0;
 int prog_waiting = 0;
 
 void prog_init(void) {
@@ -35,7 +33,7 @@ static int prog_get_free(void) {
   return 0;
 }
 
-int prog_load(const char *path, const char **argv, const char **envp) {
+int prog_load(const char *path, const char **argv, const char **envp, call_t *call_array, int call_count) {
   int id = 0;
   
   for (int i = 0; i < PROG_COUNT; i++) {
@@ -74,6 +72,15 @@ int prog_load(const char *path, const char **argv, const char **envp) {
   prog_list[id - 1].free = 0;
   prog_list[id - 1].done = 0;
   
+  prog_list[id - 1].parent = prog_id;
+  
+  if (!call_array) call_count = 0;
+  if (!call_count) call_array = NULL;
+  
+  // TODO: COPY THE CALLSET INTO THE KERNEL HEAP :O
+  prog_list[id - 1].call_array = call_array;
+  prog_list[id - 1].call_count = call_count;
+  
   const size_t stack_size = 65536;
   
   prog_alloc(id, stack_size >> 12);
@@ -109,6 +116,33 @@ int prog_load(const char *path, const char **argv, const char **envp) {
   return id;
 }
 
+int prog_kill(int id) {
+  if (!id) return 0;
+  if (prog_list[id - 1].free) return 0;
+  
+  for (int i = 0; i < PROG_COUNT; i++) {
+    if (prog_list[i].parent == id) {
+      if (prog_list[i].call_count) {
+        // the kernel is the one owning that memory!
+        free(prog_list[i].call_array);
+      }
+      
+      prog_kill(i + 1);
+    }
+  }
+  
+  prog_list[id - 1].free = 1;
+  
+  page_free(prog_list[id - 1].data.data, (prog_list[id - 1].data.size + 0));
+  
+  for (int i = 0; i < prog_list[id - 1].page_count; i++) {
+    // TODO: find memory space pages to free in table
+  }
+  
+  virt_free(prog_list[id - 1].table);
+  return 1;
+}
+
 int prog_alloc(int id, size_t count) {
   if (!id) return 0;
   if (prog_list[id - 1].free) return 0;
@@ -124,12 +158,11 @@ int prog_alloc(int id, size_t count) {
 }
 
 void prog_switch(i586_regs_t *regs) {
-  if (prog_busy) {
+  if (idt_level > 1) {
     prog_waiting = 1;
     return;
   }
   
-  prog_busy = 1;
   prog_waiting = 0;
   
   if (prog_id && regs) {
@@ -141,7 +174,7 @@ void prog_switch(i586_regs_t *regs) {
     prog_id = (prog_id % PROG_COUNT) + 1;
   } while (prog_list[prog_id - 1].free || prog_list[prog_id - 1].done);
   
-  prog_busy = 0;
+  idt_level--;
   i586_switch(prog_list[prog_id - 1].regs.esp - 32, prog_list[prog_id - 1].table);
 }
 
@@ -149,6 +182,5 @@ void prog_return(uint32_t value) {
   prog_list[prog_id - 1].done = 1;
   prog_list[prog_id - 1].value = value;
   
-  term_infof("program %d returned %d!\n", prog_id, value);
   prog_switch(NULL);
 }
