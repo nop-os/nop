@@ -26,7 +26,6 @@ mkdir -p root/{syst,prog}
 
 # generate the image
 echo "[nop] generating image..."
-mkdir -p mnt
 dd if=/dev/zero of=nop.img count=131072
 mkfs.fat -s 1 -R 4 -F32 nop.img
 mcopy -i nop.img -s root/* ::
