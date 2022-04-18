@@ -7,7 +7,7 @@ mkdir cross
 git clone https://github.com/TinyCC/tinycc
 
 cd tinycc
-  ./configure --cpu=i586 --extra-cflags="-Wall -O3 -s" --prefix=$(dirname $(pwd))/cross --enable-static --disable-rpath --sysincludepaths=$(dirname $(pwd))/cross/include:$(dirname $(pwd))/cross/lib/tcc/include
+  ./configure --cpu=i586 --extra-cflags="-Wall -O3 -s" --prefix=$(dirname $(pwd))/cross --enable-static --disable-rpath --sysincludepaths=$(dirname $(pwd))/libc/include:$(dirname $(pwd))/cross/lib/tcc/include
   
   make cross-i386
   make install
