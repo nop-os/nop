@@ -50,6 +50,8 @@ void term_putchr(char chr);
 void term_putstr(const char *str);
 void term_putnum(int num, int base, int upper);
 
+void term_write(const char *str, size_t size);
+
 void term_putstr_opt(const char *str, int pad_aln, int pad_len, char pad_chr);
 void term_putnum_opt(int num, int base, int upper, int pad_aln, int pad_len, char pad_chr);
 

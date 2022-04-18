@@ -9,7 +9,15 @@
 #include <string.h>
 
 const call_t call_array[] = {
-  (call_t){"term_write", 0, (void *)($term_write)}
+  (call_t){"file_open", 0, (void *)($file_open)},
+  (call_t){"file_create", 0, (void *)($file_create)},
+  (call_t){"file_delete", 0, (void *)($file_delete)},
+  (call_t){"file_close", 0, (void *)($file_close)},
+  (call_t){"file_write", 0, (void *)($file_write)},
+  (call_t){"file_read", 0, (void *)($file_read)},
+  (call_t){"file_seek", 0, (void *)($file_seek)},
+  
+  (call_t){"term_write", 0, (void *)($term_write)},
 };
 
 const int call_count = sizeof(call_array) / sizeof(call_t);

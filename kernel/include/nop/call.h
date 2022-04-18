@@ -30,7 +30,23 @@ void call_handle(i586_regs_t *regs);
 
 extern uint32_t call_switch(uint32_t eax, const void *edi);
 
-// all the kernel syscalls
+// all the kernel syscalls:
+
+int    $file_open(const char *path);
+int    $file_create(const char *path);
+int    $file_delete(const char *path);
+int    $file_close(int id, int save);
+size_t $file_write(int id, void *buffer, size_t size);
+size_t $file_read(int id, void *buffer, size_t size);
+size_t $file_seek(int id, off_t offset, int type);
+int    $file_resize(int id, size_t size);
+
 size_t $term_write(const char *buffer, size_t size);
+
+int  $prog_load(const char *path, const char **argv, const char **envp, call_t *call_array, int call_count);
+int  $prog_kill(int id);
+int  $prog_wait(int id);
+void $prog_skip(void);
+int  $prog_alloc(size_t count);
 
 #endif

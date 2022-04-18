@@ -107,7 +107,7 @@ int file_create(const char *path) {
   return 1;
 }
 
-int file_remove(const char *path) {
+int file_delete(const char *path) {
   if (strlen(path) < 2) return 0;
   if (!(path[0] >= '0' && path[0] <= '9')) return 0;
   if (path[1] != ':') return 0;
@@ -174,7 +174,7 @@ int file_close(int id, int save) {
   return 1;
 }
 
-int file_size(int id, size_t size) {
+int file_resize(int id, size_t size) {
   if (id < 1 || id > file_cnt) return 0;
   else if (file_arr[id - 1].free) return 0;
   
@@ -283,7 +283,8 @@ size_t file_write(int id, void *buffer, size_t size) {
   }
   
   if (size > file_arr[id - 1].size - file_arr[id - 1].offset) {
-    if (!file_size(id, file_arr[id - 1].offset + size)) return 0;
+    // if (!file_size(id, file_arr[id - 1].offset + size)) return 0;
+    size = file_arr[id - 1].size - file_arr[id - 1].offset;
   }
   
   memcpy(file_arr[id - 1].buffer + file_arr[id - 1].offset, buffer, size);

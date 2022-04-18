@@ -3,6 +3,7 @@
 #include <nop/virt.h>
 #include <nop/page.h>
 #include <nop/type.h>
+#include <string.h>
 
 uint32_t *virt_table = NULL;
 
@@ -47,6 +48,48 @@ void *virt_phys(uint32_t *table, void *virt_addr) {
   
   uint32_t real_page = table[PAGE_TABLE_COUNT + virt_page] >> 12;
   return (void *)((real_page << 12) | offset);
+}
+
+size_t virt_cont(uint32_t *table, void *virt_addr) {
+  void *phys_addr = virt_phys(table, virt_addr);
+  virt_addr += 0x1000;
+  
+  size_t count = 1;
+  
+  while (virt_phys(table, virt_addr) == phys_addr + 0x1000) {
+    phys_addr = virt_phys(table, virt_addr);
+    virt_addr += 0x1000;
+    
+    count++;
+  }
+  
+  return count;
+}
+
+void virt_memcpy_to_virt(uint32_t *table, void *dest, const void *src, size_t size) {
+  
+}
+
+void virt_memcpy_to_phys(uint32_t *table, void *dest, const void *src, size_t size) {
+  
+}
+
+size_t virt_strlen(uint32_t *table, const char *ptr) {
+  
+}
+
+void virt_strncpy_to_virt(uint32_t *table, char *dest, const char *src, size_t size) {
+  size_t str_size = strlen(src) + 1;
+  if (str_size > size) str_size = size;
+  
+  virt_memcpy_to_virt(table, dest, src, str_size);
+}
+
+void virt_strncpy_to_phys(uint32_t *table, char *dest, const char *src, size_t size) {
+  size_t str_size = virt_strlen(table, src) + 1;
+  if (str_size > size) str_size = size;
+  
+  virt_memcpy_to_phys(table, dest, src, str_size);
 }
 
 void virt_map(uint32_t *table, void *phys_addr, void *virt_addr, uint32_t flags, size_t count) {

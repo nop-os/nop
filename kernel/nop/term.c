@@ -170,6 +170,10 @@ void term_putnum(int num, int base, int upper) {
   term_putnum_opt(num, base, upper, 0, 0, ' ');
 }
 
+void term_write(const char *str, size_t size) {
+  while (size--) term_putchr(*(str++));
+}
+
 void term_putstr_opt(const char *str, int pad_aln, int pad_len, char pad_chr) {
   int length = strlen(str) + 1;
 
