@@ -14,7 +14,7 @@ struct prog_data_t {
   void *data;
   size_t size;
   
-  int (*entry)(const char **argv, const char **argc);
+  int (*entry)(const char **argv, const char **envp);
 };
 
 struct prog_t {
@@ -39,6 +39,9 @@ struct prog_t {
   // custom callset(if any)
   call_t *call_array;
   int call_count;
+  
+  // paremeters
+  const char **argv, **envp;
 };
 
 extern prog_t *prog_list;

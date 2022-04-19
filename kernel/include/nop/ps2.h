@@ -2,6 +2,8 @@
 #include <nop/type.h>
 #include <nop/idt.h>
 
+#define PS2_BUFFER_SIZE 512
+
 #define PS2_KEY_NONE      0
 #define PS2_KEY_F1        256
 #define PS2_KEY_F2        257
@@ -47,7 +49,8 @@ extern int ps2_extra;
 
 extern int ps2_caps_lock;
 
-extern int ps2_raw_mode;
+extern int ps2_cook_mode;
+extern int ps2_echo_mode;
 
 extern uint16_t *ps2_keymap;
 extern uint8_t ps2_keys[];
@@ -55,6 +58,8 @@ extern uint8_t ps2_keys[];
 extern uint16_t ps2_queue[];
 extern int ps2_read_head;
 extern int ps2_write_head;
+
+extern int ps2_enter_head;
 
 void ps2_init(const char *path);
 uint16_t ps2_read(void);

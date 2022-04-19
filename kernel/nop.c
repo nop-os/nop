@@ -10,6 +10,7 @@
 #include <nop/fat.h>
 #include <nop/idt.h>
 #include <nop/ps2.h>
+#include <config.h>
 #include <string.h>
 
 __attribute__((__section__(".entry"), __used__))
@@ -25,12 +26,31 @@ void nop(tb_mem_t *mem_table, tb_vid_t *vid_table) {
   prog_init();
   call_init();
   
-  // ps2_init("0:/data/keyboard.bin");
+  int config = file_open("0:/syst/npconfig.txt");
   
-  const char *argv[1] = {NULL};
-  const char *envp[1] = {NULL};
+  if (!config) {
+    term_failf("cannot open '0:/syst/npconfig.txt'\n");
+    term_panic();
+  }
   
-  prog_load("0:/prog/test.out", argv, envp, NULL, 0);
+  char buffer[FILE_PATH_MAX];
+  
+  if (cfg_read_str(config, "layout", buffer)) {
+    ps2_init(buffer);
+  }
+  
+  for (int i = 0; i < cfg_read_arr_len(config, "init"); i++) {
+    const char *argv[1] = {NULL};
+    const char *envp[1] = {NULL};
+    
+    // TODO: buffer will contain the entire command, we should separate the args!
+    
+    cfg_read_arr_str(config, "init", i, buffer);
+    prog_load(buffer, argv, envp, NULL, 0);
+  }
+  
+  // don't forget to close the file, as the user may want to open it too!
+  file_close(config, 0);
   
   prog_start(); // start scheduler
   for (;;);

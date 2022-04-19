@@ -27,7 +27,7 @@
 #define term_failf(...) term_printf(TERM_WHITE "[" TERM_LIGHT_RED   "FAIL" TERM_WHITE " " __FILE__ "] " TERM_LIGHT_GRAY __VA_ARGS__)
 
 extern tb_vid_t *term_table;
-extern uint16_t term_x, term_y;
+extern int16_t term_x, term_y;
 
 extern uint32_t term_fore, term_back;
 
@@ -45,6 +45,7 @@ void term_init(tb_vid_t *table);
 void term_panic(void);
 
 void term_scroll(void);
+void term_cursor(void);
 
 void term_putchr(char chr);
 void term_putstr(const char *str);

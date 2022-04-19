@@ -1,5 +1,6 @@
 #include <arch/i586.h>
 #include <nop/alloc.h>
+#include <nop/call.h>
 #include <nop/term.h>
 #include <nop/file.h>
 #include <nop/time.h>
@@ -14,14 +15,18 @@ int ps2_mode = 0;
 int ps2_extra = 0;
 
 int ps2_caps_lock = 0;
-int ps2_raw_mode = 0;
+
+int ps2_cook_mode = 1;
+int ps2_echo_mode = 1;
 
 uint16_t *ps2_keymap = NULL;
-uint8_t ps2_keys[384];
+uint8_t ps2_keys[384] = {0};
 
-uint16_t ps2_queue[64];
+uint16_t ps2_queue[PS2_BUFFER_SIZE];
 int ps2_read_head = 0;
 int ps2_write_head = 0;
+
+int ps2_enter_head = 0;
 
 int ps2_wait_in(void) {
   uint64_t start = time_read();
@@ -155,9 +160,9 @@ void ps2_init(const char *path) {
 uint16_t ps2_read(void) {
   if (ps2_read_head != ps2_write_head) {
     uint16_t value = ps2_queue[ps2_read_head++];
-    ps2_read_head %= 64;
+    ps2_read_head %= PS2_BUFFER_SIZE;
     
-    return value; // TODO: wait for enter when not raw
+    return value;
   }
   
   return 0;
@@ -202,13 +207,32 @@ void ps2_keyb(i586_regs_t *regs) {
           value = ps2_keymap[code + 0x0108];
         }
         
-        if ((value && value <= 127) || ps2_raw_mode) {
+        if (value && value <= 127) {
           if (ctrl_key && value <= 127) {
             value = value % 32;
           }
           
-          ps2_queue[ps2_write_head++] = value;
-          ps2_write_head %= 64;
+          if (value == '\b' && ps2_cook_mode) {
+            if (ps2_enter_head != ps2_write_head) {
+              ps2_enter_head += (PS2_BUFFER_SIZE - 1);
+              ps2_enter_head %= PS2_BUFFER_SIZE;
+              
+              if (ps2_echo_mode) {
+                call_putchr(value);
+              }
+            }
+          } else {
+            ps2_queue[ps2_enter_head++] = value;
+            ps2_enter_head %= PS2_BUFFER_SIZE;
+            
+            if (ps2_echo_mode) {
+              call_putchr(value);
+            }
+            
+            if (value == '\n' || !ps2_cook_mode) {
+              ps2_write_head = ps2_enter_head;
+            }
+          }
         }
       }
     }

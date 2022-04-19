@@ -1,4 +1,5 @@
 #include <arch/i586.h>
+#include <nop/alloc.h>
 #include <nop/term.h>
 #include <nop/virt.h>
 #include <nop/page.h>
@@ -67,15 +68,66 @@ size_t virt_cont(uint32_t *table, void *virt_addr) {
 }
 
 void virt_memcpy_to_virt(uint32_t *table, void *dest, const void *src, size_t size) {
+  size_t left = size;
   
+  if ((uint32_t)(dest) & 0x0FFF) {
+    size_t read = 0x1000 - ((uint32_t)(dest) & 0x0FFF);
+    if (read > left) read = left;
+    
+    memcpy(virt_phys(table, (void *)(dest)), src, read);
+    
+    src += read;
+    dest += read;
+    
+    left -= read;
+  }
+  
+  while (left) {
+    size_t read = virt_cont(table, (void *)(dest)) << 12;
+    if (read > left) read = left;
+    
+    memcpy(virt_phys(table, (void *)(dest)), src, read);
+    
+    src += read;
+    dest += read;
+    
+    left -= read;
+  }
 }
 
 void virt_memcpy_to_phys(uint32_t *table, void *dest, const void *src, size_t size) {
+  size_t left = size;
   
+  if ((uint32_t)(src) & 0x0FFF) {
+    size_t read = 0x1000 - ((uint32_t)(src) & 0x0FFF);
+    if (read > left) read = left;
+    
+    memcpy(dest, virt_phys(table, (void *)(src)), read);
+    
+    src += read;
+    dest += read;
+    
+    left -= read;
+  }
+  
+  while (left) {
+    size_t read = virt_cont(table, (void *)(src)) << 12;
+    if (read > left) read = left;
+    
+    memcpy(dest, virt_phys(table, (void *)(src)), read);
+    
+    src += read;
+    dest += read;
+    
+    left -= read;
+  }
 }
 
-size_t virt_strlen(uint32_t *table, const char *ptr) {
+size_t virt_strlen(uint32_t *table, const char *str) {
+  size_t size = 0;
+  while (*((const char *)(virt_phys(table, (void *)(str) + size)))) size++;
   
+  return size;
 }
 
 void virt_strncpy_to_virt(uint32_t *table, char *dest, const char *src, size_t size) {
@@ -90,6 +142,15 @@ void virt_strncpy_to_phys(uint32_t *table, char *dest, const char *src, size_t s
   if (str_size > size) str_size = size;
   
   virt_memcpy_to_phys(table, dest, src, str_size);
+}
+
+char *virt_strdup(uint32_t *table, const char *str) {
+  size_t str_size = virt_strlen(table, str) + 1;
+  
+  char *new_str = malloc(str_size);
+  virt_memcpy_to_phys(table, new_str, str, str_size);
+  
+  return new_str;
 }
 
 void virt_map(uint32_t *table, void *phys_addr, void *virt_addr, uint32_t flags, size_t count) {

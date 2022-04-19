@@ -77,7 +77,6 @@ int prog_load(const char *path, const char **argv, const char **envp, call_t *ca
   if (!call_array) call_count = 0;
   if (!call_count) call_array = NULL;
   
-  // TODO: COPY THE CALLSET INTO THE KERNEL HEAP :O
   prog_list[id - 1].call_array = call_array;
   prog_list[id - 1].call_count = call_count;
   
@@ -110,7 +109,7 @@ int prog_load(const char *path, const char **argv, const char **envp, call_t *ca
   // regs->esp +  0 -> eip
   // regs->esp +  4 -> cs
   // regs->esp +  8 -> eflags
-  // regs->esp + 16 -> return address
+  // regs->esp + 12 -> return address
   
   prog_list[id - 1].regs.esp = (uint32_t)(esp) + 32;
   return id;
@@ -122,16 +121,37 @@ int prog_kill(int id) {
   
   for (int i = 0; i < PROG_COUNT; i++) {
     if (prog_list[i].parent == id) {
-      if (prog_list[i].call_count) {
-        // the kernel is the one owning that memory!
-        free(prog_list[i].call_array);
-      }
-      
       prog_kill(i + 1);
     }
   }
   
   prog_list[id - 1].free = 1;
+  
+  if (prog_list[id - 1].parent) {
+    if (prog_list[id - 1].call_array && prog_list[id - 1].call_count) {
+      free(prog_list[id - 1].call_array);
+    }
+    
+    if (prog_list[id - 1].argv) {
+      int argc = 0;
+      
+      while (prog_list[id - 1].argv[argc]) {
+        free((void *)(prog_list[id - 1].argv[argc++]));
+      }
+      
+      free(prog_list[id - 1].argv);
+    }
+    
+    if (prog_list[id - 1].envp) {
+      int envc = 0;
+      
+      while (prog_list[id - 1].envp[envc]) {
+        free((void *)(prog_list[id - 1].envp[envc++]));
+      }
+      
+      free(prog_list[id - 1].envp);
+    }
+  }
   
   page_free(prog_list[id - 1].data.data, (prog_list[id - 1].data.size + 0));
   

@@ -1,0 +1,18 @@
+root structure:
+
+- syst: system configuration files and binaries
+- prog: user programs
+- user: user files
+- libs: libraries:
+  - include: library headers
+
+file extensions and formats:
+
+- file.out -> executable(a.out format with unspecified target, OMAGIC and load address at 0xF8000000)
+- file.lib -> library(a.out format with same parameters)
+- file.txt -> text file(also used by config files)
+- file.shl -> shell script
+- file.bin -> binary file
+- file.asm -> assembly source code
+- file.c   -> c source code
+- file.h   -> c header

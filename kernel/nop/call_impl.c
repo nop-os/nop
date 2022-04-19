@@ -1,9 +1,11 @@
+#include <nop/alloc.h>
 #include <nop/call.h>
 #include <nop/file.h>
 #include <nop/prog.h>
 #include <nop/term.h>
 #include <nop/type.h>
 #include <nop/virt.h>
+#include <nop/ps2.h>
 
 int $file_open(const char *path) {
   char buffer[FILE_PATH_MAX];
@@ -133,7 +135,59 @@ size_t $term_write(const char *buffer, size_t size) {
   return size;
 }
 
-int $prog_load(const char *path, const char **argv, const char **envp, call_t *call_array, int call_count);
+size_t $term_read(char *buffer, size_t size) {
+  uint32_t *table = prog_list[prog_id - 1].table;
+  size_t read = 0;
+  
+  while (size--) {
+    char chr = ps2_read();
+    if (!chr) break;
+    
+    *((char *)(virt_phys(table, buffer++))) = chr;
+    read++;
+  }
+  
+  return read;
+}
+
+int $prog_load(const char *path, const char **argv, const char **envp, call_t *call_array, int call_count) {
+  uint32_t *table = prog_list[prog_id - 1].table;
+  char buffer[FILE_PATH_MAX];
+  
+  virt_strncpy_to_phys(prog_list[prog_id - 1].table, buffer, path, FILE_PATH_MAX);
+  buffer[FILE_PATH_MAX - 1] = '\0';
+  
+  char **new_argv = NULL;
+  int argc = 0;
+  
+  char **new_envp = NULL;
+  int envc = 0;
+  
+  if (argv) {
+    while (*((const char **)(virt_phys(table, argv + argc)))) {
+      new_argv = realloc(new_argv, (argc + 1) * sizeof(const char *));
+      new_argv[argc++] = virt_strdup(table, *((const char **)(virt_phys(table, argv + argc))));
+    }
+  }
+  
+  if (envp) {
+    while (*((const char **)(virt_phys(table, envp + envc)))) {
+      new_envp = realloc(new_envp, (envc + 1) * sizeof(const char *));
+      new_envp[envc++] = virt_strdup(table, *((const char **)(virt_phys(table, envp + envc))));
+    }
+  }
+  
+  new_argv = realloc(new_argv, (argc + 1) * sizeof(const char *));
+  new_argv[argc] = NULL;
+  
+  new_envp = realloc(new_envp, (envc + 1) * sizeof(const char *));
+  new_envp[envc] = NULL;
+  
+  call_t *new_call_array = malloc(call_count * sizeof(call_t));
+  virt_memcpy_to_phys(table, new_call_array, call_array, call_count * sizeof(call_t));
+  
+  return prog_load(buffer, new_argv, new_envp, new_call_array, call_count);
+}
 
 int $prog_kill(int id) {
   return prog_kill(id);

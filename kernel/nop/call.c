@@ -18,6 +18,10 @@ const call_t call_array[] = {
   (call_t){"file_seek", 0, (void *)($file_seek)},
   
   (call_t){"term_write", 0, (void *)($term_write)},
+  (call_t){"term_read", 0, (void *)($term_read)},
+  
+  (call_t){"prog_load", 0, (void *)($prog_load)},
+  (call_t){"prog_kill", 0, (void *)($prog_kill)},
 };
 
 const int call_count = sizeof(call_array) / sizeof(call_t);
@@ -50,13 +54,41 @@ int call_find(const char *name, int prog, call_t *call) {
   }
 }
 
+void call_putchr(char chr) {
+  if (!term_table->bpp) {
+    term_putchr(chr);
+    return;
+  }
+  
+  uint32_t *esp = CALL_STACK_TERM;
+  uint32_t eip = (uint32_t)(term_putchr);
+  
+  // all the 0 ones will be filled in by call_switch
+  
+  *(--esp) = 0x00000000; // esp
+  *(--esp) = 0x00000000; // table
+  
+  *(--esp) = 0x00000000;
+  *(--esp) = 0x00000000;
+  *(--esp) = 0x00000000;
+  *(--esp) = 0x00000000;
+  *(--esp) = chr;
+  
+  *(--esp) = 0x00000000; // return address
+  *(--esp) = eip;        // eip
+  
+  call_switch((uint32_t)(esp), virt_table);
+}
+
 void call_handle(i586_regs_t *regs) {
-  // TODO: make faster, find a way to avoid needing that prog_waiting flag, etc.
+  // TODO: make FASTER
   
   strncpy(call_name, (void *)(regs->esi), 32);
   call_name[31] = '\0';
   
-  uint32_t *esp = CALL_STACK_ADDR;
+  uint32_t *old_esp = CALL_STACK_ADDR;
+  uint32_t *esp = old_esp;
+  
   uint32_t *table = virt_table;
   
   call_t call;
@@ -66,7 +98,7 @@ void call_handle(i586_regs_t *regs) {
     int old_prog = prog_id;
     
     if (call.prog) {
-      esp = malloc(CALL_STACK_SIZE) + CALL_STACK_SIZE;
+      old_esp = esp = malloc(CALL_STACK_SIZE) + CALL_STACK_SIZE;
       table = prog_list[call.prog - 1].table;
       
       prog_id = call.prog;
@@ -88,6 +120,10 @@ void call_handle(i586_regs_t *regs) {
     
     regs->eax = call_switch((uint32_t)(esp), table);
     prog_id = old_prog;
+    
+    if (call.prog) {
+      free(old_esp);
+    }
   }
   
   if (prog_waiting) {

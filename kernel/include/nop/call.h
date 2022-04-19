@@ -7,6 +7,9 @@
 // default address for kernel syscall stack
 #define CALL_STACK_ADDR (void *)(0x00007000)
 
+// default address for terminal stack
+#define CALL_STACK_TERM (void *)(0x00005000)
+
 // size of stack allocated for each syscall context
 #define CALL_STACK_SIZE 4096
 
@@ -26,6 +29,8 @@ extern const int call_count;
 void call_init(void);
 int  call_find(const char *name, int prog, call_t *call);
 
+void call_putchr(char chr);
+
 void call_handle(i586_regs_t *regs);
 
 extern uint32_t call_switch(uint32_t eax, const void *edi);
@@ -42,6 +47,7 @@ size_t $file_seek(int id, off_t offset, int type);
 int    $file_resize(int id, size_t size);
 
 size_t $term_write(const char *buffer, size_t size);
+size_t $term_read(char *buffer, size_t size);
 
 int  $prog_load(const char *path, const char **argv, const char **envp, call_t *call_array, int call_count);
 int  $prog_kill(int id);

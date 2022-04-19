@@ -6,7 +6,7 @@
 #include <string.h>
 
 tb_vid_t *term_table = NULL;
-uint16_t term_x, term_y;
+int16_t term_x, term_y;
 
 char term_ansi[16] = {0};
 int term_length = 0;
@@ -66,6 +66,15 @@ void term_scroll(void) {
   }
 }
 
+void term_cursor(void) {
+  int index = (term_x >> 3) + (term_y >> 4) * (term_table->width >> 3);
+  
+  i586_outb(0x0F, 0x03D4);
+  i586_outb(index >> 0, 0x03D5);
+  i586_outb(0x0E, 0x03D4);
+  i586_outb(index >> 8, 0x03D5);
+}
+
 void term_putchr(char chr) {  
   if (chr == '\x1B' || term_length > 0) {
     term_ansi[term_length++] = chr;
@@ -113,13 +122,44 @@ void term_putchr(char chr) {
       term_scroll();
       term_y -= 16;
     }
-    
-    return;
   } else if (chr == '\r') {
     term_x = 0;
+  } else if (chr == '\b') {
+    term_x -= 8;
+    
+    if (term_x < 0) {
+      term_x += term_table->width;
+      term_y -= 16;
+      
+      if (term_y < 0) {
+        term_y = 0;
+      }
+    }
+    
+    term_putchr(' ');
+    term_x -= 8;
+    
+    if (term_x < 0) {
+      term_x += term_table->width;
+      term_y -= 16;
+      
+      if (term_y < 0) {
+        term_y = 0;
+      }
+    }
   }
   
-  if (chr < 0x20 || chr >= 0x7F) return;
+  if (chr < 0x20 || chr >= 0x7F) {
+    if (!term_table->bpp && term_x < term_table->width) {
+      uint16_t *buffer = term_table->buffer;
+      int index = (term_x >> 3) + (term_y >> 4) * (term_table->width >> 3);
+      
+      buffer[index] = (buffer[index] & 0xFF) | (term_map_16[term_fore] << 8) | (term_map_16[term_back] << 12);
+    }
+    
+    term_cursor();
+    return;
+  }
   
   if (term_table->bpp) {
     uint8_t prev = 0x00;
@@ -157,9 +197,19 @@ void term_putchr(char chr) {
     term_y += 16;
     
     if (term_y >= term_table->height) {
-      term_y = 0;
+      term_scroll();
+      term_y -= 16;
     }
   }
+  
+  if (!term_table->bpp && term_x < term_table->width) {
+    uint16_t *buffer = term_table->buffer;
+    int index = (term_x >> 3) + (term_y >> 4) * (term_table->width >> 3);
+    
+    buffer[index] = (buffer[index] & 0xFF) | (term_map_16[term_fore] << 8) | (term_map_16[term_back] << 12);
+  }
+  
+  term_cursor();
 }
 
 void term_putstr(const char *str) {

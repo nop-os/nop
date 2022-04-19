@@ -27,10 +27,12 @@ size_t  virt_cont(uint32_t *table, void *virt_addr); // number of pages that can
 void virt_memcpy_to_virt(uint32_t *table, void *dest, const void *src, size_t size);
 void virt_memcpy_to_phys(uint32_t *table, void *dest, const void *src, size_t size);
 
-size_t virt_strlen(uint32_t *table, const char *ptr);
+size_t virt_strlen(uint32_t *table, const char *str);
 
 void virt_strncpy_to_virt(uint32_t *table, char *dest, const char *src, size_t size);
 void virt_strncpy_to_phys(uint32_t *table, char *dest, const char *src, size_t size);
+
+char *virt_strdup(uint32_t *table, const char *str);
 
 void virt_map(uint32_t *table, void *phys_addr, void *virt_addr, uint32_t flags, size_t count);
 void virt_unmap(uint32_t *table, void *virt_addr, size_t count);

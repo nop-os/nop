@@ -33,7 +33,6 @@ default callset:
 | prog_alloc       | extend the memory space(64 KiB for the stack by default)   | non-0 if successfully extended                          | eax: increment(in 4 KiB pages)                                                     |
 | time_read        | reads the current UTC time                                 | unsigned 32-bit time in seconds since 01/01/2022, 00:00 |                                                                                    |
 | time_getzone     | gets the current timezone offset                           | signed offset in hours from UTC                         |                                                                                    |
-| time_setzone     | sets the current timezone offset(signed number)            | non-0 if successfully set                               | eax: signed offset                                                                 |
 
 - a file can only be opened in one place at the same time
 - when a program ends, it wont be unloaded until a prog_kill call is received, and the return code will be saved in case prog_wait is called afterwards(race condition prevention!)
@@ -63,47 +62,3 @@ memory space(program-wise):
 - 0x00000000 - 0x000FFFFF -> kernel code space(1 MiB)
 - 0x01000000 - 0xF7FFFFFF -> stack and usable memory space(upon request, 64 KiB - 3952 MiB)
 - 0xF8000000 - 0xFFFFFFFF -> program code(128 MiB)
-
-context switching:
-
-- push all registers
-- set the kernel stack
-- load the kernel page map
-- sa
-- 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
