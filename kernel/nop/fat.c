@@ -192,9 +192,12 @@ uint32_t fat_find(int part, uint32_t directory, uint32_t *parent, size_t *index,
   }
   
   size_t size = (fat_size(part, directory) * fat_parts[part].boot.cluster_size) << 9;
-  
   fat_node_t *nodes = malloc(size);
-  if (!nodes) return 0x0FFFFFFF;
+  
+  if (!nodes) {
+    term_failf("not enough free heap space, returning\n");
+    return 0x0FFFFFFF;
+  }
   
   fat_load_chain(part, nodes, directory);
   size /= sizeof(fat_node_t);

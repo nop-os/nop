@@ -17,22 +17,24 @@ default callset:
 | file_close       | closes a file(optionally saving if specified)              | non-0 if successfully closed(and saved)                 | eax: file id, ebx: non-0 to save                                                   |
 | file_write       | writes to a file                                           | the amount of bytes successfully written(won't resize)  | eax: file id, ebx: buffer, ecx: size                                               |
 | file_read        | reads from a file                                          | the amount of bytes successfully read                   | eax: file id, ebx: buffer, ecx: size                                               |
-| file_entry       | gives information about a file entry in an open directory  | non-0 if successfuly read                               | eax: file id, ebx: buffer(for path), ecx: size(with null byte)                     |
+| file_entry*      | gives information about a file entry in an open directory  | non-0 if successfuly read                               | eax: file id, ebx: buffer(for path), ecx: size(with null byte)                     |
 | file_seek        | moves the read/write head(absolute/relative)               | the new head's position                                 | eax: file id, ebx: offset, ecx: type(0=from start, 1=from end, 2=relative(signed)) |
 | file_resize      | resizes the file buffer                                    | non-0 if successfully resized                           | eax: file id, ebx: size                                                            |
-| file_getmode     | gets a file's mode(hidden, directory, etc.)                | that file's mode                                        | eax: file id                                                                       |
-| file_setmode     | sets a file's mode                                         | non-0 if successfully set                               | eax: file id, ebx: mode                                                            |
+| file_getmode*    | gets a file's mode(hidden, directory, etc.)                | that file's mode                                        | eax: file id                                                                       |
+| file_setmode*    | sets a file's mode                                         | non-0 if successfully set                               | eax: file id, ebx: mode                                                            |
 | term_write       | writes to the terminal                                     | the amount of bytes successfully written                | eax: buffer, ebx: size                                                             |
 | term_read        | reads from the terminal                                    | the amount of bytes successfully read                   | eax: buffer, ebx: size                                                             |
-| term_getmode     | gets the terminal's mode(echo, cook, etc.)                 | the terminal's mode                                     |                                                                                    |
-| term_setmode     | sets the terminal's mode                                   | non-0 if successfully set                               | eax: mode                                                                          |
+| term_getmode*    | gets the terminal's mode(echo, cook, etc.)                 | the terminal's mode                                     |                                                                                    |
+| term_setmode*    | sets the terminal's mode                                   | non-0 if successfully set                               | eax: mode                                                                          |
 | prog_load        | loads and runs a program(optionally with a custom callset) | the loaded program's id, or 0 if failed                 | eax: path, ebx: argv, ecx: envp, edx: callset pointer, edi: call count(in callset) |
 | prog_kill        | kills a program and unloads it                             | non-0 if successfully killed                            | eax: program id                                                                    |
 | prog_wait        | waits for a program to finish                              | that program's return code, or 0 if non-existent        | eax: program id                                                                    |
 | prog_skip        | let the scheduler skip to the next program                 | always 1                                                |                                                                                    |
 | prog_alloc       | extend the memory space(64 KiB for the stack by default)   | non-0 if successfully extended                          | eax: increment(in 4 KiB pages)                                                     |
-| time_read        | reads the current UTC time                                 | unsigned 32-bit time in seconds since 01/01/2022, 00:00 |                                                                                    |
-| time_getzone     | gets the current timezone offset                           | signed offset in hours from UTC                         |                                                                                    |
+| time_read*       | reads the current UTC time                                 | unsigned 32-bit time in seconds since 01/01/2022, 00:00 |                                                                                    |
+| time_getzone*    | gets the current timezone offset                           | signed offset in hours from UTC                         |                                                                                    |
+
+* -> not implemented
 
 - a file can only be opened in one place at the same time
 - when a program ends, it wont be unloaded until a prog_kill call is received, and the return code will be saved in case prog_wait is called afterwards(race condition prevention!)
@@ -60,5 +62,6 @@ scheduler:
 memory space(program-wise):
 
 - 0x00000000 - 0x000FFFFF -> kernel code space(1 MiB)
+- 0x00100000 - 0x00FFFFFF -> kernel heap space(15 MiB)
 - 0x01000000 - 0xF7FFFFFF -> stack and usable memory space(upon request, 64 KiB - 3952 MiB)
 - 0xF8000000 - 0xFFFFFFFF -> program code(128 MiB)

@@ -1,3 +1,5 @@
+#include <nop/file.h>
+#include <nop/call.h>
 #include <nop/prog.h>
 #include <stdlib.h>
 #include <string.h>
@@ -25,7 +27,7 @@
 
 int shell_run(int argc, const char **argv);
 
-int main(int argc, const char **argv) {
+int main(int argc, const char **argv, const char **envp) {
   putstr(TERM_WHITE "\nwelcome to nop, the OS for tinkerers! (not really :p)\ntype " TERM_LIGHT_CYAN "help" TERM_WHITE " for a list of commands\n\n");
   int value = 1;
   
@@ -89,7 +91,7 @@ int shell_run(int argc, const char **argv) {
       return 0;
     }
     
-    char new_path[CMD_LENGTH];
+    char new_path[FILE_PATH_MAX];
     
     if (strlen(argv[1]) >= 2 && argv[1][0] >= '0' && argv[1][0] <= '9' && argv[1][1] == ':') {
       strcpy(new_path, argv[1]);
@@ -106,10 +108,16 @@ int shell_run(int argc, const char **argv) {
       new_path[length - 1] = '\0';
     }
     
-    if (1) {
+    FILE *file = fopen(new_path, "r");
+    
+    // TODO: check if not dir
+    
+    if (!file) {
       printf("go: cannot open '%s'\n", new_path);
       return 0;
     }
+    
+    fclose(file);
     
     setenv("PATH", new_path, 1);
     return 1;
@@ -127,11 +135,10 @@ int shell_run(int argc, const char **argv) {
       return 0;
     }
     
-    // TODO: clear the screen
+    putstr("\x1B[2J");
     return 1;
   } else if (!strcmp(argv[0], "exit")) {
     exit(1);
-    return 1;
   } else if (!strcmp(argv[0], "set")) {
     // TODO: setenv(...)
     return 1;

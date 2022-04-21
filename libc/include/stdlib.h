@@ -5,7 +5,7 @@
 #include <setjmp.h>
 #include <stdint.h>
 
-extern const char **environ;
+extern char **environ;
 
 extern jmp_buf _start_buf;
 extern int _start_ret;

@@ -1,6 +1,8 @@
 #include <nop/call.h>
+#include <nop/file.h>
 #include <stdarg.h>
 #include <stdint.h>
+#include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
 
@@ -176,4 +178,46 @@ char *gets_s(char *buffer, size_t size) {
   
   buffer[read] = '\0';
   return buffer;
+}
+
+FILE *fopen(const char *path, const char *mode) {
+  int file = file_open(path);
+  if (!file) return NULL;
+  
+  FILE *ptr = malloc(sizeof(FILE));
+  
+  ptr->file = file;
+  ptr->read_only = 1; // TODO: parse mode
+  
+  return ptr;
+}
+
+int fclose(FILE *file) {
+  if (!file) return EOF;
+  if (!file_close(file->file, !file->read_only)) return EOF;
+  
+  free(file);
+  return 0;
+}
+
+size_t fread(void *ptr, size_t size, size_t count, FILE *file) {
+  if (!file) return 0;
+  return file_read(file->file, ptr, size * count);
+}
+
+size_t fwrite(const void *ptr, size_t size, size_t count, FILE *file) {
+  if (!file) return 0;
+  return file_write(file->file, ptr, size * count);
+}
+
+int fseek(FILE *file, off_t offset, int type) {
+  if (!file) return EOF;
+  
+  file_seek(file->file, offset, type);
+  return 0;
+}
+
+off_t ftell(FILE *file) {
+  if (!file) return EOF;
+  return file_seek(file->file, 0, SEEK_CUR);
 }

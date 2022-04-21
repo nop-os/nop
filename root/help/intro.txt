@@ -1,0 +1,17 @@
+TODO: rewrite to look cuter
+
+shell builtins:
+- go <PATH>          -> enters a path(absolute or relative)
+- back               -> exits a directory(equivalent to 'cd ..' in *nix)
+- set <NAME> <VALUE> -> sets an enviroment variable
+- get <NAME>         -> prints an enviroment variable
+- echo <TEXT>        -> repeats the specified text
+- clear              -> clears the screen
+- exit               -> exits the shell
+
+bundled programs:
+- list [PATH]          -> if directory, list out all files, if file, print out its contents
+- help [ENTRY]         -> shows the help file for an entry, 'intro' by default
+- copy <SOURCE> <DEST> -> copies a file(cannot copy directories)
+- move <SOURCE> <DEST> -> moves a file or a directory
+- delete <PATH>        -> deletes a file or an empty directory

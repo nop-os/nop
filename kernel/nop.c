@@ -41,7 +41,7 @@ void nop(tb_mem_t *mem_table, tb_vid_t *vid_table) {
   
   for (int i = 0; i < cfg_read_arr_len(config, "init"); i++) {
     const char *argv[1] = {NULL};
-    const char *envp[2] = {"PATH=0:/user", NULL};
+    const char *envp[3] = {"PATH=0:/user", "PROG_PATH=0:/prog", NULL};
     
     // TODO: buffer will contain the entire command, we should separate the args!
     

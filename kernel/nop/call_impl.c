@@ -166,14 +166,18 @@ int $prog_load(const char *path, const char **argv, const char **envp, call_t *c
   if (argv) {
     while (*((const char **)(virt_phys(table, argv + argc)))) {
       new_argv = realloc(new_argv, (argc + 1) * sizeof(const char *));
-      new_argv[argc++] = virt_strdup(table, *((const char **)(virt_phys(table, argv + argc))));
+      new_argv[argc] = virt_strdup(table, *((const char **)(virt_phys(table, argv + argc))));
+      
+      argc++;
     }
   }
   
   if (envp) {
     while (*((const char **)(virt_phys(table, envp + envc)))) {
       new_envp = realloc(new_envp, (envc + 1) * sizeof(const char *));
-      new_envp[envc++] = virt_strdup(table, *((const char **)(virt_phys(table, envp + envc))));
+      new_envp[envc] = virt_strdup(table, *((const char **)(virt_phys(table, envp + envc))));
+      
+      envc++;
     }
   }
   
@@ -183,8 +187,12 @@ int $prog_load(const char *path, const char **argv, const char **envp, call_t *c
   new_envp = realloc(new_envp, (envc + 1) * sizeof(const char *));
   new_envp[envc] = NULL;
   
-  call_t *new_call_array = malloc(call_count * sizeof(call_t));
-  virt_memcpy_to_phys(table, new_call_array, call_array, call_count * sizeof(call_t));
+  call_t *new_call_array = NULL;
+  
+  if (call_array && call_count) {
+    new_call_array = malloc(call_count * sizeof(call_t));
+    virt_memcpy_to_phys(table, new_call_array, call_array, call_count * sizeof(call_t));
+  }
   
   return prog_load(buffer, new_argv, new_envp, new_call_array, call_count);
 }

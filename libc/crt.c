@@ -12,11 +12,13 @@ int _start(const char **argv, const char **envp) {
   int envc = 0;
   while (envp[envc]) envc++;
   
-  environ = calloc(envc, sizeof(const char *));
+  environ = malloc((envc + 1) * sizeof(const char *));
   
   for (int i = 0; i < envc; i++) {
     environ[i] = strdup(envp[i]);
   }
+  
+  environ[envc] = NULL;
   
   if (setjmp(_start_buf)) {
     return _start_ret;

@@ -76,9 +76,6 @@ void term_cursor(void) {
 }
 
 void term_putchr(char chr) {
-  // if (chr == '\n') i586_outb('\r', 0x03F8);
-  // i586_outb(chr, 0x03F8);
-  
   if (chr == '\x1B' || term_length > 0) {
     term_ansi[term_length++] = chr;
     
@@ -107,6 +104,16 @@ void term_putchr(char chr) {
               term_fore = num - 82;
             }
           }
+          
+          break;
+        
+        case 'J':
+          for (int i = 0; i < term_table->height / 16; i++) {
+            term_scroll();
+          }
+          
+          term_x = term_y = 0;
+          term_cursor();
           
           break;
       }

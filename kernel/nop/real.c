@@ -19,7 +19,7 @@ int real_read(int drive, uint64_t lba, void *buffer) {
   
   regs.eax = 0x00004200;
   regs.esi = 0x00007038;
-  regs.esp = 0x00007000;
+  regs.esp = 0x00001000;
   regs.edx = drive;
   
   idt_pic_off();
@@ -54,6 +54,7 @@ int real_write(int drive, uint64_t lba, void *buffer) {
   
   regs.eax = 0x00004300;
   regs.esi = 0x00007038;
+  regs.esp = 0x00001000;
   regs.edx = drive;
   
   idt_pic_off();

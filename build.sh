@@ -28,7 +28,7 @@ cd prog
 cd ..
 
 # make root directories
-mkdir -p root/{syst,prog,user}
+mkdir -p root/{syst,prog,user,help}
 
 # generate the image
 echo "[nop] generating image..."

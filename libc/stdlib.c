@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-const char **environ = NULL;
+char **environ = NULL;
 
 jmp_buf _start_buf;
 int _start_ret;
@@ -29,11 +29,41 @@ void *realloc(void *ptr, size_t size) {
 }
 
 int setenv(const char *name, const char *value, int overwrite) {
+  int envc = 0;
+  
+  for (int i = 0; environ[i]; i++) {
+    char env_name[32] = {0};
+    
+    for (int j = 0; j < 31 && environ[i][j] && environ[i][j] != '='; j++) {
+      env_name[j] = environ[i][j];
+    }
+    
+    if (!strcmp(name, env_name)) {
+      if (overwrite) {
+        environ[i] = realloc(environ[i], strlen(env_name) + 1 + strlen(value) + 1);
+        strcpy(environ[i] + strlen(env_name) + 1, value);
+      }
+      
+      return 0;
+    }
+    
+    envc++;
+  }
+  
+  environ = realloc(environ, (envc + 2) * sizeof(const char *));
+  
+  environ[envc + 0] = malloc(strlen(name) + 1 + strlen(value) + 1);
+  environ[envc + 1] = NULL;
+  
+  strcpy(environ[envc], name);
+  strcat(environ[envc], "=");
+  strcat(environ[envc], value);
+  
   return 0;
 }
 
 int unsetenv(const char *name) {
-  return 0;
+  return 0; // TODO
 }
 
 const char *getenv(const char *name) {

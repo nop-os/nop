@@ -200,6 +200,8 @@ void prog_switch(i586_regs_t *regs) {
     prog_list[prog_id - 1].regs = *regs;
   }
   
+  int old_id = prog_id;
+  
   do {
     if (!prog_id) prog_id = PROG_COUNT;
     prog_id = (prog_id % PROG_COUNT) + 1;
