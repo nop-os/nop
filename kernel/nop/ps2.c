@@ -218,7 +218,7 @@ void ps2_keyb(i586_regs_t *regs) {
               ps2_enter_head %= PS2_BUFFER_SIZE;
               
               if (ps2_echo_mode) {
-                call_putchr(value);
+                call_kernel(term_putchr, value);
               }
             }
           } else {
@@ -226,7 +226,7 @@ void ps2_keyb(i586_regs_t *regs) {
             ps2_enter_head %= PS2_BUFFER_SIZE;
             
             if (ps2_echo_mode) {
-              call_putchr(value);
+              call_kernel(term_putchr, value);
             }
             
             if (value == '\n' || !ps2_cook_mode) {

@@ -8,7 +8,7 @@ int putstr_opt(const char *str, int pad_aln, int pad_len, char pad_chr) {
   int length = strlen(str);
   
   if (pad_aln) {
-    while (pad_len >= length) {
+    while (pad_len > length) {
       if (putchar(pad_chr) < 0) return EOF;
       pad_len--;
     }
@@ -17,13 +17,13 @@ int putstr_opt(const char *str, int pad_aln, int pad_len, char pad_chr) {
   if (!nop_call("term_write", (uint32_t)(str), length, 0, 0, 0)) return EOF;
   
   if (pad_aln) {
-    while (pad_len >= length) {
+    while (pad_len > length) {
       if (putchar(pad_chr) < 0) return EOF;
       pad_len--;
     }
   }
   
-  return (length > pad_len ? pad_len : length);
+  return length;
 }
 
 int putnum_opt(int num, int base, int upper, int pad_aln, int pad_len, char pad_chr) {

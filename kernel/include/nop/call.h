@@ -26,10 +26,12 @@ struct call_t {
 extern const call_t call_array[];
 extern const int call_count;
 
+extern int call_flag;
+
 void call_init(void);
 int  call_find(const char *name, int prog, call_t *call);
 
-void call_putchr(char chr);
+void call_kernel(void *func, uint32_t value);
 
 void call_handle(i586_regs_t *regs);
 

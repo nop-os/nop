@@ -42,6 +42,9 @@ struct prog_t {
   
   // paremeters
   const char **argv, **envp;
+  
+  // wait id, usually 0
+  int wait;
 };
 
 extern prog_t *prog_list;

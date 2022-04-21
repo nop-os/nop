@@ -4,5 +4,5 @@ layout: "0:/syst/layoutes.bin"
 timezone: "madrid"
 
 init: [
-  "0:/prog/test.out"
+  "0:/prog/shell.out"
 ]

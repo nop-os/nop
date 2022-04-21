@@ -75,7 +75,10 @@ void term_cursor(void) {
   i586_outb(index >> 8, 0x03D5);
 }
 
-void term_putchr(char chr) {  
+void term_putchr(char chr) {
+  // if (chr == '\n') i586_outb('\r', 0x03F8);
+  // i586_outb(chr, 0x03F8);
+  
   if (chr == '\x1B' || term_length > 0) {
     term_ansi[term_length++] = chr;
     

@@ -193,7 +193,19 @@ int $prog_kill(int id) {
   return prog_kill(id);
 }
 
-int $prog_wait(int id);
+int $prog_wait(int id) {
+  if (!id) return 0;
+  if (prog_list[id - 1].free) return 0;
+  
+  if (prog_list[id - 1].done) {
+    return prog_list[id - 1].value;
+  } else {
+    prog_list[prog_id - 1].wait = id;
+    prog_waiting = 1;
+    
+    return 0; // this *must* be overwritten by our kernel gods later on, or i'll cry :D
+  }
+}
 
 void $prog_skip(void) {
   prog_waiting = 1;

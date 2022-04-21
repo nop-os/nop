@@ -4,6 +4,8 @@
 #include <nop/type.h>
 #include <nop/idt.h>
 
+#include <nop/call.h>
+
 idt_hand_t *idt_hand = NULL;
 int idt_count = 0;
 
@@ -87,6 +89,13 @@ void idt_remove(int index) {
 
 void idt_call(i586_regs_t *regs, int id) {
   idt_level++;
+  
+  if (id < 32) {
+    term_failf("(%d) exception %d!\n", call_flag, id);
+    
+    i586_cli();
+    for (;;);
+  }
   
   for (int i = 0; i < idt_count; i++) {
     if (idt_hand[i].id == id) {

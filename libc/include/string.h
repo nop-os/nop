@@ -19,4 +19,6 @@ int     strncmp(const char *str_1, const char *str_2, size_t size);
 char   *strchr(const char *str, int val);
 char   *strrchr(const char *str, int val);
 
+char *strdup(const char *str);
+
 #endif

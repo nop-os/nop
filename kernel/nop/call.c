@@ -3,7 +3,6 @@
 #include <nop/call.h>
 #include <nop/page.h>
 #include <nop/prog.h>
-#include <nop/term.h>
 #include <nop/virt.h>
 #include <nop/idt.h>
 #include <string.h>
@@ -22,9 +21,14 @@ const call_t call_array[] = {
   
   (call_t){"prog_load", 0, (void *)($prog_load)},
   (call_t){"prog_kill", 0, (void *)($prog_kill)},
+  (call_t){"prog_wait", 0, (void *)($prog_wait)},
+  (call_t){"prog_skip", 0, (void *)($prog_skip)},
+  (call_t){"prog_alloc", 0, (void *)($prog_alloc)},
 };
 
 const int call_count = sizeof(call_array) / sizeof(call_t);
+
+int call_flag = 0;
 
 static char call_name[32];
 
@@ -54,14 +58,14 @@ int call_find(const char *name, int prog, call_t *call) {
   }
 }
 
-void call_putchr(char chr) {
-  if (!term_table->bpp) {
-    term_putchr(chr);
+void call_kernel(void *func, uint32_t value) {
+  if (call_flag) {
+    ((void (*)(uint32_t))(func))(value);
     return;
   }
   
   uint32_t *esp = CALL_STACK_TERM;
-  uint32_t eip = (uint32_t)(term_putchr);
+  uint32_t eip = (uint32_t)(func);
   
   // all the 0 ones will be filled in by call_switch
   
@@ -72,12 +76,14 @@ void call_putchr(char chr) {
   *(--esp) = 0x00000000;
   *(--esp) = 0x00000000;
   *(--esp) = 0x00000000;
-  *(--esp) = chr;
+  *(--esp) = value;
   
   *(--esp) = 0x00000000; // return address
   *(--esp) = eip;        // eip
   
+  call_flag = 1;
   call_switch((uint32_t)(esp), virt_table);
+  call_flag = 0;
 }
 
 void call_handle(i586_regs_t *regs) {
@@ -118,11 +124,14 @@ void call_handle(i586_regs_t *regs) {
     *(--esp) = 0x00000000; // return address
     *(--esp) = eip;        // eip
     
+    if (!call.prog) call_flag = 1;
     regs->eax = call_switch((uint32_t)(esp), table);
+    if (!call.prog) call_flag = 0;
+    
     prog_id = old_prog;
     
     if (call.prog) {
-      free(old_esp);
+      free(old_esp - CALL_STACK_SIZE);
     }
   }
   

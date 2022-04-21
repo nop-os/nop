@@ -21,10 +21,17 @@
 #define TERM_LIGHT_CYAN   "\x1B[96m"
 #define TERM_WHITE        "\x1B[97m"
 
+#ifdef NOP_DEBUG
 #define term_infof(...) term_printf(TERM_WHITE "[" TERM_LIGHT_BLUE  "INFO" TERM_WHITE " " __FILE__ "] " TERM_LIGHT_GRAY __VA_ARGS__)
 #define term_donef(...) term_printf(TERM_WHITE "[" TERM_LIGHT_GREEN "DONE" TERM_WHITE " " __FILE__ "] " TERM_LIGHT_GRAY __VA_ARGS__)
 #define term_warnf(...) term_printf(TERM_WHITE "[" TERM_YELLOW      "WARN" TERM_WHITE " " __FILE__ "] " TERM_LIGHT_GRAY __VA_ARGS__)
 #define term_failf(...) term_printf(TERM_WHITE "[" TERM_LIGHT_RED   "FAIL" TERM_WHITE " " __FILE__ "] " TERM_LIGHT_GRAY __VA_ARGS__)
+#else
+#define term_infof(...)
+#define term_donef(...)
+#define term_warnf(...)
+#define term_failf(...)
+#endif
 
 extern tb_vid_t *term_table;
 extern int16_t term_x, term_y;
