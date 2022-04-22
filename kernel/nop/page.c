@@ -53,7 +53,7 @@ void *page_alloc(size_t count, int low) {
   int found = 0;
   
   if (!low) {
-    page = (uint32_t)(VIRT_NOP_DATA) >> 12;
+    page = (uint32_t)(VIRT_NOP_STCK) >> 12;
   }
 
   for (uint32_t i = page; i < PAGE_COUNT; i++) {
@@ -101,7 +101,7 @@ void *page_alloc(size_t count, int low) {
     return NULL;
   }
   
-  if (low && page + count >= (uint32_t)(VIRT_NOP_DATA) >> 12) {
+  if (low && page + count >= (uint32_t)(VIRT_NOP_STCK) >> 12) {
     term_failf("cannot allocate %u pages: no free system pages\n", count);
     term_panic();
     

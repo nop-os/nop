@@ -4,10 +4,11 @@
 #include <stdint.h>
 #include <string.h>
 
-uint32_t *nop_heap = (void *)(0x01010000); // 64 KiB after the start of memory space, leaving space for the stack :D
+uint32_t *nop_heap = NULL;
 size_t nop_heap_size = 0;
 
 void *nop_alloc(size_t size) {
+  if (!nop_heap) nop_heap = prog_alloc(0);
   size_t offset = 0;
   
   while (offset < nop_heap_size) {

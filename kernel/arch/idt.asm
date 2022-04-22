@@ -1943,6 +1943,7 @@ idt_hand_13:
   iret
 
 idt_hand_14:
+  mov eax, cr2
   pushad
   mov eax, esp
   push dword 14

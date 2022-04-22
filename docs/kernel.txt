@@ -30,7 +30,7 @@ default callset:
 | prog_kill        | kills a program and unloads it                             | non-0 if successfully killed                            | eax: program id                                                                    |
 | prog_wait        | waits for a program to finish                              | that program's return code, or 0 if non-existent        | eax: program id                                                                    |
 | prog_skip        | let the scheduler skip to the next program                 | always 1                                                |                                                                                    |
-| prog_alloc       | extend the memory space(64 KiB for the stack by default)   | non-0 if successfully extended                          | eax: increment(in 4 KiB pages)                                                     |
+| prog_alloc       | extend the memory space                                    | first address after .bss, or 0 if failed                | eax: increment(in 4 KiB pages)                                                     |
 | time_read*       | reads the current UTC time                                 | unsigned 32-bit time in seconds since 01/01/2022, 00:00 |                                                                                    |
 | time_getzone*    | gets the current timezone offset                           | signed offset in hours from UTC                         |                                                                                    |
 
@@ -62,6 +62,6 @@ scheduler:
 memory space(program-wise):
 
 - 0x00000000 - 0x000FFFFF -> kernel code space(1 MiB)
-- 0x00100000 - 0x00FFFFFF -> kernel heap space(15 MiB)
-- 0x01000000 - 0xF7FFFFFF -> stack and usable memory space(upon request, 64 KiB - 3952 MiB)
-- 0xF8000000 - 0xFFFFFFFF -> program code(128 MiB)
+- 0x00100000 - 0x00EFFFFF -> kernel heap space(14 MiB)
+- 0x00F00000 - 0x00FFFFFF -> user stack space(1 MiB)
+- 0x01000000 - 0xFFFFFFFF -> user memory space

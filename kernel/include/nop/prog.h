@@ -5,6 +5,9 @@
 #include <nop/call.h>
 #include <nop/type.h>
 
+// program stack size
+#define PROG_STACK 65536
+
 #define PROG_COUNT 256
 
 typedef struct prog_data_t prog_data_t;
@@ -33,7 +36,7 @@ struct prog_t {
   i586_regs_t regs;
   uint32_t *table;
   
-  // the amount of allocated pages, 16 by default
+  // the amount of allocated pages after the system break
   size_t page_count;
   
   // custom callset(if any)

@@ -92,6 +92,7 @@ void idt_call(i586_regs_t *regs, int id) {
   
   if (id < 32) {
     term_failf("(%d) exception %d!\n", call_flag, id);
+    term_infof("- eax -> 0x%08X\n", regs->eax);
     
     i586_cli();
     for (;;);

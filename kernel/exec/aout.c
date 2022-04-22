@@ -22,10 +22,6 @@ prog_data_t aout_load(int file) {
   aout_t aout;
   file_read(file, &aout, sizeof(aout_t));
   
-  if (aout.bss) {
-    term_warnf("a.out file has non-zero bss size, it is recommended to use prog_alloc and set the bss size to 0 instead\n");
-  }
-  
   prog_data_t data;
   data.size = aout.text + aout.data + aout.bss;
   

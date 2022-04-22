@@ -99,8 +99,11 @@ int prog_load(const char *path, const char **argv, const char **envp, call_t *ca
   // TODO: make table smaller by leaving parts empty
   prog_list[id - 1].table = virt_alloc();
   
-  virt_map(prog_list[id - 1].table, VIRT_NOP_KERN, VIRT_NOP_KERN, VIRT_WRITE, ((uint32_t)(VIRT_NOP_DATA) - (uint32_t)(VIRT_NOP_KERN)) >> 12);
-  virt_map(prog_list[id - 1].table, data.data, VIRT_NOP_CODE, VIRT_WRITE, (data.size + 0x0FFF) >> 12);
+  uint32_t *phys_esp = page_alloc(PROG_STACK >> 12, 0);
+  
+  virt_map(prog_list[id - 1].table, VIRT_NOP_KERN, VIRT_NOP_KERN, VIRT_WRITE, ((uint32_t)(VIRT_NOP_STCK) - (uint32_t)(VIRT_NOP_KERN)) >> 12);
+  virt_map(prog_list[id - 1].table, data.data, VIRT_NOP_USER, VIRT_WRITE, (data.size + 0x0FFF) >> 12);
+  virt_map(prog_list[id - 1].table, phys_esp, VIRT_NOP_USER - PROG_STACK, VIRT_WRITE, PROG_STACK >> 12);
   
   prog_list[id - 1].page_count = 0;
   
@@ -116,10 +119,7 @@ int prog_load(const char *path, const char **argv, const char **envp, call_t *ca
   prog_list[id - 1].call_array = call_array;
   prog_list[id - 1].call_count = call_count;
   
-  const size_t stack_size = 65536;
-  
-  prog_alloc(id, stack_size >> 12);
-  uint32_t *esp = VIRT_NOP_DATA + stack_size;
+  uint32_t *esp = VIRT_NOP_USER;
   
   *((uint32_t *)(virt_phys(prog_list[id - 1].table, --esp))) = (uint32_t)(envp);        // envp
   *((uint32_t *)(virt_phys(prog_list[id - 1].table, --esp))) = (uint32_t)(argv);        // argv
@@ -170,6 +170,8 @@ int prog_kill(int id) {
     // TODO: find memory space pages to free in table
   }
   
+  // TODO: free stack
+  
   virt_free(prog_list[id - 1].table);
   return 1;
 }
@@ -180,8 +182,9 @@ int prog_alloc(int id, size_t count) {
   
   while (count--) {
     void *page = page_alloc(1, 0);
+    void *virt = VIRT_NOP_USER + ((((prog_list[id - 1].data.size + 0x0FFF) >> 12) + prog_list[id - 1].page_count) << 12);
     
-    virt_map(prog_list[id - 1].table, page, VIRT_NOP_DATA + (prog_list[id - 1].page_count << 12), VIRT_WRITE, 1);
+    virt_map(prog_list[id - 1].table, page, virt, VIRT_WRITE, 1);
     prog_list[id - 1].page_count++;
   }
   

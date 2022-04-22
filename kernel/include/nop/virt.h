@@ -8,8 +8,8 @@
 #define VIRT_PRESENT (1 << 0)
 
 #define VIRT_NOP_KERN (void *)(0x00000000)
-#define VIRT_NOP_DATA (void *)(0x01000000)
-#define VIRT_NOP_CODE (void *)(0xF8000000)
+#define VIRT_NOP_STCK (void *)(0x00F00000)
+#define VIRT_NOP_USER (void *)(0x01000000)
 
 #define VIRT_NOP_SIZE (0x00100000 - ((uint32_t)(VIRT_NOP_KERN) >> 12))
 

@@ -219,6 +219,7 @@ void $prog_skip(void) {
   prog_waiting = 1;
 }
 
-int $prog_alloc(size_t count) {
-  return prog_alloc(prog_id, count);
+void *$prog_alloc(size_t count) {
+  if (!prog_alloc(prog_id, count)) return NULL;
+  else return VIRT_NOP_USER + (((prog_list[prog_id - 1].data.size + 0x0FFF) >> 12) << 12);
 }
