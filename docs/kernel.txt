@@ -9,30 +9,31 @@ syscalls:
 
 default callset:
 
-| name             | description                                                | returns                                                 | arguments                                                                          |
-|------------------|------------------------------------------------------------|---------------------------------------------------------|------------------------------------------------------------------------------------|
-| file_open        | opens a file                                               | the opened file's id, or 0 if failed                    | eax: path                                                                          |
-| file_create      | creates a file                                             | non-0 if successfully created                           | eax: path                                                                          |
-| file_delete      | deletes a file                                             | non-0 if successfully deleted                           | eax: path                                                                          |
-| file_close       | closes a file(optionally saving if specified)              | non-0 if successfully closed(and saved)                 | eax: file id, ebx: non-0 to save                                                   |
-| file_write       | writes to a file                                           | the amount of bytes successfully written(won't resize)  | eax: file id, ebx: buffer, ecx: size                                               |
-| file_read        | reads from a file                                          | the amount of bytes successfully read                   | eax: file id, ebx: buffer, ecx: size                                               |
-| file_entry*      | gives information about a file entry in an open directory  | non-0 if successfuly read                               | eax: file id, ebx: buffer(for path), ecx: size(with null byte)                     |
-| file_seek        | moves the read/write head(absolute/relative)               | the new head's position                                 | eax: file id, ebx: offset, ecx: type(0=from start, 1=from end, 2=relative(signed)) |
-| file_resize      | resizes the file buffer                                    | non-0 if successfully resized                           | eax: file id, ebx: size                                                            |
-| file_getmode*    | gets a file's mode(hidden, directory, etc.)                | that file's mode                                        | eax: file id                                                                       |
-| file_setmode*    | sets a file's mode                                         | non-0 if successfully set                               | eax: file id, ebx: mode                                                            |
-| term_write       | writes to the terminal                                     | the amount of bytes successfully written                | eax: buffer, ebx: size                                                             |
-| term_read        | reads from the terminal                                    | the amount of bytes successfully read                   | eax: buffer, ebx: size                                                             |
-| term_getmode*    | gets the terminal's mode(echo, cook, etc.)                 | the terminal's mode                                     |                                                                                    |
-| term_setmode*    | sets the terminal's mode                                   | non-0 if successfully set                               | eax: mode                                                                          |
-| prog_load        | loads and runs a program(optionally with a custom callset) | the loaded program's id, or 0 if failed                 | eax: path, ebx: argv, ecx: envp, edx: callset pointer, edi: call count(in callset) |
-| prog_kill        | kills a program and unloads it                             | non-0 if successfully killed                            | eax: program id                                                                    |
-| prog_wait        | waits for a program to finish                              | that program's return code, or 0 if non-existent        | eax: program id                                                                    |
-| prog_skip        | let the scheduler skip to the next program                 | always 1                                                |                                                                                    |
-| prog_alloc       | extend the memory space                                    | first address after .bss, or 0 if failed                | eax: increment(in 4 KiB pages)                                                     |
-| time_read*       | reads the current UTC time                                 | unsigned 32-bit time in seconds since 01/01/2022, 00:00 |                                                                                    |
-| time_getzone*    | gets the current timezone offset                           | signed offset in hours from UTC                         |                                                                                    |
+| name          | description                                   | returns                                  | arguments                                         |
+|---------------|-----------------------------------------------|------------------------------------------|---------------------------------------------------|
+| file_open     | opens a file                                  | opened file's id, 0 if failed            | path                                              |
+| file_create   | creates a file                                | non-0 if successfully created            | path                                              |
+| file_delete   | deletes a file                                | non-0 if successfully deleted            | path                                              |
+| file_close    | closes a file(optionally saving if specified) | non-0 if successfully closed/saved       | file id, save                                     |
+| file_read     | reads from a file                             | bytes read                               | file id, buffer, size                             |
+| file_write    | writes to a file                              | bytes written(won't resize)              | file id, buffer, size                             |
+| file_entry    | gives a file entry in a directory             | non-0 if successfuly read                | file id, buffer(for path), size(with null byte)   |
+| file_seek     | moves the read/write head(absolute/relative)  | new head's position                      | file id, offset, type(0=start, 1=relative, 2=end) |
+| file_resize   | resizes the file buffer                       | non-0 if successfully resized            | file id, size                                     |
+| file_getmode* | gets a file's mode(hidden, directory, etc.)   | file's mode                              | file id                                           |
+| file_setmode* | sets a file's mode                            | non-0 if successfully set                | file id, mode                                     |
+| term_write    | writes to the terminal                        | bytes written                            | buffer, size                                      |
+| term_read     | reads from the terminal                       | bytes read                               | buffer, size                                      |
+| term_getmode  | gets the terminal's mode(echo, cook, etc.)    | terminal's mode                          |                                                   |
+| term_setmode  | sets the terminal's mode                      | non-0 if successfully set                | mode                                              |
+| term_getsize  | gets the terminal's resolution in characters  | low 16 bits=width, high 16 bits=height   |                                                   |
+| prog_load     | runs a program(optionally with a callset)     | program's id, 0 if failed                | path, argv, envp, callset, call count(in callset) |
+| prog_kill     | kills a program and unloads it                | non-0 if successfully killed             | program id                                        |
+| prog_wait     | waits for a program to finish                 | return code, 0 if non-existent           | program id                                        |
+| prog_skip     | let the scheduler skip to the next program    | always 1                                 |                                                   |
+| prog_alloc    | extend the memory space                       | address after .bss, 0 if failed          | increment(in pages)                               |
+| time_read*    | reads the current UTC time                    | 32-bit value in seconds since 01/01/2022 |                                                   |
+| time_getzone* | gets the current timezone offset              | signed offset in hours from UTC          |                                                   |
 
 * -> not implemented
 

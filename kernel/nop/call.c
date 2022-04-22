@@ -14,10 +14,15 @@ const call_t call_array[] = {
   (call_t){"file_close", 0, (void *)($file_close)},
   (call_t){"file_write", 0, (void *)($file_write)},
   (call_t){"file_read", 0, (void *)($file_read)},
+  (call_t){"file_entry", 0, (void *)($file_entry)},
   (call_t){"file_seek", 0, (void *)($file_seek)},
+  (call_t){"file_resize", 0, (void *)($file_resize)},
   
   (call_t){"term_write", 0, (void *)($term_write)},
   (call_t){"term_read", 0, (void *)($term_read)},
+  (call_t){"term_getmode", 0, (void *)($term_getmode)},
+  (call_t){"term_setmode", 0, (void *)($term_setmode)},
+  (call_t){"term_getsize", 0, (void *)($term_getsize)},
   
   (call_t){"prog_load", 0, (void *)($prog_load)},
   (call_t){"prog_kill", 0, (void *)($prog_kill)},

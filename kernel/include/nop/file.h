@@ -44,4 +44,6 @@ int     file_eof(int id);
 size_t file_read(int id, void *buffer, size_t size);
 size_t file_write(int id, void *buffer, size_t size);
 
+int file_entry(int id, char *buffer, size_t size);
+
 #endif

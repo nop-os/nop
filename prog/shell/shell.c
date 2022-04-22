@@ -28,7 +28,7 @@
 int shell_run(int argc, const char **argv);
 
 int main(int argc, const char **argv, const char **envp) {
-  putstr(TERM_WHITE "\nwelcome to nop, the OS for tinkerers! (not really :p)\ntype " TERM_LIGHT_CYAN "help" TERM_WHITE " for a list of commands\n\n");
+  putstr(TERM_WHITE "\nwelcome to nop, the toy OS you never asked for!\ntype " TERM_LIGHT_CYAN "help" TERM_WHITE " for a list of commands\n\n");
   int value = 1;
   
   for (;;) {

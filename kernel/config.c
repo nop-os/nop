@@ -1,5 +1,4 @@
 #include <nop/file.h>
-#include <nop/term.h>
 #include <config.h>
 #include <string.h>
 
@@ -68,7 +67,7 @@ int cfg_read_str(int file, const char *name, char *buffer) {
       char temp[FILE_PATH_MAX + 32];
       if (!cfg_next_str(file, temp)) return 0;
       
-      for (int i = temp[i] == '"'; temp[i] && temp[i] != '"'; i++) {
+      for (int i = temp[0] == '"'; temp[i] && temp[i] != '"'; i++) {
         *(buffer++) = temp[i];
       }
       

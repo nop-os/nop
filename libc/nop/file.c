@@ -50,18 +50,22 @@ int file_close(int id, int save) {
   return nop_call("file_close", id, save, 0, 0, 0);
 }
 
-size_t file_seek(int id, off_t offset, int type) {
-  return nop_call("file_seek", id, offset, type, 0, 0);
-}
-
-int file_resize(int id, size_t size) {
-  return nop_call("file_resize", id, size, 0, 0, 0);
-}
-
 size_t file_read(int id, void *buffer, size_t size) {
   return nop_call("file_read", id, (uint32_t)(buffer), size, 0, 0);
 }
 
 size_t file_write(int id, const void *buffer, size_t size) {
   return nop_call("file_write", id, (uint32_t)(buffer), size, 0, 0);
+}
+
+int file_entry(int id, char *buffer, size_t size) {
+  return nop_call("file_entry", id, (uint32_t)(buffer), size, 0, 0);
+}
+
+size_t file_seek(int id, off_t offset, int type) {
+  return nop_call("file_seek", id, offset, type, 0, 0);
+}
+
+int file_resize(int id, size_t size) {
+  return nop_call("file_resize", id, size, 0, 0, 0);
 }

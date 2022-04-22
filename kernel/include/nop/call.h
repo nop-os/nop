@@ -45,11 +45,15 @@ int    $file_delete(const char *path);
 int    $file_close(int id, int save);
 size_t $file_write(int id, void *buffer, size_t size);
 size_t $file_read(int id, void *buffer, size_t size);
+int    $file_entry(int id, char *buffer, size_t size);
 size_t $file_seek(int id, off_t offset, int type);
 int    $file_resize(int id, size_t size);
 
-size_t $term_write(const char *buffer, size_t size);
-size_t $term_read(char *buffer, size_t size);
+size_t   $term_write(const char *buffer, size_t size);
+size_t   $term_read(char *buffer, size_t size);
+int      $term_getmode(void);
+int      $term_setmode(int mode);
+uint32_t $term_getsize(void);
 
 int   $prog_load(const char *path, const char **argv, const char **envp, call_t *call_array, int call_count);
 int   $prog_kill(int id);

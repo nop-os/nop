@@ -1,5 +1,6 @@
 #include <nop/call.h>
 #include <nop/file.h>
+#include <nop/term.h>
 #include <stdarg.h>
 #include <stdint.h>
 #include <stdlib.h>
@@ -16,7 +17,7 @@ int putstr_opt(const char *str, int pad_aln, int pad_len, char pad_chr) {
     }
   }
   
-  if (!nop_call("term_write", (uint32_t)(str), length, 0, 0, 0)) return EOF;
+  if (!term_write(str, length)) return EOF;
   
   if (pad_aln) {
     while (pad_len > length) {
@@ -67,7 +68,7 @@ int putnum(int num) {
 }
 
 int putchar(int chr) {
-  if (nop_call("term_write", (uint32_t)(&chr), 1, 0, 0, 0)) return chr;
+  if (term_write((void *)(&chr), 1)) return chr;
   else return EOF;
 }
 
@@ -167,14 +168,14 @@ int printf(const char *format, ...) {
 
 int getchar(void) {
   int chr;
-  while (!nop_call("term_read", (uint32_t)(&chr), 1, 0, 0, 0));
+  while (!term_read((void *)(&chr), 1));
   
   return chr;
 }
 
 char *gets_s(char *buffer, size_t size) {
   size_t read;
-  while (!(read = nop_call("term_read", (uint32_t)(buffer), size - 1, 0, 0, 0)));
+  while (!(read = term_read(buffer, size - 1)));
   
   buffer[read] = '\0';
   return buffer;
@@ -220,4 +221,20 @@ int fseek(FILE *file, off_t offset, int type) {
 off_t ftell(FILE *file) {
   if (!file) return EOF;
   return file_seek(file->file, 0, SEEK_CUR);
+}
+
+int feof(FILE *file) {
+  off_t curr = ftell(file);
+  
+  fseek(file, 0, SEEK_END);
+  off_t size = ftell(file);
+  
+  if (curr == size) return 1;
+  
+  fseek(file, curr, SEEK_SET);
+  return 0;
+}
+
+void rewind(FILE *file) {
+  fseek(file, 0, SEEK_SET);
 }

@@ -297,3 +297,46 @@ size_t file_write(int id, void *buffer, size_t size) {
   
   return size;
 }
+
+int file_entry(int id, char *buffer, size_t size) {
+  fat_node_t node;
+  
+  for (;;) {
+    if (!file_read(id, &node, sizeof(node))) return 0;
+    if (node.name[0] && node.name[0] != 0xE5 && node.name[0] != '.') break;
+  }
+  
+  int offset = 0;
+  
+  for (int i = 0; i < 8; i++) {
+    if (node.name[i] == ' ') break;
+    if (offset >= size - 1) break;
+    
+    if (node.name[i] >= 'A' && node.name[i] <= 'Z') {
+      buffer[offset++] = (node.name[i] - 'A') + 'a';
+    } else {
+      buffer[offset++] = node.name[i];
+    }
+  }
+  
+  if (node.name[8] != ' ' && offset < size - 1) {
+    buffer[offset++] = '.';
+    
+    for (int i = 8; i < 11; i++) {
+      if (node.name[i] == ' ') break;
+      if (offset >= size - 1) break;
+      
+      if (node.name[i] >= 'A' && node.name[i] <= 'Z') {
+        buffer[offset++] = (node.name[i] - 'A') + 'a';
+      } else {
+        buffer[offset++] = node.name[i];
+      }
+    }
+  }
+  
+  if (offset < size - 1) {
+    buffer[offset] = '\0';
+  }
+  
+  return 1;
+}

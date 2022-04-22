@@ -1,15 +1,16 @@
-TODO: rewrite to look cuter
+welcome to nop! here you will find a list of available commands to run:
 
 shell builtins:
 - go <PATH>          -> enters a path(absolute or relative)
-- back               -> exits a directory(equivalent to 'cd ..' in *nix)
+- back               -> exits a directory
 - set <NAME> <VALUE> -> sets an enviroment variable
 - echo <TEXT>        -> repeats the specified text
 - clear              -> clears the screen
 - exit               -> exits the shell
 
 bundled programs:
-- list [PATH]          -> if directory, list out all files, if file, print out its contents
+- list [PATH]          -> (if directory) list out all files in a directory
+                          (if file) print out the contents of a file
 - help [ENTRY]         -> shows the help file for an entry, 'intro' by default
 - copy <SOURCE> <DEST> -> copies a file(cannot copy directories)
 - move <SOURCE> <DEST> -> moves a file or a directory

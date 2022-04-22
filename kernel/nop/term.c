@@ -6,7 +6,7 @@
 #include <string.h>
 
 tb_vid_t *term_table = NULL;
-int16_t term_x, term_y;
+int16_t term_x, term_y, term_width, term_height;
 
 char term_ansi[16] = {0};
 int term_length = 0;
@@ -39,6 +39,9 @@ void term_init(tb_vid_t *table) {
     term_table->buffer = (void *)(0x000B8000);
   }
   
+  term_width = term_table->width / 8;
+  term_height = term_table->height / 16;
+  
   for (int i = 0; i < term_table->height / 16; i++) {
     term_scroll();
   }
@@ -63,6 +66,20 @@ void term_scroll(void) {
   } else {
     memcpy(term_table->buffer, term_table->buffer + term_table->pitch, term_table->pitch * ((term_table->height - 16) >> 4));
     i586_rep_stosw(term_back, term_table->width >> 3, term_table->buffer + ((term_table->height - 16) >> 4) * term_table->pitch);
+  }
+}
+
+void term_clear_line(void) {
+  if (term_table->bpp) {
+    for (int i = 0; i < 16; i++) {
+      switch (term_table->bpp) {
+        case 32:
+          i586_rep_stosd(term_back, term_table->width, term_table->buffer + (term_y + i) * term_table->pitch);
+          break;
+      }
+    }
+  } else {
+    i586_rep_stosw(term_back, term_table->width >> 3, term_table->buffer + (term_y >> 4) * term_table->pitch);
   }
 }
 
@@ -106,12 +123,31 @@ void term_putchr(char chr) {
           break;
         
         case 'J':
-          for (int i = 0; i < term_table->height / 16; i++) {
-            term_scroll();
+          for (int i = 2; i < term_length - 1; i++) {
+            num *= 10;
+            num += term_ansi[i] - '0';
           }
           
-          term_x = term_y = 0;
-          term_cursor();
+          if (num == 2) {
+            for (int i = 0; i < term_table->height / 16; i++) {
+              term_scroll();
+            }
+            
+            term_x = term_y = 0;
+            term_cursor();
+          }
+          
+          break;
+        
+        case 'K':
+          for (int i = 2; i < term_length - 1; i++) {
+            num *= 10;
+            num += term_ansi[i] - '0';
+          }
+          
+          if (num == 2) {
+            term_clear_line();
+          }
           
           break;
       }

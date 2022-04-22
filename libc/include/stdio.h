@@ -40,4 +40,8 @@ size_t fwrite(const void *ptr, size_t size, size_t count, FILE *file);
 int   fseek(FILE *file, off_t offset, int type);
 off_t ftell(FILE *file);
 
+int feof(FILE *file);
+
+void rewind(FILE *file);
+
 #endif

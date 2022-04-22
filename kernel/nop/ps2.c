@@ -99,6 +99,8 @@ void ps2_init(const char *path) {
   int file = file_open(path);
   ps2_keymap = malloc(0x0318);
   
+  term_infof("trying to open keymap at '%s'...\n", path);
+  
   if (!file) {
     term_failf("cannot open keymap\n");
     term_panic();

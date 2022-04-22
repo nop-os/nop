@@ -100,6 +100,20 @@ size_t $file_read(int id, void *buffer, size_t size) {
   return size;
 }
 
+int $file_entry(int id, char *buffer, size_t size) {
+  uint32_t *table = prog_list[prog_id - 1].table;
+  
+  if ((uint32_t)(buffer) & 0x0FFF <= 0x1000 - 13) {
+    return file_entry(id, virt_phys(table, buffer), size);
+  } else {
+    char temp_buffer[13];
+    int value = file_entry(id, temp_buffer, size);
+    
+    virt_memcpy_to_virt(table, buffer, temp_buffer, size);
+    return value;
+  }
+}
+
 size_t $file_seek(int id, off_t offset, int type) {
   return file_seek(id, offset, type);
 }
@@ -148,6 +162,26 @@ size_t $term_read(char *buffer, size_t size) {
   }
   
   return read;
+}
+
+int $term_getmode(void) {
+  int mode = 0;
+  
+  if (ps2_echo_mode) mode |= TERM_ECHO;
+  if (ps2_cook_mode) mode |= TERM_COOK;
+  
+  return mode;
+}
+
+int $term_setmode(int mode) {
+  ps2_echo_mode = ((mode & TERM_ECHO) > 0);
+  ps2_cook_mode = ((mode & TERM_COOK) > 0);
+  
+  return 1;
+}
+
+uint32_t $term_getsize(void) {
+  return (uint32_t)(term_width) | ((uint32_t)(term_height) << 16);
 }
 
 int $prog_load(const char *path, const char **argv, const char **envp, call_t *call_array, int call_count) {

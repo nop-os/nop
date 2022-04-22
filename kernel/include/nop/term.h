@@ -4,6 +4,9 @@
 #include <boot/tinyboot.h>
 #include <nop/type.h>
 
+#define TERM_ECHO (1 << 0)
+#define TERM_COOK (1 << 1)
+
 #define TERM_BLACK        "\x1B[30m"
 #define TERM_RED          "\x1B[31m"
 #define TERM_GREEN        "\x1B[32m"
@@ -34,7 +37,7 @@
 #endif
 
 extern tb_vid_t *term_table;
-extern int16_t term_x, term_y;
+extern int16_t term_x, term_y, term_width, term_height;
 
 extern uint32_t term_fore, term_back;
 
