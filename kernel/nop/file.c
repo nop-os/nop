@@ -27,7 +27,7 @@ int file_open(const char *path) {
       strcpy(file_arr[i].path, path);
       
       file_arr[i].size = node.size;
-      file_arr[i].stat = (node.read_only * STAT_RO) | (node.hidden * STAT_HD) | (node.system * STAT_SY) | (node.directory * STAT_DR);
+      file_arr[i].mode = (node.read_only * FILE_READ_ONLY) | (node.hidden * FILE_HIDDEN) | (node.system * FILE_SYSTEM) | (node.directory * FILE_DIRECTORY);
       
       file_arr[i].buffer = page_alloc((node.size + 0x0FFF) >> 12, 0);
       file_arr[i].offset = 0;
@@ -162,10 +162,10 @@ int file_close(int id, int save) {
     node.cluster_lo = new_cluster >>  0;
     node.cluster_hi = new_cluster >> 16;
     
-    node.read_only = (file_arr[id - 1].stat & STAT_RO) > 0;
-    node.hidden = (file_arr[id - 1].stat & STAT_HD) > 0;
-    node.system = (file_arr[id - 1].stat & STAT_SY) > 0;
-    node.directory = (file_arr[id - 1].stat & STAT_DR) > 0;
+    node.read_only = (file_arr[id - 1].mode & FILE_READ_ONLY) > 0;
+    node.hidden = (file_arr[id - 1].mode & FILE_HIDDEN) > 0;
+    node.system = (file_arr[id - 1].mode & FILE_SYSTEM) > 0;
+    node.directory = (file_arr[id - 1].mode & FILE_DIRECTORY) > 0;
     
     // TODO: set date
     
@@ -198,15 +198,19 @@ int file_resize(int id, size_t size) {
   return 1;
 }
 
-uint8_t file_stat(int id, uint8_t stat, int save) {
+int file_getmode(int id) {
   if (id < 1 || id > file_cnt) return 0;
   else if (file_arr[id - 1].free) return 0;
   
-  if (save) {
-    file_arr[id - 1].stat = stat;
-  }
+  return file_arr[id - 1].mode;
+}
+
+int file_setmode(int id, int mode) {
+  if (id < 1 || id > file_cnt) return 0;
+  else if (file_arr[id - 1].free) return 0;
   
-  return file_arr[id - 1].stat;
+  file_arr[id - 1].mode = mode;
+  return 1;
 }
 
 size_t file_seek(int id, off_t offset, int type) {

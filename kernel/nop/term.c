@@ -93,6 +93,10 @@ void term_cursor(void) {
 }
 
 void term_putchr(char chr) {
+  if (term_length >= 16) {
+    term_length = 0;
+  }
+  
   if (chr == '\x1B' || term_length > 0) {
     term_ansi[term_length++] = chr;
     

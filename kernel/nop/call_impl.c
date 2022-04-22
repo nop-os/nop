@@ -122,6 +122,14 @@ int $file_resize(int id, size_t size) {
   return file_resize(id, size);
 }
 
+int $file_getmode(int id) {
+  return file_getmode(id);
+}
+
+int $file_setmode(int id, int mode) {
+  return file_setmode(id, mode);
+}
+
 size_t $term_write(const char *buffer, size_t size) {
   uint32_t *table = prog_list[prog_id - 1].table;
   size_t left = size;

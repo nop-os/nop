@@ -69,3 +69,11 @@ size_t file_seek(int id, off_t offset, int type) {
 int file_resize(int id, size_t size) {
   return nop_call("file_resize", id, size, 0, 0, 0);
 }
+
+int file_getmode(int id) {
+  return nop_call("file_getmode", id, 0, 0, 0, 0);
+}
+
+int file_setmode(int id, int mode) {
+  return nop_call("file_setmode", id, mode, 0, 0, 0);
+}

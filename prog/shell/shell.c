@@ -119,16 +119,21 @@ int shell_run(int argc, const char **argv) {
       new_path[length - 1] = '\0';
     }
     
-    FILE *file = fopen(new_path, "r");
-    
-    // TODO: check if not dir
+    int file = file_open(new_path);
     
     if (!file) {
       printf("go: cannot open '%s'\n", new_path);
       return 0;
     }
     
-    fclose(file);
+    if (!(file_getmode(file) & FILE_DIRECTORY)) {
+      printf("go: '%s' not a directory\n", new_path);
+      
+      file_close(file, 0);
+      return 0;
+    }
+    
+    file_close(file, 0);
     
     setenv("PATH", new_path, 1);
     return 1;

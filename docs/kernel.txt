@@ -20,8 +20,8 @@ default callset:
 | file_entry    | gives a file entry in a directory             | non-0 if successfuly read                | file id, buffer(for path), size(with null byte)   |
 | file_seek     | moves the read/write head(absolute/relative)  | new head's position                      | file id, offset, type(0=start, 1=relative, 2=end) |
 | file_resize   | resizes the file buffer                       | non-0 if successfully resized            | file id, size                                     |
-| file_getmode* | gets a file's mode(hidden, directory, etc.)   | file's mode                              | file id                                           |
-| file_setmode* | sets a file's mode                            | non-0 if successfully set                | file id, mode                                     |
+| file_getmode  | gets a file's mode(hidden, directory, etc.)   | file's mode                              | file id                                           |
+| file_setmode  | sets a file's mode                            | non-0 if successfully set                | file id, mode                                     |
 | term_write    | writes to the terminal                        | bytes written                            | buffer, size                                      |
 | term_read     | reads from the terminal                       | bytes read                               | buffer, size                                      |
 | term_getmode  | gets the terminal's mode(echo, cook, etc.)    | terminal's mode                          |                                                   |
@@ -42,6 +42,8 @@ default callset:
 - child programs do not end until they are either killed or its parent is unloaded, so a child program can keep running even if its parents returned
 - file_entry will write a non-terminated string to buffer if the path doesn't fit, and in that case the function should be called again with a bigger buffer
 - programs can create new callsets that will apply to its childs
+
+(TODO: maybe file_eof syscall to make it faster???)
 
 custom callsets:
 

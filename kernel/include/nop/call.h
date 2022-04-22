@@ -48,6 +48,8 @@ size_t $file_read(int id, void *buffer, size_t size);
 int    $file_entry(int id, char *buffer, size_t size);
 size_t $file_seek(int id, off_t offset, int type);
 int    $file_resize(int id, size_t size);
+int    $file_getmode(int id);
+int    $file_setmode(int id, int mode);
 
 size_t   $term_write(const char *buffer, size_t size);
 size_t   $term_read(char *buffer, size_t size);

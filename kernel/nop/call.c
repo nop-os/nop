@@ -17,6 +17,8 @@ const call_t call_array[] = {
   (call_t){"file_entry", 0, (void *)($file_entry)},
   (call_t){"file_seek", 0, (void *)($file_seek)},
   (call_t){"file_resize", 0, (void *)($file_resize)},
+  (call_t){"file_getmode", 0, (void *)($file_getmode)},
+  (call_t){"file_setmode", 0, (void *)($file_setmode)},
   
   (call_t){"term_write", 0, (void *)($term_write)},
   (call_t){"term_read", 0, (void *)($term_read)},

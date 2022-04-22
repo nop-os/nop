@@ -1,6 +1,5 @@
 #include <nop/file.h>
 #include <stdlib.h>
-#include <string.h>
 #include <stdio.h>
 
 int main(int argc, const char **argv) {
@@ -8,9 +7,7 @@ int main(int argc, const char **argv) {
   int is_set = 0;
   
   for (int i = 1; i < argc; i++) {
-    if (argv[i][0] == '-') {
-      // ...
-    } else if (!is_set) {
+    if (!is_set) {
       path = argv[i];
       is_set = 1;
     } else {
@@ -19,19 +16,27 @@ int main(int argc, const char **argv) {
     }
   }
   
-  FILE *dir = fopen(path, "r");
+  int file = file_open(path);
   
-  if (!dir) {
+  if (!file) {
     printf("%s: cannot open '%s'\n", argv[0], path);
     return 0;
   }
   
-  char buffer[FILE_PATH_MAX];
-  
-  while (file_entry(dir->file, buffer, FILE_PATH_MAX)) {
-    printf("%s\n", buffer);
+  if (file_getmode(file) & FILE_DIRECTORY) {
+    char buffer[FILE_PATH_MAX];
+    
+    while (file_entry(file, buffer, FILE_PATH_MAX)) {
+      printf("%s\n", buffer);
+    }
+  } else {
+    char chr;
+    
+    while (file_read(file, &chr, 1)) {
+      putchar(chr);
+    }
   }
   
-  fclose(dir);
+  file_close(file, 0);
   return 1;
 }
