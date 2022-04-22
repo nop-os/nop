@@ -6,5 +6,6 @@ nop_call:
   mov ebx, [esp + 12]
   mov ecx, [esp + 16]
   mov edx, [esp + 20]
+  mov edi, [esp + 24]
   int 0x30
   ret

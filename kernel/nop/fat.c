@@ -107,7 +107,7 @@ uint64_t fat_lba(int part, uint32_t cluster) {
 }
 
 int fat_valid(uint32_t cluster) {
-  return (cluster && cluster < 0x0FFFFFF7);
+  return (cluster < 0x0FFFFFF7);
 }
 
 uint32_t fat_next_cluster(int part, uint32_t cluster) {

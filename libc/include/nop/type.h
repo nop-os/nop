@@ -14,6 +14,6 @@ typedef unsigned short     uint16_t;
 typedef unsigned char      uint8_t;
 
 // we need a signed 33-bit integer, but that doesn't exist so we have to do this...
-typedef int64_t off_t;
+typedef int32_t off_t;
 
 #endif

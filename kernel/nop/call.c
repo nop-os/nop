@@ -93,6 +93,8 @@ void call_kernel(void *func, uint32_t value) {
   call_flag = 0;
 }
 
+#include <nop/term.h>
+
 void call_handle(i586_regs_t *regs) {
   // TODO: make FASTER
   
