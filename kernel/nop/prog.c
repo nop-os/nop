@@ -167,10 +167,12 @@ int prog_kill(int id) {
   page_free(prog_list[id - 1].data.data, (prog_list[id - 1].data.size + 0));
   
   for (int i = 0; i < prog_list[id - 1].page_count; i++) {
-    // TODO: find memory space pages to free in table
+    void *phys = virt_phys(prog_list[id - 1].table, VIRT_NOP_USER + ((((prog_list[id - 1].data.size + 0x0FFF) >> 12) + i) << 12));
+    page_free(phys, 1);
   }
   
-  // TODO: free stack
+  void *stack = virt_phys(prog_list[id - 1].table, VIRT_NOP_USER - PROG_STACK);
+  page_free(stack, PROG_STACK >> 12);
   
   virt_free(prog_list[id - 1].table);
   return 1;

@@ -10,9 +10,9 @@ uint32_t *virt_table = NULL;
 
 void virt_init(void) {
   virt_table = virt_alloc();
-
+  
   if (!virt_table) return;
-
+  
   virt_map(virt_table, VIRT_NOP_KERN, VIRT_NOP_KERN, VIRT_WRITE, VIRT_NOP_SIZE);
   virt_load(virt_table);
   
@@ -20,23 +20,19 @@ void virt_init(void) {
 }
 
 uint32_t *virt_alloc(void) {
-  size_t size = PAGE_DIR_SIZE + (PAGE_TABLE_SIZE * PAGE_TABLE_COUNT);
-  uint32_t *table = page_alloc(size / PAGE_SIZE, 0);
-
-  if (!table) return NULL;
-
-  virt_unmap(table, 0, PAGE_COUNT);
-
-  for (uint32_t i = 0; i < PAGE_TABLE_COUNT; i++) {
-    table[i] = ((uint32_t)(table) + PAGE_DIR_SIZE + (i << 12)) | VIRT_USER | VIRT_WRITE | VIRT_PRESENT;
-  }
-
+  uint32_t *table = page_alloc(PAGE_DIR_SIZE >> 12, 0);
+  memset(table, 0, PAGE_DIR_SIZE);
+  
   return table;
 }
 
 void virt_free(uint32_t *table) {
-  size_t size = PAGE_DIR_SIZE + (PAGE_TABLE_SIZE * PAGE_TABLE_COUNT);
-  page_free(table, size / PAGE_SIZE);
+  for (int i = 0; i < PAGE_TABLE_COUNT; i++) {
+    uint32_t *sub_table = (void *)(table[i] & 0xFFFFF000);
+    if (sub_table) page_free(sub_table, PAGE_TABLE_SIZE >> 12);
+  }
+  
+  page_free(table, PAGE_DIR_SIZE >> 12);
 }
 
 void virt_load(uint32_t *table) {
@@ -47,7 +43,12 @@ void *virt_phys(uint32_t *table, void *virt_addr) {
   uint32_t virt_page = (uint32_t)(virt_addr) >> 12;
   uint32_t offset = (uint32_t)(virt_addr) & 0x00000FFF;
   
-  uint32_t real_page = table[PAGE_TABLE_COUNT + virt_page] >> 12;
+  uint32_t index = virt_page >> 10;
+  uint32_t *sub_table = (void *)(table[index] & 0xFFFFF000);
+  
+  if (!sub_table) return NULL;
+  uint32_t real_page = sub_table[virt_page & 0x03FF] >> 12;
+  
   return (void *)((real_page << 12) | offset);
 }
 
@@ -155,16 +156,33 @@ char *virt_strdup(uint32_t *table, const char *str) {
 
 void virt_map(uint32_t *table, void *phys_addr, void *virt_addr, uint32_t flags, size_t count) {
   uint32_t page = (uint32_t)(virt_addr) >> 12;
-
+  
   for (uint32_t i = page; i < page + count; i++) {
-    table[PAGE_TABLE_COUNT + i] = (((uint32_t)(phys_addr) & 0xFFFFF000) + ((i - page) << 12)) | flags | VIRT_PRESENT;
+    uint32_t index = i >> 10;
+    uint32_t *sub_table = (void *)(table[index] & 0xFFFFF000);
+    
+    if (!sub_table) {
+      sub_table = page_alloc(PAGE_TABLE_SIZE >> 12, 0);
+      memset(sub_table, 0, PAGE_TABLE_SIZE);
+      
+      table[index] = (uint32_t)(sub_table) | VIRT_USER | VIRT_WRITE | VIRT_PRESENT;
+    }
+    
+    sub_table[i & 0x03FF] = (((uint32_t)(phys_addr) & 0xFFFFF000) + ((i - page) << 12)) | flags | VIRT_PRESENT;
   }
 }
 
 void virt_unmap(uint32_t *table, void *virt_addr, size_t count) {
   uint32_t page = (uint32_t)(virt_addr) >> 12;
-
+  
   for (uint32_t i = page; i < page + count; i++) {
-    table[PAGE_TABLE_COUNT + i] = 0x00000000;
+    uint32_t index = i >> 10;
+    uint32_t *sub_table = (void *)(table[index] & 0xFFFFF000);
+    
+    if (!sub_table) {
+      continue;
+    }
+    
+    sub_table[i & 0x03FF] = 0x00000000;
   }
 }
