@@ -114,7 +114,12 @@ int file_delete(const char *path) {
   
   int part = path[0] - '0';
   
-  // TODO: check that the file is not open
+  for (int i = 0; i < file_cnt; i++) {
+    if (!file_arr[i].free && !strcmp(path, file_arr[i].path)) {
+      term_failf("won't delete open file!\n");
+      return 0;
+    }
+  }
   
   uint32_t parent = 0;
   size_t index = 0;

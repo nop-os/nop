@@ -26,6 +26,12 @@ int main(int argc, const char **argv) {
     return 0;
   }
   
+  char chr;
+  
+  while (fread(&chr, 1, 1, file)) {
+    putchar(chr);
+  }
+  
   fclose(file);
   return 1;
 }

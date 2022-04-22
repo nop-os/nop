@@ -63,7 +63,7 @@ int setenv(const char *name, const char *value, int overwrite) {
 }
 
 int unsetenv(const char *name) {
-  return 0; // TODO
+  return setenv(name, "", 1);
 }
 
 const char *getenv(const char *name) {

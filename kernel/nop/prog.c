@@ -95,8 +95,6 @@ int prog_load(const char *path, const char **argv, const char **envp, call_t *ca
   file_close(file, 0);
   
   prog_list[id - 1].data = data;
-  
-  // TODO: make table smaller by leaving parts empty
   prog_list[id - 1].table = virt_alloc();
   
   uint32_t *phys_esp = page_alloc(PROG_STACK >> 12, 0);

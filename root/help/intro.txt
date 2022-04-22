@@ -4,7 +4,6 @@ shell builtins:
 - go <PATH>          -> enters a path(absolute or relative)
 - back               -> exits a directory(equivalent to 'cd ..' in *nix)
 - set <NAME> <VALUE> -> sets an enviroment variable
-- get <NAME>         -> prints an enviroment variable
 - echo <TEXT>        -> repeats the specified text
 - clear              -> clears the screen
 - exit               -> exits the shell

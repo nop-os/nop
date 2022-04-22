@@ -89,8 +89,6 @@ void term_putchr(char chr) {
             num += term_ansi[i] - '0';
           }
           
-          // TODO: fix colors in text mode
-          
           if (num >= 30 && num <= 37) {
             if (term_table->bpp) {
               term_fore = term_color(term_colors[3 * (num - 30) + 0], term_colors[3 * (num - 30) + 1], term_colors[3 * (num - 30) + 2]);

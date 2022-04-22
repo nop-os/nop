@@ -49,8 +49,6 @@ int main(int argc, const char **argv, const char **envp) {
     int offset_1 = 0;
     int offset_2 = 0;
     
-    // TODO: variable replacement
-    
     do {
       if (isspace(buffer[offset_1])) {
         if (offset_2) {
@@ -69,6 +67,19 @@ int main(int argc, const char **argv, const char **envp) {
       }
       
     } while (buffer[offset_1++]);
+    
+    for (int i = 0; i < new_argc; i++) {
+      if (new_argv[i][0] == '$') {
+        const char *env = getenv(new_argv[i] + 1);
+        free(new_argv[i]);
+        
+        if (env) {
+          new_argv[i] = strdup(env);
+        } else {
+          new_argv[i] = strdup("");
+        }
+      }
+    }
     
     if (new_argc) {
       value = shell_run(new_argc, new_argv);
@@ -127,7 +138,13 @@ int shell_run(int argc, const char **argv) {
       return 0;
     }
     
-    // TODO: setenv("PATH", ...);
+    char new_path[FILE_PATH_MAX];
+    strcpy(new_path, getenv("PATH"));
+    
+    char *last = strrchr(new_path, '/');
+    if (last) *last = '\0';
+    
+    setenv("PATH", new_path, 1);
     return 1;
   } else if (!strcmp(argv[0], "clear")) {
     if (argc != 1) {
@@ -140,7 +157,15 @@ int shell_run(int argc, const char **argv) {
   } else if (!strcmp(argv[0], "exit")) {
     exit(1);
   } else if (!strcmp(argv[0], "set")) {
-    // TODO: setenv(...)
+    if (argc == 2) {
+      unsetenv(argv[1]);
+    } else if (argc == 3) {
+      setenv(argv[1], argv[2], 1);
+    } else {
+      printf("set: invalid argument(s)\n");
+      return 0;
+    }
+    
     return 1;
   } else if (argc == 1 && strlen(argv[0]) == 2 && argv[0][0] >= '0' && argv[0][0] <= '9' && argv[0][1] == ':') {
     if (1) {
