@@ -131,7 +131,7 @@ uint32_t fat_requ_chain(int part, size_t size); // size in bytes, automatically 
 void     fat_free_chain(int part, uint32_t cluster);
 
 uint32_t fat_edit_cluster(int part, void *buffer, uint32_t cluster);
-void     fat_edit_chain(int part, void *buffer, uint32_t cluster);
+int      fat_edit_chain(int part, void *buffer, uint32_t cluster);
 
 size_t fat_get_free(int part, uint32_t directory);
 void   fat_set_node(int part, uint32_t directory, size_t index, fat_node_t node);

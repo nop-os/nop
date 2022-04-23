@@ -195,15 +195,19 @@ int ata_read(int drive, uint64_t lba, void *buffer, size_t count) {
     if (lba >= ata_drives[drive].size) break;
     int success = 0;
     
-    for (int i = 0; i < 256; i++) {
+    for (int i = 0; i < 16; i++) {
       if (ata_read_sector(drive, lba, buffer)) {
         success = 1;
         break;
+      } else {
+        ata_reset(drive);
       }
     }
     
     if (!success) {
       term_warnf("read failed on drive %d\n", drive);
+      ata_reset(drive);
+      
       return 0;
     }
     
@@ -269,7 +273,8 @@ write_ready:
     i586_inb(port + 0x07);
   }
   
-  i586_outb(0xEA, port + 0x07); // should be 0xE7???
+  i586_outb(0xEA, port + 0x07);
+  i586_outb(0xE7, port + 0x07);
   
   i586_sti();
   return 1;
@@ -280,15 +285,19 @@ int ata_write(int drive, uint64_t lba, void *buffer, size_t count) {
     if (lba >= ata_drives[drive].size) break;
     int success = 0;
     
-    for (int i = 0; i < 256; i++) {
+    for (int i = 0; i < 16; i++) {
       if (ata_write_sector(drive, lba, buffer)) {
         success = 1;
         break;
+      } else {
+        ata_reset(drive);
       }
     }
     
     if (!success) {
       term_warnf("read failed on drive %d\n", drive);
+      ata_reset(drive);
+      
       return 0;
     }
     

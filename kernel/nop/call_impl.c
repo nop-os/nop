@@ -73,12 +73,15 @@ size_t $file_read(int id, void *buffer, size_t size) {
   uint32_t *table = prog_list[prog_id - 1].table;
   size_t left = size;
   
+  size_t real = 0;
+  
   if ((uint32_t)(buffer) & 0x0FFF) {
     size_t read = 0x1000 - ((uint32_t)(buffer) & 0x0FFF);
     if (read > left) read = left;
     
-    if (file_read(id, virt_phys(table, buffer), read) < read) {
-      return 0;
+    if ((real = file_read(id, virt_phys(table, buffer), read)) < read) {
+      size -= left - real;
+      return size;
     }
     
     buffer += read;
@@ -89,8 +92,9 @@ size_t $file_read(int id, void *buffer, size_t size) {
     size_t read = virt_cont(table, buffer) << 12;
     if (read > left) read = left;
     
-    if (file_read(id, virt_phys(table, buffer), read) < read) {
-      return 0;
+    if ((real = file_read(id, virt_phys(table, buffer), read)) < read) {
+      size -= left - real;
+      return size;
     }
     
     buffer += read;

@@ -146,7 +146,7 @@ int file_close(int id, int save) {
     uint32_t parent;
     size_t index;
     fat_node_t node;
-  
+    
     uint32_t old_cluster = fat_find(part, 0, &parent, &index, &node, file_arr[id - 1].path + 2);
     
     if (old_cluster == 0x0FFFFFFF) {
@@ -157,7 +157,11 @@ int file_close(int id, int save) {
     fat_free_chain(part, old_cluster);
     
     uint32_t new_cluster = fat_requ_chain(part, file_arr[id - 1].size);
-    fat_edit_chain(part, file_arr[id - 1].buffer, new_cluster);
+    
+    if (!fat_edit_chain(part, file_arr[id - 1].buffer, new_cluster)) {
+      term_failf("failed to edit chain!\n");
+      return 0;
+    }
     
     node.cluster_lo = new_cluster >>  0;
     node.cluster_hi = new_cluster >> 16;

@@ -19,7 +19,7 @@ int putstr_opt(const char *str, int pad_aln, int pad_len, char pad_chr) {
   
   if (!term_write(str, length)) return EOF;
   
-  if (pad_aln) {
+  if (!pad_aln) {
     while (pad_len > length) {
       if (putchar(pad_chr) < 0) return EOF;
       pad_len--;

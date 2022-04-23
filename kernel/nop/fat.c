@@ -328,11 +328,14 @@ uint32_t fat_edit_cluster(int part, void *buffer, uint32_t cluster) {
   return fat_next_cluster(part, cluster);
 }
 
-void fat_edit_chain(int part, void *buffer, uint32_t cluster) {
+int fat_edit_chain(int part, void *buffer, uint32_t cluster) {
   while (cluster >= 2 && cluster < 0x0FFFFFF7) {
     cluster = fat_edit_cluster(part, buffer, cluster);
     buffer += 512;
   }
+  
+  if (cluster == 0x0FFFFFFF) return 0;
+  else return 1;
 }
 
 size_t fat_get_free(int part, uint32_t directory) {
