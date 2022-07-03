@@ -1,0 +1,10 @@
+func pow: block begin
+  let base: get(args, 0)
+  let exp: get(args, 1)
+  
+  if exp = 0: give 1
+  else if exp < 0: give 1 / pow(base, -exp)
+  else: give pow(base, exp - 1) * base
+end
+
+printf("2 ** 14 = []\n", pow(2, 14))

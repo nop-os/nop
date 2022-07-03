@@ -10,11 +10,17 @@
 
 #define EOF ((int)(-1))
 
+#define stdin  (&__stdin)
+#define stdout (&__stdout)
+#define stderr (&__stderr)
+
 typedef struct FILE FILE;
 
 struct FILE {
   int file, read_only;
 };
+
+extern FILE __stdin, __stdout, __stderr;
 
 int putstr_opt(const char *str, int pad_aln, int pad_len, char pad_chr);
 int putnum_opt(int num, int base, int upper, int pad_aln, int pad_len, char pad_chr);
@@ -31,6 +37,8 @@ int printf(const char *format, ...);
 int getchar(void);
 char *gets_s(char *buffer, size_t size);
 
+int remove(const char *path);
+
 FILE *fopen(const char *path, const char *mode);
 int   fclose(FILE *file);
 
@@ -43,5 +51,7 @@ off_t ftell(FILE *file);
 int feof(FILE *file);
 
 void rewind(FILE *file);
+
+char *fgets(char *buffer, size_t size, FILE *file);
 
 #endif

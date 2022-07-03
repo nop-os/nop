@@ -24,6 +24,7 @@ void      virt_load(uint32_t *table);
 void   *virt_phys(uint32_t *table, void *virt_addr); // get physical address from virtual one
 size_t  virt_cont(uint32_t *table, void *virt_addr); // number of pages that can be read contiguously
 
+void virt_memcpy(uint32_t *table_1, uint32_t *table_2, void *dest, const void *src, size_t size);
 void virt_memcpy_to_virt(uint32_t *table, void *dest, const void *src, size_t size);
 void virt_memcpy_to_phys(uint32_t *table, void *dest, const void *src, size_t size);
 

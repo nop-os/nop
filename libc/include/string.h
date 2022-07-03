@@ -16,6 +16,8 @@ char   *strcpy(char *dest, const char *src);
 char   *strncpy(char *dest, const char *src, size_t size);
 int     strcmp(const char *str_1, const char *str_2);
 int     strncmp(const char *str_1, const char *str_2, size_t size);
+int     strcasecmp(const char *str_1, const char *str_2);
+int     strncasecmp(const char *str_1, const char *str_2, size_t size);
 char   *strchr(const char *str, int val);
 char   *strrchr(const char *str, int val);
 

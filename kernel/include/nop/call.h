@@ -26,6 +26,9 @@ struct call_t {
 extern const call_t call_array[];
 extern const int call_count;
 
+extern int call_stack[64];
+extern int call_offset;
+
 extern int call_flag;
 
 void call_init(void);
@@ -62,5 +65,8 @@ int   $prog_kill(int id);
 int   $prog_wait(int id);
 void  $prog_skip(void);
 void *$prog_alloc(size_t count);
+
+size_t $call_read(void *dest, const void *src, size_t size);
+size_t $call_write(void *dest, const void *src, size_t size);
 
 #endif

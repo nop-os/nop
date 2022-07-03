@@ -2,6 +2,7 @@
 #include <stdint.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 
 void *memcpy(void *dest, const void *src, size_t size) {
   if (!size) return dest;
@@ -85,6 +86,28 @@ int strncmp(const char *str_1, const char *str_2, size_t size) {
   }
 
   return (int)(*str_1) - (int)(*str_2);
+}
+
+int strcasecmp(const char *str_1, const char *str_2) {
+  while (*str_1) {
+    if (toupper(*str_1) != toupper(*str_2)) break;
+    str_1++, str_2++;
+  }
+
+  return (int)(toupper(*str_1)) - (int)(toupper(*str_2));
+}
+
+int strncasecmp(const char *str_1, const char *str_2, size_t size) {
+  if (!size) return 0;
+  
+  while (*str_1 && size > 1) {
+    if (toupper(*str_1) != toupper(*str_2)) break;
+    
+    str_1++, str_2++;
+    size--;
+  }
+
+  return (int)(toupper(*str_1)) - (int)(toupper(*str_2));
 }
 
 char *strchr(const char *str, int val) {

@@ -11,3 +11,6 @@ struct call_t {
 };
 
 extern uint32_t nop_call(const char *name, uint32_t arg_1, uint32_t arg_2, uint32_t arg_3, uint32_t arg_4, uint32_t arg_5);
+
+size_t call_read(void *dest, const void *src, size_t size);
+size_t call_write(void *dest, const void *src, size_t size);

@@ -1,5 +1,4 @@
 #include <arch/i586.h>
-#include <nop/alloc.h>
 #include <nop/call.h>
 #include <nop/page.h>
 #include <nop/prog.h>
@@ -31,9 +30,15 @@ const call_t call_array[] = {
   (call_t){"prog_wait", 0, (void *)($prog_wait)},
   (call_t){"prog_skip", 0, (void *)($prog_skip)},
   (call_t){"prog_alloc", 0, (void *)($prog_alloc)},
+  
+  (call_t){"call_read", 0, (void *)($call_read)},
+  (call_t){"call_write", 0, (void *)($call_write)},
 };
 
 const int call_count = sizeof(call_array) / sizeof(call_t);
+
+int call_stack[64];
+int call_offset = 0;
 
 int call_flag = 0;
 
@@ -93,8 +98,6 @@ void call_kernel(void *func, uint32_t value) {
   call_flag = 0;
 }
 
-#include <nop/term.h>
-
 void call_handle(i586_regs_t *regs) {
   // TODO: make FASTER
   
@@ -112,8 +115,10 @@ void call_handle(i586_regs_t *regs) {
     uint32_t eip = (uint32_t)(call.func);
     int old_prog = prog_id;
     
+    call_stack[call_offset++] = old_prog;
+    
     if (call.prog) {
-      old_esp = esp = malloc(CALL_STACK_SIZE) + CALL_STACK_SIZE;
+      old_esp = esp = (void *)(page_alloc(CALL_STACK_SIZE >> 12, 1) + CALL_STACK_SIZE);
       table = prog_list[call.prog - 1].table;
       
       prog_id = call.prog;
@@ -138,9 +143,10 @@ void call_handle(i586_regs_t *regs) {
     if (!call.prog) call_flag = 0;
     
     prog_id = old_prog;
+    call_offset--;
     
     if (call.prog) {
-      free(old_esp - CALL_STACK_SIZE);
+      page_free((void *)(old_esp) - CALL_STACK_SIZE, CALL_STACK_SIZE >> 12);
     }
   }
   

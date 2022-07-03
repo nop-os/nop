@@ -34,6 +34,8 @@ default callset:
 | prog_alloc    | extend the memory space                       | address after .bss, 0 if failed          | increment(in pages)                               |
 | time_read*    | reads the current UTC time                    | 32-bit value in seconds since 01/01/2022 |                                                   |
 | time_getzone* | gets the current timezone offset              | signed offset in hours from UTC          |                                                   |
+| call_read     | reads from the caller program(custom callset) | bytes read                               | dest, src, size                                   |
+| call_write    | writes to the caller program(custom callset)  | bytes written                            | dest, src, size                                   |
 
 * -> not implemented
 

@@ -1,5 +1,6 @@
 #include <arch/i586.h>
 #include <nop/alloc.h>
+#include <nop/prog.h>
 #include <nop/term.h>
 #include <nop/type.h>
 #include <nop/idt.h>
@@ -91,8 +92,9 @@ void idt_call(i586_regs_t *regs, int id) {
   idt_level++;
   
   if (id < 32) {
-    term_failf("(%d) exception %d!\n", call_flag, id);
-    term_infof("- eax -> 0x%08X\n", regs->eax);
+    term_failf("(%d) exception %d @0x%08X!\n", call_flag, id, regs->eax);
+    term_infof("eip=0x%08X\n", regs->eip);
+    term_infof("prog_id=%d\n", prog_id);
     
     i586_cli();
     for (;;);

@@ -7,6 +7,9 @@
 #include <string.h>
 #include <stdio.h>
 
+// irrelevant, just use the pointers for checking
+FILE __stdin = (FILE){-1, 1}, __stdout = (FILE){-2, 0}, __stderr = (FILE){-2, 0};
+
 int putstr_opt(const char *str, int pad_aln, int pad_len, char pad_chr) {
   int length = strlen(str);
   
@@ -181,6 +184,10 @@ char *gets_s(char *buffer, size_t size) {
   return buffer;
 }
 
+int remove(const char *path) {
+  return -1; // TODO
+}
+
 FILE *fopen(const char *path, const char *mode) {
   int file = file_open(path);
   if (!file) return NULL;
@@ -237,4 +244,17 @@ int feof(FILE *file) {
 
 void rewind(FILE *file) {
   fseek(file, 0, SEEK_SET);
+}
+
+char *fgets(char *buffer, size_t size, FILE *file) {
+  size_t read;
+  
+  if (file == stdin) { 
+    while (!(read = term_read(buffer, size - 1)));
+  } else {
+    while (!(read = file_read(file->file, buffer, size - 1)));
+  }
+  
+  buffer[read] = '\0';
+  return buffer;
 }

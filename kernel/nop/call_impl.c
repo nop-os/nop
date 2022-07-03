@@ -238,6 +238,10 @@ int $prog_load(const char *path, const char **argv, const char **envp, call_t *c
   if (call_array && call_count) {
     new_call_array = malloc(call_count * sizeof(call_t));
     virt_memcpy_to_phys(table, new_call_array, call_array, call_count * sizeof(call_t));
+    
+    for (int i = 0; i < call_count; i++) {
+      new_call_array[i].prog = prog_id;
+    }
   }
   
   return prog_load(buffer, new_argv, new_envp, new_call_array, call_count);
@@ -268,4 +272,21 @@ void $prog_skip(void) {
 void *$prog_alloc(size_t count) {
   if (!prog_alloc(prog_id, count)) return NULL;
   else return VIRT_NOP_USER + (((prog_list[prog_id - 1].data.size + 0x0FFF) >> 12) << 12);
+}
+
+size_t $call_read(void *dest, const void *src, size_t size) {
+  /*
+  term_infof("0x%08X(%d, @0x%08X) <- 0x%08X(%d, @0x%08X), %d\n",
+    dest, call_stack[call_offset - 1], prog_list[call_stack[call_offset - 1] - 1].table,
+    src, call_stack[call_offset - 2], prog_list[call_stack[call_offset - 2] - 1].table,
+  size);
+  */
+  
+  virt_memcpy(prog_list[call_stack[call_offset - 1] - 1].table, prog_list[call_stack[call_offset - 2] - 1].table, dest, src, size);
+  return size;
+}
+
+size_t $call_write(void *dest, const void *src, size_t size) {
+  virt_memcpy(prog_list[call_stack[call_offset - 2] - 1].table, prog_list[call_stack[call_offset - 1] - 1].table, dest, src, size);
+  return size;
 }

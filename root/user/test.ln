@@ -1,0 +1,10 @@
+array name: 100
+
+printf("what's your name? ")
+get_line(name)
+
+printf("hello, []!\n", name)
+
+if 3 > 2 or 4 > 3: begin
+  printf("yay\n")
+end

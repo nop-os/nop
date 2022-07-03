@@ -68,6 +68,34 @@ size_t virt_cont(uint32_t *table, void *virt_addr) {
   return count;
 }
 
+void virt_memcpy(uint32_t *table_1, uint32_t *table_2, void *dest, const void *src, size_t size) {
+  size_t left = size;
+  
+  if ((uint32_t)(dest) & 0x0FFF) {
+    size_t read = 0x1000 - ((uint32_t)(dest) & 0x0FFF);
+    if (read > left) read = left;
+    
+    memcpy(virt_phys(table_1, (void *)(dest)), virt_phys(table_2, (void *)(src)), read);
+    
+    src += read;
+    dest += read;
+    
+    left -= read;
+  }
+  
+  while (left) {
+    size_t read = 0x1000;
+    if (read > left) read = left;
+    
+    memcpy(virt_phys(table_1, (void *)(dest)), virt_phys(table_2, (void *)(src)), read);
+    
+    src += read;
+    dest += read;
+    
+    left -= read;
+  }
+}
+
 void virt_memcpy_to_virt(uint32_t *table, void *dest, const void *src, size_t size) {
   size_t left = size;
   
