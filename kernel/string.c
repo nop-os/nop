@@ -4,6 +4,7 @@
 
 void *memcpy(void *dest, const void *src, size_t size) {
   if (!size) return dest;
+  i586_cld();
   
   i586_rep_movsd((uint32_t)(size >> 2), dest, src);
   i586_rep_movsb((uint32_t)(size & 3), dest + (size & 0xFFFFFFFC), src + (size & 0xFFFFFFFC));
@@ -13,6 +14,7 @@ void *memcpy(void *dest, const void *src, size_t size) {
 
 void *memset(void *ptr, int val, size_t size) {
   if (!size) return ptr;
+  i586_cld();
   
   i586_rep_stosb((uint8_t)(val), (uint32_t)(size), ptr);
   return ptr;
@@ -31,8 +33,19 @@ int memcmp(const char *str_1, const char *str_2, size_t size) {
 }
 
 void *memmove(void *dest, const void *src, size_t size) {
-  // TODO: check bounds and all that
-  return memcpy(dest, src, size);
+  if (!size) return dest;
+  
+  if (dest < src) {
+    i586_cld();
+    i586_rep_movsd((uint32_t)(size >> 2), dest, src);
+    i586_rep_movsb((uint32_t)(size & 3), dest + (size & 0xFFFFFFFC), src + (size & 0xFFFFFFFC));
+  } else {
+    i586_std();
+    i586_rep_movsb((uint32_t)(size), dest + (size - 1), src + (size - 1));
+  }
+  
+  i586_cld();
+  return dest;
 }
 
 size_t strlen(const char *str) {

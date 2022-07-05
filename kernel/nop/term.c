@@ -11,6 +11,8 @@ int16_t term_x, term_y, term_width, term_height;
 char term_ansi[16] = {0};
 int term_length = 0;
 
+int term_invert = 0;
+
 uint32_t term_color(uint32_t red, uint32_t green, uint32_t blue) {
   switch (term_table->bpp) {
     case 32:
@@ -53,6 +55,13 @@ void term_panic(void) {
 }
 
 void term_scroll(void) {
+  if (term_invert) {
+    uint32_t temp = term_back;
+    
+    term_back = term_fore;
+    term_fore = temp;
+  }
+  
   if (term_table->bpp) {
     memcpy(term_table->buffer, term_table->buffer + 16 * term_table->pitch, term_table->pitch * (term_table->height - 16));
     
@@ -65,11 +74,53 @@ void term_scroll(void) {
     }
   } else {
     memcpy(term_table->buffer, term_table->buffer + term_table->pitch, term_table->pitch * ((term_table->height - 16) >> 4));
-    i586_rep_stosw(term_back, term_table->width >> 3, term_table->buffer + ((term_table->height - 16) >> 4) * term_table->pitch);
+    i586_rep_stosw((term_map_16[term_fore] << 8) | (term_map_16[term_back] << 12), term_table->width >> 3, term_table->buffer + ((term_table->height - 16) >> 4) * term_table->pitch);
+  }
+  
+  if (term_invert) {
+    uint32_t temp = term_back;
+    
+    term_back = term_fore;
+    term_fore = temp;
+  }
+}
+
+void term_clear_part(void) {
+  if (term_invert) {
+    uint32_t temp = term_back;
+    
+    term_back = term_fore;
+    term_fore = temp;
+  }
+  
+  if (term_table->bpp) {
+    for (int i = 0; i < 16; i++) {
+      switch (term_table->bpp) {
+        case 32:
+          i586_rep_stosd(term_back, term_table->width - term_x, term_table->buffer + (term_y + i) * term_table->pitch + (term_x << 2));
+          break;
+      }
+    }
+  } else {
+    i586_rep_stosw((term_map_16[term_fore] << 8) | (term_map_16[term_back] << 12), (term_table->width - term_x) >> 3, term_table->buffer + (term_y >> 4) * term_table->pitch + (term_x >> 2));
+  }
+  
+  if (term_invert) {
+    uint32_t temp = term_back;
+    
+    term_back = term_fore;
+    term_fore = temp;
   }
 }
 
 void term_clear_line(void) {
+  if (term_invert) {
+    uint32_t temp = term_back;
+    
+    term_back = term_fore;
+    term_fore = temp;
+  }
+  
   if (term_table->bpp) {
     for (int i = 0; i < 16; i++) {
       switch (term_table->bpp) {
@@ -79,12 +130,25 @@ void term_clear_line(void) {
       }
     }
   } else {
-    i586_rep_stosw(term_back, term_table->width >> 3, term_table->buffer + (term_y >> 4) * term_table->pitch);
+    i586_rep_stosw((term_map_16[term_fore] << 8) | (term_map_16[term_back] << 12), term_table->width >> 3, term_table->buffer + (term_y >> 4) * term_table->pitch);
+  }
+  
+  if (term_invert) {
+    uint32_t temp = term_back;
+    
+    term_back = term_fore;
+    term_fore = temp;
   }
 }
 
 void term_cursor(void) {
-  int index = (term_x >> 3) + (term_y >> 4) * (term_table->width >> 3);
+  uint16_t temp_x = term_x;
+  
+  if (temp_x > term_table->width - 8) {
+    temp_x = term_table->width - 8;
+  }
+  
+  uint16_t index = (temp_x >> 3) + (term_y >> 4) * (term_table->width >> 3);
   
   i586_outb(0x0F, 0x03D4);
   i586_outb(index >> 0, 0x03D5);
@@ -102,10 +166,32 @@ void term_putchr(char chr) {
     
     if ((chr >= 'a' && chr <= 'z') || (chr >= 'A' && chr <= 'Z')) {
       int num = 0;
+      int i;
       
       switch (chr) {
+        case 'H':
+          for (i = 2; term_ansi[i] >= '0' && term_ansi[i] <= '9'; i++) {
+            num *= 10;
+            num += term_ansi[i] - '0';
+          }
+          
+          term_y = (num - 1) << 4;
+          
+          num = 0;
+          i++;
+          
+          for (; term_ansi[i] >= '0' && term_ansi[i] <= '9'; i++) {
+            num *= 10;
+            num += term_ansi[i] - '0';
+          }
+          
+          term_x = (num - 1) << 3;
+          term_cursor();
+          
+          break;
+          
         case 'm':
-          for (int i = 2; i < term_length - 1; i++) {
+          for (i = 2; i < term_length - 1; i++) {
             num *= 10;
             num += term_ansi[i] - '0';
           }
@@ -122,18 +208,22 @@ void term_putchr(char chr) {
             } else {
               term_fore = num - 82;
             }
+          } else if (num == 7) {
+            term_invert = 1;
+          } else if (num == 27) {
+            term_invert = 0;
           }
           
           break;
         
         case 'J':
-          for (int i = 2; i < term_length - 1; i++) {
+          for (i = 2; i < term_length - 1; i++) {
             num *= 10;
             num += term_ansi[i] - '0';
           }
           
           if (num == 2) {
-            for (int i = 0; i < term_table->height / 16; i++) {
+            for (i = 0; i < term_table->height / 16; i++) {
               term_scroll();
             }
             
@@ -144,12 +234,14 @@ void term_putchr(char chr) {
           break;
         
         case 'K':
-          for (int i = 2; i < term_length - 1; i++) {
+          for (i = 2; i < term_length - 1; i++) {
             num *= 10;
             num += term_ansi[i] - '0';
           }
           
-          if (num == 2) {
+          if (num == 0) {
+            term_clear_part();
+          } else if (num == 2) {
             term_clear_line();
           }
           
@@ -197,16 +289,26 @@ void term_putchr(char chr) {
     }
   }
   
-  if (chr < 0x20 || chr >= 0x7F) {
-    if (!term_table->bpp && term_x < term_table->width) {
-      uint16_t *buffer = term_table->buffer;
-      int index = (term_x >> 3) + (term_y >> 4) * (term_table->width >> 3);
-      
-      buffer[index] = (buffer[index] & 0xFF) | (term_map_16[term_fore] << 8) | (term_map_16[term_back] << 12);
-    }
+  if (term_x >= term_table->width) {
+    term_x = 0;
+    term_y += 16;
     
+    if (term_y >= term_table->height) {
+      term_scroll();
+      term_y -= 16;
+    }
+  }
+  
+  if (chr < 0x20 || chr >= 0x7F) {
     term_cursor();
     return;
+  }
+  
+  if (term_invert) {
+    uint32_t temp = term_back;
+    
+    term_back = term_fore;
+    term_fore = temp;
   }
   
   if (term_table->bpp) {
@@ -239,25 +341,14 @@ void term_putchr(char chr) {
   }
   
   term_x += 8;
-  
-  if (term_x >= term_table->width) {
-    term_x = 0;
-    term_y += 16;
-    
-    if (term_y >= term_table->height) {
-      term_scroll();
-      term_y -= 16;
-    }
-  }
-  
-  if (!term_table->bpp && term_x < term_table->width) {
-    uint16_t *buffer = term_table->buffer;
-    int index = (term_x >> 3) + (term_y >> 4) * (term_table->width >> 3);
-    
-    buffer[index] = (buffer[index] & 0xFF) | (term_map_16[term_fore] << 8) | (term_map_16[term_back] << 12);
-  }
-  
   term_cursor();
+  
+  if (term_invert) {
+    uint32_t temp = term_back;
+    
+    term_back = term_fore;
+    term_fore = temp;
+  }
 }
 
 void term_putstr(const char *str) {

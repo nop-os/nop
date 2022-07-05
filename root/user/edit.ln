@@ -1,0 +1,280 @@
+let ansi_invert: "\x1B[7m"
+let ansi_normal: "\x1B[27m"
+let ansi_clear: "\x1B[2J"
+let ansi_fill: "\x1B[0K"
+
+let term_width: 80
+let term_height: 25
+
+array path: 256
+
+let cursor_x: 0
+let cursor_y: 0
+
+let scroll_y: 0
+
+let lines: null
+let line_count: 0
+
+# 0=none, 1=cursor, 2=line, 3=all
+let update_mode: 3
+
+func goto_xy:
+  put_text(str_format("\x1B[[[];[]H", get(args, 1) + 1, get(args, 0) + 1))
+
+func draw_cursor: block begin
+  let temp_x: cursor_x
+  
+  if temp_x > str_size(get(lines, cursor_y)): begin
+    let temp_x: str_size(get(lines, cursor_y))
+  end
+  
+  goto_xy(temp_x, (cursor_y - scroll_y) + 1)
+end
+
+func draw_line: block begin
+  let screen_y: cursor_y - scroll_y
+  goto_xy(0, screen_y + 1)
+  
+  put_text(get(lines, cursor_y))
+  put_text(ansi_fill)
+  
+  goto_xy(cursor_x, (cursor_y - scroll_y) + 1)
+end
+
+func draw_ui: block begin
+  goto_xy(0, 0)
+  put_text(ansi_invert)
+  
+  let count: 0
+  
+  while count < term_width: begin
+    put_char(32)
+    let count: count + 1
+  end
+  
+  goto_xy(1, 0)
+  printf("edit r01 - []", path)
+  
+  goto_xy(0, term_height - 1)
+  
+  printf("[]^Q[] quit ", ansi_invert, ansi_normal)
+  printf("[]^S[] save ", ansi_invert, ansi_normal)
+  printf("[]^O[] open ", ansi_invert, ansi_normal)
+  printf("[]^N[] new ", ansi_invert, ansi_normal)
+  printf("[]^C[] copy ", ansi_invert, ansi_normal)
+  printf("[]^X[] cut ", ansi_invert, ansi_normal)
+  printf("[]^P[] paste ", ansi_invert, ansi_normal)
+  printf("[]^F[] find ", ansi_invert, ansi_normal)
+  printf("[]^G[] replace ", ansi_invert, ansi_normal)
+  printf("[]^R[] run", ansi_invert, ansi_normal)
+  
+  put_text(ansi_normal)
+  goto_xy(0, 1)
+  
+  let screen_y: 0
+  
+  while screen_y < term_height - 2: begin
+    let index: screen_y + scroll_y
+    
+    if index >= 0 and index < line_count: put_text(get(lines, index))
+    else: put_text("~")
+    
+    put_text(ansi_fill)
+    put_text("\r\n")
+    
+    let screen_y: screen_y + 1
+  end
+  
+  draw_cursor()
+end
+
+func edit_ctrl: get(args, 0) & 0x1F
+
+func edit_new: block begin
+  if lines != null and line_count > 0: begin
+    edit_close()
+  end
+  
+  let lines: mem_alloc(1 * size_of(pointer))
+  let line_count: 1
+  
+  let line: mem_alloc(1)
+  mem_write(line, 0)
+  
+  set(lines, 0, line)
+end
+
+func edit_open: block begin
+  if get(args, 0) != null:
+    str_copy(path, get(args, 0))
+  
+  edit_new()
+  
+  let text_size: file_size(path)
+  let text: mem_alloc(text_size)
+  
+  file_load(path, text)
+  let index: 0
+  
+  while index < text_size: begin
+    let chr: mem_read(text + index)
+    
+    if chr = '\n': block begin
+      let lines: mem_realloc(lines, (line_count + 1) * size_of(pointer))
+      
+      let line: mem_alloc(1)
+      mem_write(line, 0)
+      
+      set(lines, line_count, line)
+      let line_count: line_count + 1
+    end else: block begin
+      let line: get(lines, line_count - 1)
+      let size: str_size(line)
+      
+      let new_line: mem_realloc(line, size + 2)
+      
+      mem_write(new_line + size, chr)
+      mem_write(new_line + size + 1, 0)
+      
+      set(lines, line_count - 1, new_line)
+    end
+    
+    let index: index + 1
+  end
+  
+  mem_free(text)
+end
+
+func edit_close: block begin
+  let index: 0
+  
+  while index < line_count: begin
+    mem_free(get(lines, index))
+    let index: index + 1
+  end
+  
+  mem_free(lines)
+  
+  let lines: null
+  let line_count: 0
+end
+
+func edit_up: begin
+  if cursor_y <= 0: begin
+    let cursor_x: 0
+  end else: begin
+    let cursor_y: cursor_y - 1
+  end
+  
+  let update_mode: 1
+end
+
+func edit_down: begin
+  if cursor_y >= line_count - 1: begin
+    let cursor_x: str_size(get(lines, cursor_y))
+  end else: begin
+    let cursor_y: cursor_y + 1
+  end
+  
+  let update_mode: 1
+end
+
+func edit_right: begin
+  if cursor_x >= str_size(get(lines, cursor_y)): begin
+    let cursor_x: 0
+    
+    if cursor_y < line_count - 1: begin
+      let cursor_y: cursor_y + 1
+    end
+  end else: begin
+    let cursor_x: cursor_x + 1
+  end
+  
+  let update_mode: 1
+end
+
+func edit_left: begin
+  if cursor_x > str_size(get(lines, cursor_y)): begin
+    let cursor_x: str_size(get(lines, cursor_y))
+  end
+  
+  if cursor_x <= 0: begin
+    if cursor_y > 0: begin
+      let cursor_y: cursor_y - 1
+      let cursor_x: str_size(get(lines, cursor_y))
+    end
+  end else: begin
+    let cursor_x: cursor_x - 1
+  end
+  
+  let update_mode: 1
+end
+
+func edit_write: block begin
+  if cursor_x > str_size(get(lines, cursor_y)): begin
+    let cursor_x: str_size(get(lines, cursor_y))
+  end
+  
+  let line: get(lines, cursor_y)
+  let size: str_size(line)
+  
+  let new_line: mem_realloc(line, size + 2)
+  
+  mem_move(new_line + cursor_x + 1, new_line + cursor_x, (size + 1) - cursor_x)
+  mem_write(new_line + cursor_x, get(args, 0))
+  
+  let cursor_x: cursor_x + 1
+  set(lines, cursor_y, new_line)
+  
+  let update_mode: 2
+end
+
+func edit_back: block begin
+  
+end
+
+func edit_enter: block begin
+  
+end
+
+raw_mode(true)
+edit_open("repl.ln")
+
+get_term(ref term_width, ref term_height)
+put_text(ansi_clear)
+
+while true: block begin
+  let chr: get_char()
+  
+  if chr = edit_ctrl('q'): break
+  else if chr = edit_ctrl('n'): edit_new()
+  
+  else if chr = '\x1B': begin 
+    get_char() # skip '['
+    let chr: get_char()
+    
+    if chr = 'A': edit_up()
+    else if chr = 'B': edit_down()
+    else if chr = 'C': edit_right()
+    else if chr = 'D': edit_left()
+  end
+  
+  else if chr = '\x08' or chr = '\x7F': edit_back()
+  else if chr = '\r' or chr = '\n': edit_enter()
+  else if chr: edit_write(chr)
+  
+  if update_mode = 1: draw_cursor()
+  else if update_mode = 2: draw_line()
+  else if update_mode = 3: draw_ui()
+  
+  let update_mode: 0
+end
+
+raw_mode(false)
+
+put_text(ansi_clear)
+goto_xy(0, 0)
+
+stats()
+give 0

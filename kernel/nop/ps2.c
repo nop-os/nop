@@ -209,6 +209,21 @@ void ps2_keyb(i586_regs_t *regs) {
           value = ps2_keymap[code + 0x0108];
         }
         
+        if (value >= PS2_KEY_PAD_0 && value <= PS2_KEY_PAD_9) {
+          ps2_queue[ps2_enter_head++] = '\x1B';
+          ps2_enter_head %= PS2_BUFFER_SIZE;
+          
+          ps2_queue[ps2_enter_head++] = '[';
+          ps2_enter_head %= PS2_BUFFER_SIZE;
+          
+          if (value == PS2_KEY_PAD_8) ps2_queue[ps2_enter_head++] = 'A';
+          if (value == PS2_KEY_PAD_2) ps2_queue[ps2_enter_head++] = 'B';
+          if (value == PS2_KEY_PAD_6) ps2_queue[ps2_enter_head++] = 'C';
+          if (value == PS2_KEY_PAD_4) ps2_queue[ps2_enter_head++] = 'D';
+          
+          ps2_enter_head %= PS2_BUFFER_SIZE;
+        }
+        
         if (value && value <= 127) {
           if (ctrl_key && value <= 127) {
             value = value % 32;
@@ -230,11 +245,11 @@ void ps2_keyb(i586_regs_t *regs) {
             if (ps2_echo_mode) {
               call_kernel(term_putchr, value);
             }
-            
-            if (value == '\n' || !ps2_cook_mode) {
-              ps2_write_head = ps2_enter_head;
-            }
           }
+        }
+        
+        if (value == '\n' || !ps2_cook_mode) {
+          ps2_write_head = ps2_enter_head;
         }
       }
     }

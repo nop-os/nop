@@ -1,0 +1,64 @@
+put_text("> nested while with break test:\n")
+let count: 0
+
+while true: begin
+  let sub_count: 0
+  
+  while true: begin
+    if sub_count >= 7: break
+    put_char('A')
+    
+    let sub_count: sub_count + 1
+  end
+  
+  if count >= 5: break
+  let sub_count: 0
+  
+  while true: begin
+    if sub_count >= 3: break
+    put_char('B')
+    
+    let sub_count: sub_count + 1
+  end
+  
+  put_char('\n')
+  let count: count + 1
+end
+
+put_text("\n> functions with nested while test:\n")
+
+func while_1: block begin
+  let sub_count: 0
+  
+  while sub_count < 7: begin
+    put_char('A')
+    
+    let sub_count: sub_count + 1
+  end
+end
+
+func while_2: begin
+  let sub_count: 0
+  
+  while true: begin
+    if sub_count >= 3: break
+    put_char('B')
+    
+    let sub_count: sub_count + 1
+  end
+end
+
+let count: 0
+
+while true: begin
+  while_1()
+  if count >= 5: break
+  
+  while_2()
+  put_char('\n')
+  
+  let count: count + 1
+end
+
+put_text("\n> done!\n")
+stats()

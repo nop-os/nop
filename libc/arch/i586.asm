@@ -30,6 +30,9 @@ global i586_repne_scasb
 global i586_repne_scasw
 global i586_repne_scasd
 
+global i586_std
+global i586_cld
+
 ; I/O
 
 global i586_inb
@@ -274,6 +277,14 @@ i586_repne_scasd:
   mov eax, edi
   pop ecx
   pop edi
+  ret
+
+i586_std:
+  std
+  ret
+
+i586_cld:
+  cld
   ret
 
 i586_inb:

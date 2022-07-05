@@ -33,6 +33,9 @@ extern const void *i586_repne_scasb(uint8_t al, uint32_t ecx, const void *edi);
 extern const void *i586_repne_scasw(uint16_t ax, uint32_t ecx, const void *edi);
 extern const void *i586_repne_scasd(uint32_t eax, uint32_t ecx, const void *edi);
 
+extern void i586_std(void);
+extern void i586_cld(void);
+
 // I/O
 
 extern uint8_t i586_inb(uint16_t dx);

@@ -1,10 +1,10 @@
-printf("lann r01, by segfaultdev\n");
+put_text("lann r01, by segfaultdev\n");
 
 array repl_text: 256
 
 while true: begin
   printf("> ")
-  get_line(repl_text)
+  get_text(repl_text)
   
   let repl_value: eval(repl_text)
   

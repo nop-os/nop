@@ -40,6 +40,7 @@ extern tb_vid_t *term_table;
 extern int16_t term_x, term_y, term_width, term_height;
 
 extern uint32_t term_fore, term_back;
+extern int term_invert;
 
 extern char term_ansi[];
 extern int term_length;

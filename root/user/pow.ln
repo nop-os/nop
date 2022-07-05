@@ -8,3 +8,4 @@ func pow: block begin
 end
 
 printf("2 ** 14 = []\n", pow(2, 14))
+stats()
