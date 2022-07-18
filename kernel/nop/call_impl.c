@@ -274,14 +274,15 @@ void *$prog_alloc(size_t count) {
   else return VIRT_NOP_USER + (((prog_list[prog_id - 1].data.size + 0x0FFF) >> 12) << 12);
 }
 
-size_t $call_read(void *dest, const void *src, size_t size) {
-  /*
-  term_infof("0x%08X(%d, @0x%08X) <- 0x%08X(%d, @0x%08X), %d\n",
-    dest, call_stack[call_offset - 1], prog_list[call_stack[call_offset - 1] - 1].table,
-    src, call_stack[call_offset - 2], prog_list[call_stack[call_offset - 2] - 1].table,
-  size);
-  */
+int $prog_check(int id) {
+  if (!id) return 0;
+  if (prog_list[id - 1].free) return 0;
   
+  if (prog_list[id - 1].done) return 1;
+  return 2;
+}
+
+size_t $call_read(void *dest, const void *src, size_t size) {
   virt_memcpy(prog_list[call_stack[call_offset - 1] - 1].table, prog_list[call_stack[call_offset - 2] - 1].table, dest, src, size);
   return size;
 }
@@ -289,4 +290,8 @@ size_t $call_read(void *dest, const void *src, size_t size) {
 size_t $call_write(void *dest, const void *src, size_t size) {
   virt_memcpy(prog_list[call_stack[call_offset - 2] - 1].table, prog_list[call_stack[call_offset - 1] - 1].table, dest, src, size);
   return size;
+}
+
+int $call_getid(void) {
+  return call_stack[call_offset - 2];
 }

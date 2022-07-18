@@ -14,3 +14,4 @@ extern uint32_t nop_call(const char *name, uint32_t arg_1, uint32_t arg_2, uint3
 
 size_t call_read(void *dest, const void *src, size_t size);
 size_t call_write(void *dest, const void *src, size_t size);
+int    call_getid(void);

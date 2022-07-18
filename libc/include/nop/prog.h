@@ -8,5 +8,6 @@ int   prog_kill(int id);
 int   prog_wait(int id);
 void  prog_skip(void);
 void *prog_alloc(size_t count);
+int   prog_check(int id);
 
 #endif

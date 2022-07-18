@@ -30,9 +30,11 @@ const call_t call_array[] = {
   (call_t){"prog_wait", 0, (void *)($prog_wait)},
   (call_t){"prog_skip", 0, (void *)($prog_skip)},
   (call_t){"prog_alloc", 0, (void *)($prog_alloc)},
+  (call_t){"prog_check", 0, (void *)($prog_check)},
   
   (call_t){"call_read", 0, (void *)($call_read)},
   (call_t){"call_write", 0, (void *)($call_write)},
+  (call_t){"call_getid", 0, (void *)($call_getid)},
 };
 
 const int call_count = sizeof(call_array) / sizeof(call_t);

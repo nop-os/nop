@@ -32,10 +32,12 @@ default callset:
 | prog_wait     | waits for a program to finish                 | return code, 0 if non-existent           | program id                                        |
 | prog_skip     | let the scheduler skip to the next program    | always 1                                 |                                                   |
 | prog_alloc    | extend the memory space                       | address after .bss, 0 if failed          | increment(in pages)                               |
+| prog_check    | checks a program's stats given its id         | 0 if unloaded, 1 if loaded, 2 if running | program id                                        |
 | time_read*    | reads the current UTC time                    | 32-bit value in seconds since 01/01/2022 |                                                   |
 | time_getzone* | gets the current timezone offset              | signed offset in hours from UTC          |                                                   |
 | call_read     | reads from the caller program(custom callset) | bytes read                               | dest, src, size                                   |
 | call_write    | writes to the caller program(custom callset)  | bytes written                            | dest, src, size                                   |
+| call_getid    | gets the caller program's id                  | caller program's id                      |                                                   |
 
 * -> not implemented
 

@@ -45,3 +45,7 @@ void prog_skip(void) {
 void *prog_alloc(size_t count) {
   return (void *)(nop_call("prog_alloc", count, 0, 0, 0, 0));
 }
+
+int prog_check(int id) {
+  return nop_call("prog_check", id, 0, 0, 0, 0);
+}
