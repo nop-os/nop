@@ -1,5 +1,12 @@
 let ansi_invert: "\x1B[7m"
 let ansi_normal: "\x1B[27m"
+
+# let ansi_invert: "\x1B[30m\x1B[47m"
+# let ansi_normal: "\x1B[97m\x1B[44m"
+
+# let ansi_invert: "\x1B[38;2;0;0;0m\x1B[48;2;170;170;170m"
+# let ansi_normal: "\x1B[38;2;255;255;255m\x1B[48;2;0;0;255m"
+
 let ansi_clear: "\x1B[2J"
 let ansi_fill: "\x1B[0K"
 
@@ -7,14 +14,23 @@ let term_width: 80
 let term_height: 25
 
 array path: 256
+mem_write(path, 0)
 
 let cursor_x: 0
 let cursor_y: 0
+
+let clip_x: -1
+let clip_y: -1
+
+let clipboard: null
+let clipping: false
 
 let scroll_y: 0
 
 let lines: null
 let line_count: 0
+
+let dirty: false
 
 # 0=none, 1=cursor, 2=line, 3=all
 let update_mode: 3
@@ -54,31 +70,94 @@ func draw_ui: block begin
   end
   
   goto_xy(1, 0)
-  printf("edit r01 - []", path)
+  
+  if mem_read(path): printf("edit r01 - []", path)
+  else: printf("edit r01 - (no name)")
+  
+  if dirty: begin
+    put_text(" (dirty)")
+  end
   
   goto_xy(0, term_height - 1)
   
-  printf("[]^Q[] quit ", ansi_invert, ansi_normal)
-  printf("[]^S[] save ", ansi_invert, ansi_normal)
-  printf("[]^O[] open ", ansi_invert, ansi_normal)
-  printf("[]^N[] new ", ansi_invert, ansi_normal)
-  printf("[]^C[] copy ", ansi_invert, ansi_normal)
-  printf("[]^X[] cut ", ansi_invert, ansi_normal)
-  printf("[]^P[] paste ", ansi_invert, ansi_normal)
-  printf("[]^F[] find ", ansi_invert, ansi_normal)
-  printf("[]^G[] replace ", ansi_invert, ansi_normal)
-  printf("[]^R[] run", ansi_invert, ansi_normal)
+  if clipping: begin
+    printf("[]^Q[] cancel ", ansi_invert, ansi_normal)
+    printf("[]^C[] copy ", ansi_invert, ansi_normal)
+    printf("[]^X[] cut ", ansi_invert, ansi_normal)
+    printf("[]^V[] paste ", ansi_invert, ansi_normal)
+    printf("[]^F[] find/replace ", ansi_invert, ansi_normal) # todo
+    printf("[]^I[] indent ", ansi_invert, ansi_normal)
+    printf("[]^K[] unindent ", ansi_invert, ansi_normal)
+  end else: begin
+    printf("[]^Q[] quit ", ansi_invert, ansi_normal)
+    printf("[]^S[] save ", ansi_invert, ansi_normal)
+    printf("[]^O[] open ", ansi_invert, ansi_normal)
+    printf("[]^N[] new ", ansi_invert, ansi_normal)
+    printf("[]^C[] clip ", ansi_invert, ansi_normal)
+    printf("[]^A[] clip all ", ansi_invert, ansi_normal)
+    printf("[]^F[] find/replace ", ansi_invert, ansi_normal) # todo
+  end
   
-  put_text(ansi_normal)
+  put_text(ansi_fill)
   goto_xy(0, 1)
   
   let screen_y: 0
   
+  let min_x: clip_x
+  let min_y: clip_y
+  
+  if !clipping: begin
+    let min_x: cursor_x
+    let min_y: cursor_y
+  end
+  
+  let max_x: cursor_x
+  let max_y: cursor_y
+  
+  if min_y > max_y or (min_y = max_y and min_x > max_x): block begin
+    let temp_x: min_x
+    let temp_y: min_y
+    
+    let min_x: max_x
+    let min_y: max_y
+    
+    let max_x: temp_x
+    let max_y: temp_y
+  end
+  
   while screen_y < term_height - 2: begin
     let index: screen_y + scroll_y
     
-    if index >= 0 and index < line_count: put_text(get(lines, index))
-    else: put_text("~")
+    if index >= 0 and index < line_count: begin
+      if index = min_y or index = max_y: block begin
+        let line: get(lines, index)
+        let sub_index = 0
+        
+        if min_y != max_y and index = max_y: put_text(ansi_invert)
+        
+        while true: begin
+          if sub_index = min_x and index = min_y: put_text(ansi_invert)
+          if sub_index = max_x and index = max_y: put_text(ansi_normal)
+          
+          if mem_read(line + sub_index): put_char(mem_read(line + sub_index))
+          else: put_char(' ')
+          
+          if !mem_read(line + sub_index): break
+          let sub_index: sub_index + 1
+        end
+        
+        put_text(ansi_normal)
+      end else if index > min_y and index < max_y: begin
+        put_text(ansi_invert)
+        
+        put_text(get(lines, index))
+        put_char(' ')
+        
+        put_text(ansi_normal)
+      end else: begin
+        put_text(get(lines, index))
+      end
+    end else: put_text("~")
     
     put_text(ansi_fill)
     put_text("\r\n")
@@ -106,12 +185,10 @@ func edit_new: block begin
 end
 
 func edit_open: block begin
-  if get(args, 0) != null:
-    str_copy(path, get(args, 0))
+  let text_size: file_size(path)
+  if text_size = null: give false
   
   edit_new()
-  
-  let text_size: file_size(path)
   let text: mem_alloc(text_size)
   
   file_load(path, text)
@@ -144,9 +221,54 @@ func edit_open: block begin
   end
   
   mem_free(text)
+  give true
+end
+
+func edit_save: block begin
+  let text: mem_alloc(1)
+  let size: 0
+  
+  mem_write(text, 0)
+  let index: 0
+  
+  while index < line_count: begin
+    if index: begin
+      let text: mem_realloc(text, size + 2)
+      str_copy(text + size, "\n")
+      
+      let size: size + 1
+    end
+    
+    let line: get(lines, index)
+    let line_size: str_size(line)
+    
+    let text: mem_realloc(text, size + line_size + 1)
+    str_copy(text + size, line)
+    
+    let size: size + line_size
+    let index: index + 1
+  end
+  
+  let value: file_save(path, text, size)
+  mem_free(text)
+  
+  give !(value = null or value < size)
 end
 
 func edit_close: block begin
+  if dirty and mem_read(path): block begin
+    array answer: 16
+    mem_write(answer, 0)
+    
+    while mem_read(answer) != 'y' and mem_read(answer) != 'n': begin
+      edit_prompt(answer, "confirm", "save before exit? (y/n)")
+    end
+    
+    if mem_read(answer) = 'y': begin
+      edit_save()
+    end
+  end
+  
   let index: 0
   
   while index < line_count: begin
@@ -228,18 +350,184 @@ func edit_write: block begin
   set(lines, cursor_y, new_line)
   
   let update_mode: 2
+  
+  if !dirty: begin
+    let update_mode: 3
+    let dirty: true
+  end
 end
 
 func edit_back: block begin
+  if cursor_x > str_size(get(lines, cursor_y)): begin
+    let cursor_x: str_size(get(lines, cursor_y))
+  end
   
+  if cursor_x <= 0: begin
+    if cursor_y <= 0: give null
+    
+    let prev_line: get(lines, cursor_y - 1)
+    let curr_line: get(lines, cursor_y)
+    
+    let prev_size: str_size(prev_line)
+    let curr_size: str_size(curr_line)
+    
+    let prev_line: mem_realloc(prev_line, prev_size + curr_size + 1)
+    str_copy(prev_line + prev_size, curr_line)
+    
+    mem_free(curr_line)
+    set(lines, cursor_y - 1, prev_line)
+    
+    mem_move(
+      lines + cursor_y * size_of(pointer),
+      lines + (cursor_y + 1) * size_of(pointer),
+      ((line_count - 1) - cursor_y) * size_of(pointer)
+    )
+    
+    let line_count: line_count - 1
+    let lines: mem_realloc(lines, line_count * size_of(pointer))
+    
+    let cursor_y: cursor_y - 1
+    let cursor_x: prev_size
+    
+    let update_mode: 3
+  end else: begin
+    let line: get(lines, cursor_y)
+    let size: str_size(line)
+    
+    mem_move(line + (cursor_x - 1), line + cursor_x, size - cursor_x)
+    let line: mem_realloc(line, size)
+    
+    set(lines, cursor_y, line)
+    let cursor_x: cursor_x - 1
+    
+    let update_mode: 2
+  end
+  
+  if !dirty: begin
+    let update_mode: 3
+    let dirty: true
+  end
 end
 
 func edit_enter: block begin
+  let lines: mem_realloc(lines, (line_count + 1) * size_of(pointer))
   
+  let prev_line: get(lines, cursor_y)
+  let prev_size: str_size(prev_line)
+  
+  let indent_level: 0
+  
+  if get(args, 0): begin
+    while mem_read(prev_line + indent_level) = ' ': begin
+      let indent_level: indent_level + 1
+    end
+  end
+  
+  let curr_line: mem_alloc((prev_size - cursor_x) + indent_level + 1)
+  str_copy(curr_line + indent_level, prev_line + cursor_x)
+  
+  let prev_line: mem_realloc(prev_line, cursor_x + 1)
+  mem_write(prev_line + cursor_x, 0)
+  
+  let cursor_x: 0
+  
+  while cursor_x < indent_level: begin
+    mem_write(curr_line + cursor_x, ' ')
+    let cursor_x: cursor_x + 1
+  end
+  
+  mem_move(
+    lines + (cursor_y + 2) * size_of(pointer),
+    lines + (cursor_y + 1) * size_of(pointer),
+    ((line_count - 1) - cursor_y) * size_of(pointer)
+  )
+  
+  set(lines, cursor_y, prev_line)
+  set(lines, cursor_y + 1, curr_line)
+  
+  let line_count: line_count + 1
+  let cursor_y: cursor_y + 1
+  
+  let update_mode: 3
+  let dirty: true
+end
+
+func edit_prompt: block begin
+  raw_mode(false)
+  goto_xy(0, term_height - 1)
+  
+  printf("[](empty)[] cancel ", ansi_invert, ansi_normal)
+  printf("[]enter[] [] ", ansi_invert, ansi_normal, get(args, 1))
+  
+  put_text(ansi_fill)
+  goto_xy(0, 0)
+  
+  printf("[][]:[] ", ansi_invert, get(args, 2), ansi_normal)
+  put_text(ansi_fill)
+  
+  get_text(get(args, 0))
+  raw_mode(true)
+  
+  let update_mode: 3
+end
+
+func ctrl_open: block begin
+  array new_path: 256
+  edit_prompt(new_path, "open file", "path")
+  
+  array old_path: 256
+  str_copy(old_path, path)
+  
+  if mem_read(new_path): begin
+    str_copy(path, new_path)
+    
+    if edit_open(): begin
+      let cursor_x: 0
+      let cursor_y: 0
+      
+      let scroll_y: 0
+    end else: begin
+      str_copy(path, old_path)
+    end
+  end
+  
+  let update_mode: 3
+end
+
+func ctrl_save: block begin
+  if !mem_read(path): begin
+    array old_path: 256
+    str_copy(old_path, path)
+    
+    array new_path: 256
+    edit_prompt(new_path, "save file", "path")
+    
+    if mem_read(new_path): begin
+      str_copy(path, new_path)
+      
+      if edit_save(): begin
+        let dirty: false
+      end else: begin
+        str_copy(path, old_path)
+      end
+    end
+  end else: begin
+    if edit_save(): begin
+      let dirty: false
+    end
+  end
+  
+  let update_mode: 3
+end
+
+if get(args, 0) = null: begin
+  edit_new()
+end else: begin
+  str_copy(path, get(args, 0))
+  edit_open()
 end
 
 raw_mode(true)
-edit_open("repl.ln")
 
 get_term(ref term_width, ref term_height)
 put_text(ansi_clear)
@@ -247,22 +535,211 @@ put_text(ansi_clear)
 while true: block begin
   let chr: get_char()
   
-  if chr = edit_ctrl('q'): break
-  else if chr = edit_ctrl('n'): edit_new()
-  
-  else if chr = '\x1B': begin 
-    get_char() # skip '['
-    let chr: get_char()
-    
-    if chr = 'A': edit_up()
-    else if chr = 'B': edit_down()
-    else if chr = 'C': edit_right()
-    else if chr = 'D': edit_left()
+  if clipping: begin
+    if chr = edit_ctrl('q'): begin
+      let clipping: false
+      let update_mode: 3
+    end else if chr = edit_ctrl('i') or chr = edit_ctrl('k'): block begin
+      if cursor_x > str_size(get(lines, cursor_y)): begin
+        let cursor_x: str_size(get(lines, cursor_y))
+      end
+      
+      let min_x: clip_x
+      let min_y: clip_y
+      
+      let max_x: cursor_x
+      let max_y: cursor_y
+      
+      if min_y > max_y or (min_y = max_y and min_x > max_x): block begin
+        let temp_x: min_x
+        let temp_y: min_y
+        
+        let min_x: max_x
+        let min_y: max_y
+        
+        let max_x: temp_x
+        let max_y: temp_y
+      end
+      
+      let index: min_y
+      
+      while index <= max_y: begin
+        let line: get(lines, index)
+        let size: str_size(line)
+        
+        if chr = edit_ctrl('i'): begin
+          let line: mem_realloc(line, size + 3)
+          mem_move(line + 2, line, size + 1)
+          
+          mem_write(line, ' ')
+          mem_write(line + 1, ' ')
+          
+          if index = cursor_y: let cursor_x: cursor_x + 2
+          if index = clip_y: let clip_x: clip_x + 2
+        end else if chr = edit_ctrl('k'): begin
+          if mem_read(line) = ' ': begin
+            mem_move(line, line + 1, size)
+            let line: mem_realloc(line, size)
+            
+            if index = cursor_y: let cursor_x: cursor_x - 1
+            if index = clip_y: let clip_x: clip_x - 1
+            
+            if mem_read(line) = ' ': begin
+              mem_move(line, line + 1, size)
+              let line: mem_realloc(line, size)
+              
+              if index = cursor_y: let cursor_x: cursor_x - 1
+              if index = clip_y: let clip_x: clip_x - 1
+            end
+          end
+        end
+        
+        set(lines, index, line)
+        let index: index + 1
+      end
+      
+      let dirty: true
+      let update_mode: 3
+    end else if chr = '\x1B': begin 
+      get_char() # skip '['
+      let chr: get_char()
+      
+      if chr = 'A': edit_up()
+      else if chr = 'B': edit_down()
+      else if chr = 'C': edit_right()
+      else if chr = 'D': edit_left()
+      
+      let update_mode: 3
+    end else if chr: block begin
+      if cursor_x > str_size(get(lines, cursor_y)): begin
+        let cursor_x: str_size(get(lines, cursor_y))
+      end
+      
+      let min_x: clip_x
+      let min_y: clip_y
+      
+      let max_x: cursor_x
+      let max_y: cursor_y
+      
+      if min_y > max_y or (min_y = max_y and min_x > max_x): block begin
+        let temp_x: min_x
+        let temp_y: min_y
+        
+        let min_x: max_x
+        let min_y: max_y
+        
+        let max_x: temp_x
+        let max_y: temp_y
+      end
+      
+      if chr = edit_ctrl('c') or chr = edit_ctrl('x'): block begin
+        if clipboard != null: mem_free(clipboard)
+        
+        let clipboard: mem_alloc(1)
+        let size: 0
+        
+        let cursor_x: min_x
+        let cursor_y: min_y
+        
+        while cursor_x != max_x or cursor_y != max_y: begin
+          let temp: mem_read(get(lines, cursor_y) + cursor_x)
+          let clipboard: mem_realloc(clipboard, size + 2)
+          
+          if mem_write(clipboard + size, temp)
+          else: mem_write(clipboard + size, '\n')
+          
+          let size: size + 1
+          edit_right()
+        end
+        
+        mem_write(clipboard + size, 0)
+      end
+      
+      let cursor_x: max_x
+      let cursor_y: max_y
+      
+      if chr != edit_ctrl('c'): begin
+        while cursor_x != min_x or cursor_y != min_y: begin
+          edit_back()
+        end
+      end
+      
+      if chr = edit_ctrl('v'): block begin
+        let index: 0
+        
+        while mem_read(clipboard + index): begin
+          if mem_read(clipboard + index) = '\n': edit_enter(false)
+          else: edit_write(mem_read(clipboard + index))
+          
+          let index: index + 1
+        end
+      end else if chr = '\r' or chr = '\n': begin
+        edit_enter(true)
+      end else if chr >= ' ' and chr != '\x7F': begin
+        edit_write(chr)
+      end
+      
+      let clipping: false
+      let update_mode: 3
+    end
+  end else: begin
+    if chr = edit_ctrl('q'): begin
+      break
+    end else if chr = edit_ctrl('o'): begin
+      ctrl_open()
+    end else if chr = edit_ctrl('s'): begin
+      ctrl_save()
+    end else if chr = edit_ctrl('n'): begin
+      edit_new()
+      let update_mode: 3
+    end else if chr = edit_ctrl('c'): begin
+      if cursor_x > str_size(get(lines, cursor_y)): begin
+        let cursor_x: str_size(get(lines, cursor_y))
+      end
+      
+      let clip_x: cursor_x
+      let clip_y: cursor_y
+      
+      let clipping: true
+      let update_mode: 3
+    end else if chr = edit_ctrl('a'): begin
+      let clip_x: 0
+      let clip_y: 0
+      
+      let cursor_y: line_count - 1
+      let cursor_x: str_size(get(lines, cursor_y))
+      
+      let clipping: true
+      let update_mode: 3
+    end else if chr = '\x1B': begin 
+      get_char() # skip '['
+      let chr: get_char()
+      
+      if chr = 'A': edit_up()
+      else if chr = 'B': edit_down()
+      else if chr = 'C': edit_right()
+      else if chr = 'D': edit_left()
+    end else if chr = '\x08' or chr = '\x7F': begin
+      edit_back()
+    end else if chr = '\r' or chr = '\n': begin
+      edit_enter(true)
+    end else if chr = '\t': begin
+      edit_write(' ')
+      edit_write(' ')
+    end else if chr >= ' ': begin
+      edit_write(chr)
+    end
   end
   
-  else if chr = '\x08' or chr = '\x7F': edit_back()
-  else if chr = '\r' or chr = '\n': edit_enter()
-  else if chr: edit_write(chr)
+  while cursor_y - scroll_y < 0: begin
+    let scroll_y: scroll_y - 1
+    let update_mode: 3
+  end 
+  
+  while cursor_y - scroll_y >= term_height - 2: begin
+    let scroll_y: scroll_y + 1
+    let update_mode: 3
+  end
   
   if update_mode = 1: draw_cursor()
   else if update_mode = 2: draw_line()
@@ -271,6 +748,7 @@ while true: block begin
   let update_mode: 0
 end
 
+edit_close()
 raw_mode(false)
 
 put_text(ansi_clear)

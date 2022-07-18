@@ -202,11 +202,23 @@ void term_putchr(char chr) {
             } else {
               term_fore = num - 30;
             }
+          } else if (num >= 40 && num <= 47) {
+            if (term_table->bpp) {
+              term_back = term_color(term_colors[3 * (num - 40) + 0], term_colors[3 * (num - 40) + 1], term_colors[3 * (num - 40) + 2]);
+            } else {
+              term_back = num - 40;
+            }
           } else if (num >= 90 && num <= 97) {
             if (term_table->bpp) {
               term_fore = term_color(term_colors[3 * (num - 82) + 0], term_colors[3 * (num - 82) + 1], term_colors[3 * (num - 82) + 2]);
             } else {
               term_fore = num - 82;
+            }
+          } else if (num >= 100 && num <= 107) {
+            if (term_table->bpp) {
+              term_back = term_color(term_colors[3 * (num - 92) + 0], term_colors[3 * (num - 92) + 1], term_colors[3 * (num - 92) + 2]);
+            } else {
+              term_back = num - 92;
             }
           } else if (num == 7) {
             term_invert = 1;
